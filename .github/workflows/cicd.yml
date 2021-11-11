@@ -19,5 +19,5 @@ jobs:
             source ./venv/bin/activate
             ./manage.py migrate
             ./manage.py check
-            sudo systemctl status gunicorn
+            sudo systemctl restart gunicorn
             deactivate
