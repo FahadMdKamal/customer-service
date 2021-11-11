@@ -13,4 +13,11 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: whoami
+        script: |
+            cd socialattend
+            git pull
+            source ./venv/bin/activate
+            ./manage.py migrate
+            ./manage.py check
+            sudo systemctl status gunicorn
+            deactivate
