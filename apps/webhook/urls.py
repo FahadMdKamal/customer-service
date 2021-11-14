@@ -5,6 +5,8 @@ from . import views
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('facebook/', views.FacebookWebhookView.as_view(), name='facebook'),
+    path('resolver/', views.ResolverWebhookView.as_view(), name='resolver'),
+
 ]
 
 
