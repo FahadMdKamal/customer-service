@@ -152,3 +152,6 @@ MEDIA_URL = env('MEDIA_URL')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+APP_URL = env('APP_URL')
+CASEX_URL = env('CASEX_URL')

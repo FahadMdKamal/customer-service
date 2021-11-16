@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path('facebook/', views.FacebookWebhookView.as_view(), name='facebook'),
     path('resolver/', views.ResolverWebhookView.as_view(), name='resolver'),
-
+    path('ticketupdate/', views.TicketUpdateView.as_view(), name='ticketupdate'),
 ]
 
 
