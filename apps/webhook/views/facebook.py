@@ -28,6 +28,8 @@ def throw_to_casex(app_token, event, action, ref_id, body_parsed):
 
     response = requests.request("POST", url, json=payload, headers=headers, params=querystring)
 
+    print('THROW', response.status_code, response.text)
+
 
 def process_fb_feed_data(page_id, post_data):
     from_id = post_data['value']['from']['id']
