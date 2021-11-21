@@ -19,5 +19,5 @@ VERSION = "v1"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('webhook/', include(('apps.webhook.urls', 'apps.webhook'), namespace='webhook')),
-    path(VERSION + '/api/convo/', include('mods.content.urls')),
+    path('content/', include('mods.content.urls')),
 ]
