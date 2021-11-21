@@ -51,7 +51,11 @@ PROJECT_APPS = [
     'apps.webhook',
 ]
 
-INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + PROJECT_APPS
+PROJECT_MODS = [
+    'mods.content',
+]
+
+INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + PROJECT_APPS + PROJECT_MODS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+VERSION = "v1"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('webhook/', include(('apps.webhook.urls', 'apps.webhook'), namespace='webhook')),
+    path(VERSION + '/api/convo/', include('mods.content.urls')),
 ]
