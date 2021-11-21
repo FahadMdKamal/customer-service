@@ -1,0 +1,23 @@
+name: CI/CD FOR UNIVA
+on: [push]
+jobs:
+
+  build:
+    name: DEPLOY
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: |
+            cd univa
+            git pull
+            source ./venv/bin/activate
+            ./manage.py migrate
+            ./manage.py check
+            sudo systemctl restart gunicorn
+            deactivate
