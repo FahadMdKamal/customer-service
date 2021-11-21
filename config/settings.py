@@ -53,6 +53,7 @@ PROJECT_APPS = [
 
 PROJECT_MODS = [
     'mods.content',
+    'mods.nlu',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + PROJECT_APPS + PROJECT_MODS
@@ -159,3 +160,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 APP_URL = env('APP_URL')
 CASEX_URL = env('CASEX_URL')
+WIT_KEY = env('WIT_KEY')
