@@ -56,13 +56,13 @@ def process_fb_message_reply(ticket_id, source, reply_message_type, content_id, 
     headers = {"Content-Type": "application/json"}
     querystring = {"access_token": access_token}
     payload = {
-         "messaging_type": "RESPONSE",
-         "recipient": {
-             "id": ticket.from_ref
-         },
-         "message": {
-             "text": content
-         }
+        "messaging_type": "RESPONSE",
+        "recipient": {
+            "id": ticket.from_ref
+        },
+        "message": {
+            "text": content
+        }
     }
 
     response = requests.request("POST", url, json=payload, headers=headers, params=querystring)
@@ -73,6 +73,7 @@ def process_fb_message_reply(ticket_id, source, reply_message_type, content_id, 
         print(response.status_code, "SUCCESS", response.text)
     else:
         print(response.status_code, "ERROR", response.text)
+
 
 class ResolverWebhookView(APIView):
     def get(self, request):
@@ -105,10 +106,14 @@ class ResolverWebhookView(APIView):
         print(ticket.source, reply_message_type, ticket.content_id, content)
 
         if reply_message_type in ["comment", "comment_reaction"]:
-            t = threading.Thread(target=process_fb_post_comment_reply, args=[ticket_id, ticket.source, reply_message_type, ticket.content_id, content], daemon=True)
+            t = threading.Thread(target=process_fb_post_comment_reply,
+                                 args=[ticket_id, ticket.source, reply_message_type, ticket.content_id, content],
+                                 daemon=True)
             t.start()
         elif reply_message_type in ["messaging", "private_reply"]:
-            t = threading.Thread(target=process_fb_message_reply, args=[ticket_id, ticket.source, reply_message_type, ticket.content_id, content], daemon=True)
+            t = threading.Thread(target=process_fb_message_reply,
+                                 args=[ticket_id, ticket.source, reply_message_type, ticket.content_id, content],
+                                 daemon=True)
             t.start()
 
         try:

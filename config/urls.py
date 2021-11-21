@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('webhook/', include(('apps.webhook.urls', 'apps.webhook'), namespace='webhook')),
     path('content/', include('mods.content.urls')),
+    path('nlu/', include('mods.nlu.urls')),
 ]

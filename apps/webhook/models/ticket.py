@@ -1,23 +1,24 @@
 from django.db import models
 
+
 class Ticket(models.Model):
     message_type = models.CharField(
         max_length=15,
         choices=(
             ('messaging', 'messaging'),
-            ('status' , 'status'),
-            ('post' , 'post'),
-            ('comment' , 'comment'),
-            ('reaction' , 'reaction'),
+            ('status', 'status'),
+            ('post', 'post'),
+            ('comment', 'comment'),
+            ('reaction', 'reaction'),
         ),
         default='',
     )
     platform = models.CharField(
         max_length=15,
         choices=(
-            ('facebook' , 'facebook'),
-            ('instagram' , 'instagram'),
-            ('whatsapp' , 'whatsapp'),
+            ('facebook', 'facebook'),
+            ('instagram', 'instagram'),
+            ('whatsapp', 'whatsapp'),
             ('web', 'web'),
         ),
         default='',
@@ -29,8 +30,8 @@ class Ticket(models.Model):
     from_type = models.CharField(
         max_length=15,
         choices=(
-            ('psid' , 'psid'),
-            ('mevrik_id' , 'mevrik_id'),
+            ('psid', 'psid'),
+            ('mevrik_id', 'mevrik_id'),
         ),
         default='',
     )
