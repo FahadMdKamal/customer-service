@@ -8,5 +8,3 @@ urlpatterns = [
     path('resolver/', views.ResolverWebhookView.as_view(), name='resolver'),
     path('ticketupdate/', views.TicketUpdateView.as_view(), name='ticketupdate'),
 ]
-
-
