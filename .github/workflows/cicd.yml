@@ -1,5 +1,8 @@
 name: CI/CD FOR UNIVA
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
 
   build:
@@ -17,6 +20,7 @@ jobs:
             cd univa
             git pull
             source ./venv/bin/activate
+            pip install -r requirements.txt
             ./manage.py migrate
             ./manage.py check
             sudo systemctl restart gunicorn
