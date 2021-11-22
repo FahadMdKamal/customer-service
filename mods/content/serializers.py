@@ -10,6 +10,7 @@ from mods.content.models.content_type import ConverseContentType
 from mods.content.models.content_vars import ContentVars
 from mods.content.models.custom_content_field import ContentCustomFields
 from mods.content.models.content_options import ContentOptions
+from mods.content.models.flow import Flow
 
 
 class ContentSerializer(ModelSerializer):
@@ -120,3 +121,9 @@ class ContentCreateSerializer(serializers.Serializer):
             )
             optns.save()
         return validated_data
+
+
+class FlowSerializer(ModelSerializer):
+    class Meta:
+        model = Flow
+        fields = '__all__'
