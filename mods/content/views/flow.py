@@ -1,3 +1,4 @@
+from django.core.checks import messages
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from mods.content.models import Flow
@@ -12,7 +13,7 @@ class FlowCreateOrUpdateView(APIView):
 
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
-        if data['id'] is not None and int(data['id']) > 0:
+        if 'id' in data and  data['id'] is not None and int(data['id']) > 0:
             try:
                 flow = Flow.objects.get(pk=data['id'])
                 serialized_flow = FlowSerializer(data=flow)
@@ -37,8 +38,6 @@ class FlowCreateOrUpdateView(APIView):
 
 
 class FlowListView(APIView):
-    
-
     def get(self, request, format=None):
         transformers = Flow.objects.all()
         serializer = FlowSerializer(transformers, many=True)
@@ -51,6 +50,15 @@ class FlowDeleteView(APIView):
         pass
 
     def post(self, request):
-        pass
+        data = json.loads(request.body.decode('utf-8'))
+        if 'id' in data and  data['id'] is not None and int(data['id']) > 0:
+            try:
+                flow = Flow.objects.get(pk=data['id'])
+                flow.delete()
+                return response.Response(status=200, data={"Flow deleted successfully."})
+            except ObjectDoesNotExist:
+                return response.Response(status=404, data={"Flow not found."})
 
+        else:
+            return response.Response(status=404, data={"Flow not found."})
     
