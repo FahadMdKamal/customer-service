@@ -129,22 +129,22 @@ class ContentCreateSerializer(serializers.Serializer):
 class FlowSerializer(ModelSerializer):
     class Meta:
         model = Flow
-        fields = ('id','name', 'app_id', 'group')
+        fields = ('id', 'name', 'app_id', 'group')
 
 
 class FlowNodeSerializer(ModelSerializer):
     class Meta:
         model = FlowNode
-        fields = ('id','name', 'app_id', 'group')
+        fields = ('id', 'name', 'flow')
 
 
 class NodeConfigSerializer(ModelSerializer):
     class Meta:
         model = NodeConfig
-        fields = ('id','name', 'app_id', 'group')
+        fields = ('id', 'flow_node', 'key', 'value')
 
 
 class NodeContentSerializer(ModelSerializer):
     class Meta:
         model = NodeContent
-        fields = ('id','name', 'app_id', 'group')
+        fields = ('id', 'flow_node', 'content')

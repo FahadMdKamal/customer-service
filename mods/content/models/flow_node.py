@@ -9,7 +9,7 @@ class FlowNodeManager(models.Manager):
 
 class FlowNode(models.Model):
     name = models.CharField(max_length=244)
-    flow = models.ForeignKey(Flow)
+    flow = models.ForeignKey(Flow, on_delete=models.CASCADE)
 
     objects = FlowNodeManager()
 

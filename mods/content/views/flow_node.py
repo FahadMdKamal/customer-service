@@ -3,14 +3,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from mods.content.models import Flow
 from mods.content.serializers import FlowSerializer
-from django.http import JsonResponse
 from rest_framework import response
 import json
 
 
-class FlowCreateOrUpdateView(APIView):
-    def get(self):
-        pass
+class AddNodeView(APIView):
 
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
@@ -37,26 +34,9 @@ class FlowCreateOrUpdateView(APIView):
             return response.Response({'message': 'flow succesfully created', "flow": request.data})
 
 
-class FlowListView(APIView):
+class UpdateNodeView(APIView):
     def get(self, request, format=None):
         transformers = Flow.objects.all()
         serializer = FlowSerializer(transformers, many=True)
         return response.Response(serializer.data)
 
-
-class FlowDeleteView(APIView):
-    def get(self):
-        pass
-
-    def post(self, request):
-        data = json.loads(request.body.decode('utf-8'))
-        if 'id' in data and data['id'] is not None and int(data['id']) > 0:
-            try:
-                flow = Flow.objects.get(pk=data['id'])
-                flow.delete()
-                return response.Response(status=200, data={"Flow deleted successfully."})
-            except ObjectDoesNotExist:
-                return response.Response(status=404, data={"Flow not found."})
-
-        else:
-            return response.Response(status=404, data={"Flow not found."})
