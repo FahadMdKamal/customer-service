@@ -20,7 +20,7 @@ class FlowCreateOrUpdateView(APIView):
                 if serialized_flow.is_valid():
                     serialized_flow.create()
 
-                return response.Response(data={'message': 'flow updated successfully', 'flow': data}, status=status.HTTP_200_OK)
+                return response.Response(data={'message': 'flow updated successfully', 'data': data}, status=status.HTTP_200_OK)
             except ObjectDoesNotExist:
                 pass
 

@@ -30,7 +30,7 @@ class UpdateNodeView(APIView):
                 if serialized_flow.is_valid():
                     serialized_flow.create()
 
-                return response.Response({'message': 'flow node updated successfully', 'flow': data})
+                return response.Response({'message': 'flow node updated successfully', 'data': data})
             except ObjectDoesNotExist:
                 pass
 
