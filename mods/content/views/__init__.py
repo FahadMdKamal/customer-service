@@ -9,3 +9,4 @@ from .custom_content_field import ContentCustomFieldsView
 from .flow import FlowCreateOrUpdateView, FlowListView, FlowDeleteView
 from .flow_node import UpdateNodeView, AddNodeView
 from .node_config import AddNodeConfigView
+from .node_contents import AttachContentView, DeleteContentView

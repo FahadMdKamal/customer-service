@@ -6,13 +6,14 @@ from rest_framework import response
 from rest_framework import status
 import json
 
+
 class FlowCreateOrUpdateView(APIView):
     def get(self):
         pass
 
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
-        if 'id' in data and  data['id'] is not None and int(data['id']) > 0:
+        if 'id' in data and data['id'] is not None and int(data['id']) > 0:
             try:
                 flow = Flow.objects.get(pk=data['id'])
                 serialized_flow = FlowSerializer(data=flow)
@@ -20,7 +21,8 @@ class FlowCreateOrUpdateView(APIView):
                 if serialized_flow.is_valid():
                     serialized_flow.create()
 
-                return response.Response(data={'message': 'flow updated successfully', 'data': data}, status=status.HTTP_200_OK)
+                return response.Response(data={'message': 'flow updated successfully', 'data': data},
+                                         status=status.HTTP_200_OK)
             except ObjectDoesNotExist:
                 pass
 
@@ -33,7 +35,6 @@ class FlowCreateOrUpdateView(APIView):
             return response.Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class FlowListView(APIView):
     def get(self, request, format=None):
         transformers = Flow.objects.all().order_by('-id')
@@ -41,12 +42,11 @@ class FlowListView(APIView):
         return response.Response(serializer.data)
 
 
-
 class FlowDeleteView(APIView):
 
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
-        if 'id' in data and  data['id'] is not None and int(data['id']) > 0:
+        if 'id' in data and data['id'] is not None and int(data['id']) > 0:
             try:
                 flow = Flow.objects.get(pk=data['id'])
                 flow.delete()
@@ -56,4 +56,3 @@ class FlowDeleteView(APIView):
 
         else:
             return response.Response(status=404, data={"Flow not found."})
-    
