@@ -126,4 +126,4 @@ class ContentCreateSerializer(serializers.Serializer):
 class FlowSerializer(ModelSerializer):
     class Meta:
         model = Flow
-        fields = '__all__'
+        fields = ('name', 'app_id', 'group')
