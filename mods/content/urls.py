@@ -3,7 +3,8 @@ from rest_framework.routers import DefaultRouter
 from mods.content.models.flow import Flow
 
 from mods.content.views import ContentView, ContentCreateView, ContentDataView, ContentMediaView, ContentTaxonomyView, \
-    ContentTextView, ConverseContentTypeView, ContentVarsView, ContentCustomFieldsView, FlowCreateOrUpdateView, FlowListView, FlowDeleteView
+    ContentTextView, ConverseContentTypeView, ContentVarsView, ContentCustomFieldsView, FlowCreateOrUpdateView, \
+    FlowListView, FlowDeleteView, AddNodeView, UpdateNodeView
 
 router = DefaultRouter()
 
@@ -24,4 +25,6 @@ urlpatterns = [
     path('flow-create-update/', FlowCreateOrUpdateView.as_view()),
     path('flow-list/', FlowListView.as_view()),
     path('flow-delete/', FlowDeleteView.as_view()),
+    path('add-node/', AddNodeView.as_view()),
+    path('update-node/', UpdateNodeView.as_view()),
 ]

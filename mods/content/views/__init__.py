@@ -7,3 +7,4 @@ from .content_type import ConverseContentTypeView
 from .content_vars import ContentVarsView
 from .custom_content_field import ContentCustomFieldsView
 from .flow import FlowCreateOrUpdateView, FlowListView, FlowDeleteView
+from .flow_node import UpdateNodeView, AddNodeView
