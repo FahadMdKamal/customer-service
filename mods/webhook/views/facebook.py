@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 import json
-from apps.webhook.models import Page, Ticket
+from mods.webhook.models import Page, Ticket
 from rest_framework.views import APIView
 import threading
 import requests

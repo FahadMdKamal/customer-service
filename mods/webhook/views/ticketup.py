@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 import json
-from apps.webhook.models import Ticket
+from mods.webhook.models import Ticket
 from rest_framework.views import APIView
 from django.core.exceptions import ObjectDoesNotExist
 

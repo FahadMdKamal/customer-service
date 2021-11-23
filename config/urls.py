@@ -19,7 +19,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('core/', include(('apps.core.urls', 'apps.core'), namespace='core')),
-    path('webhook/', include(('apps.webhook.urls', 'apps.webhook'), namespace='webhook')),
+    path('webhook/', include(('mods.webhook.urls', 'mods.webhook'), namespace='webhook')),
     path('emailcare/', include('apps.emailcare.urls')),
     path('social/', include('apps.social.urls')),
     path('livechat/', include('apps.livechat.urls')),
