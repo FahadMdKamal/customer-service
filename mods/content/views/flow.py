@@ -26,28 +26,24 @@ class FlowCreateOrUpdateView(APIView):
                 pass
 
         else:
-            flow = Flow(
-                name = data['name'],
-                group_id = data['group_id'],
-                app_id = data['app_id']
-            )
-            flow.save()
-            request.data['id'] = flow.id
-            return response.Response({'message': 'flow succesfully created', "flow":request.data})
+            serializer = FlowSerializer(data=request.data)
+            if serializer.is_valid():
+                flow = serializer.save()
+                if flow:
+                    return response.Response(serializer.data)
+            return response.Response(serializer.errors)
 
 
 
 class FlowListView(APIView):
     def get(self, request, format=None):
-        transformers = Flow.objects.all()
+        transformers = Flow.objects.all().order_by('-id')
         serializer = FlowSerializer(transformers, many=True)
         return response.Response(serializer.data)
 
 
 
 class FlowDeleteView(APIView):
-    def get(self):
-        pass
 
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
