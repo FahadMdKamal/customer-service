@@ -44,8 +44,6 @@ class FlowListView(APIView):
 
 
 class FlowDeleteView(APIView):
-    def get(self):
-        pass
 
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
