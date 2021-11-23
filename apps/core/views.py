@@ -2,8 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import Group, User
-from .serializers import GroupSerializer, UserSerializers
-
+from .serializers import GroupSerializer, UserSerializers, CoreTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 class CreateUserView(APIView):
     permission_classes = [IsAuthenticated]
@@ -26,3 +26,7 @@ class GroupsView(APIView):
 
         serializer = GroupSerializer(groups, many=True, context={"request": request})
         return Response(serializer.data)
+
+
+class CoreTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CoreTokenObtainPairSerializer
