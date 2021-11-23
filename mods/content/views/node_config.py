@@ -8,7 +8,7 @@ from mods.content.serializers import NodeConfigSerializer
 
 
 class AddNodeConfigView(APIView):
-    
+
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
         serializer = NodeConfigSerializer(data=data)
@@ -20,7 +20,7 @@ class AddNodeConfigView(APIView):
 
 
 class UpdateNodeConfigView(APIView):
-    
+
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
         flow = NodeConfig.objects.get(pk=data['id'])
