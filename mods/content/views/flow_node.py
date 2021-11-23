@@ -23,14 +23,16 @@ class UpdateNodeView(APIView):
     def post(self, request, format=None):
         data = json.loads(request.body.decode('utf-8'))
         if 'id' in data and data['id'] is not None and int(data['id']) > 0:
+            print(data)
             try:
                 flow = FlowNode.objects.get(pk=data['id'])
-                serialized_flow = FlowNodeSerializer(data=flow)
+                serialized_flow = FlowNodeSerializer(flow, data=data)
+                print(serialized_flow)
 
                 if serialized_flow.is_valid():
                     serialized_flow.create()
 
                 return response.Response({'message': 'flow node updated successfully', 'data': data})
             except ObjectDoesNotExist:
-                pass
+                return response.Response({'message': 'No Object Found', 'data': data})
 
