@@ -8,24 +8,20 @@ import json
 
 
 class FlowCreateOrUpdateView(APIView):
-    def get(self):
-        pass
 
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
         if 'id' in data and data['id'] is not None and int(data['id']) > 0:
             try:
                 flow = Flow.objects.get(pk=data['id'])
-                serialized_flow = FlowSerializer(data=flow)
-
-                if serialized_flow.is_valid():
-                    serialized_flow.create()
-
-                return response.Response(data={'message': 'flow updated successfully', 'data': data},
-                                         status=status.HTTP_200_OK)
+                serializer = FlowSerializer(flow, data=data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return response.Response(data=serializer.data, status=status.HTTP_201_CREATED)
+                else:
+                    return response.Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             except ObjectDoesNotExist:
                 pass
-
         else:
             serializer = FlowSerializer(data=request.data)
             if serializer.is_valid():
