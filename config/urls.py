@@ -15,11 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-VERSION = "v1"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('core/', include(('apps.core.urls', 'apps.core'), namespace='core')),
     path('webhook/', include(('apps.webhook.urls', 'apps.webhook'), namespace='webhook')),
+    path('emailcare/', include('apps.emailcare.urls')),
+    path('social/', include('apps.social.urls')),
+    path('livechat/', include('apps.livechat.urls')),
+    path('chatbot/', include('apps.chatbot.urls')),
+    path('mixed/', include('apps.mixed.urls')),
+    path('reports/', include('apps.reports.urls')),
     path('content/', include('mods.content.urls')),
     path('nlu/', include('mods.nlu.urls')),
 ]

@@ -51,6 +51,12 @@ THIRD_PARTY_APPS = [
 PROJECT_APPS = [
     'apps.core',
     'apps.webhook',
+    'apps.emailcare',
+    'apps.social',
+    'apps.livechat',
+    'apps.chatbot',
+    'apps.mixed',
+    'apps.reports',
 ]
 
 PROJECT_MODS = [
