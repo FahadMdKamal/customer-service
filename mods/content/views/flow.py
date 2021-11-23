@@ -1,10 +1,9 @@
-from django.core.checks import messages
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from mods.content.models import Flow
 from mods.content.serializers import FlowSerializer
-from django.http import JsonResponse
 from rest_framework import response
+from rest_framework import status
 import json
 
 class FlowCreateOrUpdateView(APIView):
@@ -21,7 +20,7 @@ class FlowCreateOrUpdateView(APIView):
                 if serialized_flow.is_valid():
                     serialized_flow.create()
 
-                return response.Response({'message': 'flow updated successfully', 'flow': data})
+                return response.Response(data={'message': 'flow updated successfully', 'flow': data}, status=status.HTTP_200_OK)
             except ObjectDoesNotExist:
                 pass
 
@@ -30,8 +29,8 @@ class FlowCreateOrUpdateView(APIView):
             if serializer.is_valid():
                 flow = serializer.save()
                 if flow:
-                    return response.Response(serializer.data)
-            return response.Response(serializer.errors)
+                    return response.Response(data=serializer.data, status=status.HTTP_201_CREATED)
+            return response.Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
