@@ -11,6 +11,9 @@ from mods.content.models.content_vars import ContentVars
 from mods.content.models.custom_content_field import ContentCustomFields
 from mods.content.models.content_options import ContentOptions
 from mods.content.models.flow import Flow
+from mods.content.models.flow_node import FlowNode
+from mods.content.models.node_config import NodeConfig
+from mods.content.models.node_contents import NodeContent
 
 
 class ContentSerializer(ModelSerializer):
@@ -126,4 +129,22 @@ class ContentCreateSerializer(serializers.Serializer):
 class FlowSerializer(ModelSerializer):
     class Meta:
         model = Flow
+        fields = ('id','name', 'app_id', 'group')
+
+
+class FlowNodeSerializer(ModelSerializer):
+    class Meta:
+        model = FlowNode
+        fields = ('id','name', 'app_id', 'group')
+
+
+class NodeConfigSerializer(ModelSerializer):
+    class Meta:
+        model = NodeConfig
+        fields = ('id','name', 'app_id', 'group')
+
+
+class NodeContentSerializer(ModelSerializer):
+    class Meta:
+        model = NodeContent
         fields = ('id','name', 'app_id', 'group')
