@@ -1,9 +1,6 @@
-from django.core.checks import messages
-from django.core.exceptions import ObjectDoesNotExist
-from rest_framework.views import APIView
-from rest_framework import response
 import json
-
+from rest_framework.views import APIView
+from rest_framework import response, status
 from mods.content.models.flow_node import FlowNode
 from mods.content.serializers import FlowNodeSerializer
 
@@ -20,19 +17,14 @@ class AddNodeView(APIView):
 
 
 class UpdateNodeView(APIView):
+
     def post(self, request, format=None):
         data = json.loads(request.body.decode('utf-8'))
         if 'id' in data and data['id'] is not None and int(data['id']) > 0:
-            print(data)
-            try:
-                flow = FlowNode.objects.get(pk=data['id'])
-                serialized_flow = FlowNodeSerializer(flow, data=data)
-                print(serialized_flow)
-
-                if serialized_flow.is_valid():
-                    serialized_flow.create()
-
-                return response.Response({'message': 'flow node updated successfully', 'data': data})
-            except ObjectDoesNotExist:
-                return response.Response({'message': 'No Object Found', 'data': data})
-
+            flow_node = FlowNode.objects.get(pk=data['id'])
+            serializer = FlowNodeSerializer(flow_node, data=request.data)
+            if serializer.is_valid():
+                flow_node = serializer.save()
+                if flow_node:
+                    return response.Response(data=serializer.data, status=status.HTTP_201_CREATED)
+            return response.Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)

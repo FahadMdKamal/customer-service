@@ -27,9 +27,9 @@ class DeleteContentView(APIView):
             try:
                 flow = NodeContent.objects.get(pk=data['id'])
                 flow.delete()
-                return response.Response(status=status.HTTP_204_NO_CONTENT, data={"NodeContent deleted successfully."})
+                return response.Response(status=status.HTTP_204_NO_CONTENT, data={"Node-Content deleted successfully."})
             except ObjectDoesNotExist:
-                return response.Response(status=status.HTTP_404_NOT_FOUND, data={"NodeContent not found."})
+                return response.Response(status=status.HTTP_404_NOT_FOUND, data={"Node-Content not found."})
 
         else:
-            return response.Response(status=status.HTTP_404_NOT_FOUND, data={"NodeContent not found."})
+            return response.Response(status=status.HTTP_404_NOT_FOUND, data={"Node-Content not found."})

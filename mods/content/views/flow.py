@@ -17,19 +17,11 @@ class FlowCreateOrUpdateView(APIView):
                 serializer = FlowSerializer(flow, data=data)
                 if serializer.is_valid():
                     serializer.save()
-
-<<<<<<< HEAD
-                return response.Response(data={'message': 'flow updated successfully', 'data': serializer.data}, status=status.HTTP_200_OK)
-=======
-                if serialized_flow.is_valid():
-                    serialized_flow.create()
-
-                return response.Response(data={'message': 'flow updated successfully', 'data': data},
-                                         status=status.HTTP_200_OK)
->>>>>>> ba045bbd6bf965f4fe5c170590211f03e9612b04
+                    return response.Response(data=serializer.data, status=status.HTTP_201_CREATED)
+                else:
+                    return response.Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             except ObjectDoesNotExist:
                 pass
-
         else:
             serializer = FlowSerializer(data=request.data)
             if serializer.is_valid():

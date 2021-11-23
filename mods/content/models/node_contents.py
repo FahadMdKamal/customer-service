@@ -12,6 +12,7 @@ class NodeContentManager(models.Manager):
 class NodeContent(models.Model):
     flow_node = models.ForeignKey(FlowNode, on_delete=models.CASCADE)
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
+    
     objects = NodeContentManager()
 
     class Meta:
