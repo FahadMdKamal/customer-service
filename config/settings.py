@@ -46,6 +46,7 @@ DEFAULT_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
+    "corsheaders",
 ]
 
 PROJECT_APPS = [
@@ -61,6 +62,7 @@ PROJECT_MODS = [
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + PROJECT_APPS + PROJECT_MODS
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -68,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -164,6 +167,11 @@ MEDIA_URL = env('MEDIA_URL')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# CORS
+
+CORS_URLS_REGEX = r'^/.*$'
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 APP_URL = env('APP_URL')
 CASEX_URL = env('CASEX_URL')
