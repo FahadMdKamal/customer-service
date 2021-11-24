@@ -25,7 +25,7 @@ urlpatterns = [
     path('flow-create-update/', FlowCreateOrUpdateView.as_view()),
     path('flow-list/', FlowListView.as_view()),
     path('flow-delete/', FlowDeleteView.as_view()),
-    path('add-node/', AddNodeView.as_view()),
+    path('node-create-update/', AddNodeView.as_view()),
     path('flow-node/', FlowNodeView.as_view()),
     path('update-node/', UpdateNodeView.as_view()),
     path('add-node-config/', AddNodeConfigView.as_view()),
