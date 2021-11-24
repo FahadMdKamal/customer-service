@@ -1,3 +1,4 @@
+from django.contrib.sessions.backends import file
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
@@ -148,3 +149,31 @@ class NodeContentSerializer(ModelSerializer):
     class Meta:
         model = NodeContent
         fields = ('id', 'flow_node', 'content')
+
+
+# Flow nodes details get serializer
+class FlowNodeDetailsSerializer(ModelSerializer):
+    class Meta:
+        model = FlowNode
+        fields = ('id', 'name', 'flow')
+
+
+class NodeConfigDetailsSerializer(ModelSerializer):
+    class Meta:
+        model = NodeConfig
+        fields = ('id', 'flow_node', 'key', 'value')
+
+
+class NodeContentDetailsSerializer(ModelSerializer):
+    class Meta:
+        model = NodeContent
+        fields = ('id', 'flow_node', 'content')
+
+class FlowDetailsSerializer(ModelSerializer):
+    # flownodes = serializers.StringRelatedField(many=True)
+    flownodes = FlowNodeDetailsSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Flow
+        fields = ("id", "name", "app_id", "group", "flownodes")
+        depths = 1

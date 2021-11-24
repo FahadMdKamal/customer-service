@@ -9,7 +9,7 @@ class FlowNodeManager(models.Manager):
 
 class FlowNode(models.Model):
     name = models.CharField(max_length=244, null=True, blank=True) # To Create Blank Node
-    flow = models.ForeignKey(Flow, on_delete=models.CASCADE)
+    flow = models.ForeignKey(Flow, on_delete=models.CASCADE, related_name='flownodes')
 
     objects = FlowNodeManager()
 

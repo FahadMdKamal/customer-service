@@ -5,6 +5,7 @@ from mods.content.models.flow import Flow
 from mods.content.views import ContentView, ContentCreateView, ContentDataView, ContentMediaView, ContentTaxonomyView, \
     ContentTextView, ConverseContentTypeView, ContentVarsView, ContentCustomFieldsView, FlowCreateOrUpdateView, \
     FlowListView, FlowDeleteView, AddNodeView, AddNodeConfigView, UpdateNodeView, AttachContentView, DeleteContentView, FlowNodeView
+from mods.content.views.flow import FlowDetailsView
 
 router = DefaultRouter()
 
@@ -32,4 +33,6 @@ urlpatterns = [
     # path('update-node-config/', UpdateNodeView.as_view()),
     path('attach-content/', AttachContentView.as_view()),
     path('delete-content/', DeleteContentView.as_view()),
+
+    path('single_flow_details/', FlowDetailsView.as_view()),
 ]
