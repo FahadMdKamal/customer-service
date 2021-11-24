@@ -56,8 +56,8 @@ class FlowDeleteView(APIView):
 
 class FlowDetailsView(APIView):
 
-    def post(self, request):
-        data = json.loads(request.body.decode('utf-8'))
+    def get(self, request):
+        data = request.data
         if 'id' in data and data['id'] is not None and int(data['id']) > 0:
             try:
                 flow = Flow.objects.filter(pk=data['id'])

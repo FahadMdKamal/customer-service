@@ -136,7 +136,7 @@ class FlowSerializer(ModelSerializer):
 class FlowNodeSerializer(ModelSerializer):
     class Meta:
         model = FlowNode
-        fields = ('id', 'name', 'flow')
+        fields = ('id', 'name', 'flow', 'node_type')
 
 
 class NodeConfigSerializer(ModelSerializer):
@@ -152,22 +152,19 @@ class NodeContentSerializer(ModelSerializer):
 
 
 # Flow nodes details get serializer
-class FlowNodeDetailsSerializer(ModelSerializer):
-    class Meta:
-        model = FlowNode
-        fields = ('id', 'name', 'flow')
-
-
 class NodeConfigDetailsSerializer(ModelSerializer):
     class Meta:
         model = NodeConfig
         fields = ('id', 'flow_node', 'key', 'value')
 
 
-class NodeContentDetailsSerializer(ModelSerializer):
+class FlowNodeDetailsSerializer(ModelSerializer):
+    nodeconfigs = NodeConfigDetailsSerializer(many=True, read_only=True)
+
     class Meta:
-        model = NodeContent
-        fields = ('id', 'flow_node', 'content')
+        model = FlowNode
+        fields = ('id', 'name', 'flow', 'node_type', 'nodeconfigs')
+
 
 class FlowDetailsSerializer(ModelSerializer):
     # flownodes = serializers.StringRelatedField(many=True)

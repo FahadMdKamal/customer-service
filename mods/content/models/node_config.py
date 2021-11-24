@@ -8,7 +8,7 @@ class NodeConfigManager(models.Manager):
 
 
 class NodeConfig(models.Model):
-    flow_node = models.ForeignKey(FlowNode, on_delete=models.CASCADE)
+    flow_node = models.ForeignKey(FlowNode, on_delete=models.CASCADE, related_name='nodeconfigs')
     key = models.CharField(max_length=244)
     value = models.CharField(max_length=244)
     objects = NodeConfigManager()
