@@ -57,10 +57,11 @@ class FlowDeleteView(APIView):
 class FlowDetailsView(APIView):
 
     def get(self, request):
-        data = request.data
-        if 'id' in data and data['id'] is not None and int(data['id']) > 0:
+        flow_id = int(request.GET.get('id'))
+
+        if flow_id is not None and flow_id > 0:
             try:
-                flow = Flow.objects.filter(pk=data['id'])
+                flow = Flow.objects.filter(pk=flow_id)
                 serializer = FlowDetailsSerializer(flow, many=True)
                 return response.Response(status=200, data=serializer.data)
             except ObjectDoesNotExist:
