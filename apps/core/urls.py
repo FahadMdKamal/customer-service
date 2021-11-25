@@ -9,4 +9,5 @@ urlpatterns = [
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('create-user/', views.CreateUserView.as_view(), name='create-users'),
     path('groups/', views.GroupsView.as_view(), name='groups'),
+    path('add-texonomy/', views.TexonomyView.as_view(), name='texonomy'),
 ]

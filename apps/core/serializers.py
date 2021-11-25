@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import Group, User
+from apps.core.models import Texonomy
 
 
 class UserSerializers(serializers.ModelSerializer):
@@ -22,3 +23,12 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = ('id','name')
+
+
+class TexonomySerilizer(serializers.ModelSerializer):
+    slug = serializers.CharField(required=False)
+
+    class Meta:
+        model = Texonomy
+        fields = ('texonomy_type', 'name', 'parent', 'details', 'slug')
+
