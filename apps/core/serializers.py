@@ -3,6 +3,7 @@ from django.contrib.auth.models import Group, User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UserSerializers(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
