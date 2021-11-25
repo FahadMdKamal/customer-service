@@ -1,10 +1,11 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from mods.content.models.flow import Flow
 
 from mods.content.views import ContentView, ContentCreateView, ContentDataView, ContentMediaView, ContentTaxonomyView, \
     ContentTextView, ConverseContentTypeView, ContentVarsView, ContentCustomFieldsView, FlowCreateOrUpdateView, \
-    FlowListView, FlowDeleteView, AddNodeView, AddNodeConfigView, UpdateNodeView, AttachContentView, DeleteContentView
+    FlowListView, FlowDeleteView, AddNodeView, UpdateNodeView, AttachContentView, DeleteContentView, \
+    FlowNodeView, CreateUpdateNodeConfigView
+from mods.content.views.flow import FlowDetailsView
 
 router = DefaultRouter()
 
@@ -25,10 +26,12 @@ urlpatterns = [
     path('flow-create-update/', FlowCreateOrUpdateView.as_view()),
     path('flow-list/', FlowListView.as_view()),
     path('flow-delete/', FlowDeleteView.as_view()),
-    path('add-node/', AddNodeView.as_view()),
+    path('node-create-update/', AddNodeView.as_view()),
+    path('flow-node/', FlowNodeView.as_view()),
     path('update-node/', UpdateNodeView.as_view()),
-    path('add-node-config/', AddNodeConfigView.as_view()),
-    # path('update-node-config/', UpdateNodeView.as_view()),
+    path('node-config-create-update/', CreateUpdateNodeConfigView.as_view()),
     path('attach-content/', AttachContentView.as_view()),
     path('delete-content/', DeleteContentView.as_view()),
+
+    path('single_flow_details/', FlowDetailsView.as_view()),
 ]
