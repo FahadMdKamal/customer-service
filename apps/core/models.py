@@ -9,7 +9,7 @@ class TexonomyManager(models.Manager):
 
 
 class Texonomy(models.Model):
-    texonomy_type = models.CharField(max_length=20, unique=True)
+    texonomy_type = models.CharField(max_length=20)
     name = models.CharField(max_length=50)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     details = models.CharField(max_length=255, null=True, blank=True)
