@@ -5,7 +5,7 @@ from celery.utils.log import get_task_logger
 from config.celery import app
 
 from mods.webhook.models import Webhooks
-from mods.webhook.utils import ReceiverWebhook
+from mods.webhook.utils import Webhook
 
 
 logger = get_task_logger(__name__)
@@ -31,10 +31,10 @@ class DeliverHook(Task):
 
 
 @shared_task
-def process_webhook(hook_uid: str) -> bool:
+def process_webhook_receiver(hook_uid: str) -> bool:
     try:
         hook = Webhooks.objects.get(uuid=hook_uid)
-        webhook = ReceiverWebhook(instance=hook)
+        webhook = Webhook(instance=hook)
         webhook.dispatch_task()
         return True
     except Webhooks.DoesNotExist:
@@ -42,4 +42,16 @@ def process_webhook(hook_uid: str) -> bool:
         return False
 
 
-DeliverHook = app.register_task(DeliverHook())
+def process_webhook_sender(hook_uid: str, payload: dict) -> bool:
+    try:
+        hook = Webhooks.objects.get(uuid=hook_uid)
+        webhook = Webhook(instance=hook)
+        kwargs = webhook.get_sender_kwargs(payload)
+        DeliverHook.apply_async(kwargs=kwargs)
+        return True
+    except Webhooks.DoesNotExist:
+        logger.error('webhook object not found')
+        return False
+
+
+# DeliverHook = app.register_task(DeliverHook())

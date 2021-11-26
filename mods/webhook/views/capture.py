@@ -1,7 +1,7 @@
 from rest_framework.generics import CreateAPIView
 
 from mods.webhook.serializers import CaptureSerializer
-from mods.webhook.tasks import process_webhook
+from mods.webhook.tasks import process_webhook_receiver
 
 
 class CaptureView(CreateAPIView):
@@ -9,7 +9,7 @@ class CaptureView(CreateAPIView):
 
     def perform_create(self, serializer):
         webhook = serializer.save()
-        process_webhook.delay(webhook.uuid)
+        process_webhook_receiver.delay(webhook.uuid)
         if webhook.topic == "something":
             # TODO Business logic for instant reply
             pass
