@@ -5,12 +5,16 @@ from django.contrib.auth.models import Group, User
 
 from apps.core.models import Texonomy
 from .serializers import GroupSerializer, TexonomySerilizer, UserSerializers
+from .serializers import GroupSerializer, UserSerializers, CoreTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+from django.contrib.auth.hashers import make_password
 
 
 class CreateUserView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, format='json'):
+        request.data['password'] = make_password(request.data['password'])
         serializer = UserSerializers(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
@@ -45,3 +49,6 @@ class TexonomyView(APIView):
             if texo:
                 return Response(serializer.data)
         return Response(serializer.errors)
+
+class CoreTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CoreTokenObtainPairSerializer

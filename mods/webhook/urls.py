@@ -1,4 +1,4 @@
-from django.urls import include, path
+from django.urls import path
 from . import views
 
 # Wire up our API using automatic URL routing.
@@ -8,5 +8,3 @@ urlpatterns = [
     path('resolver/', views.ResolverWebhookView.as_view(), name='resolver'),
     path('ticketupdate/', views.TicketUpdateView.as_view(), name='ticketupdate'),
 ]
-
-
