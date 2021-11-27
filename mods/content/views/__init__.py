@@ -1,4 +1,4 @@
-from .content import ContentView, ContentCreateView
+from .content import ContentView, ContentCreateView, SingleContentDetailsView
 from .content_data import ContentDataView
 from .content_media import ContentMediaView
 from .content_taxonomy import ContentTaxonomyView
