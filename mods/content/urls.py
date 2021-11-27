@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from mods.content.views import ContentView, ContentCreateView, ContentDataView, ContentMediaView, ContentTaxonomyView, \
     ContentTextView, ConverseContentTypeView, ContentVarsView, ContentCustomFieldsView, FlowCreateOrUpdateView, \
     FlowListView, FlowDeleteView, AddNodeView, UpdateNodeView, AttachContentView, DeleteContentView, \
-    FlowNodeView, CreateUpdateNodeConfigView
+    FlowNodeView, CreateUpdateNodeConfigView, SingleContentDetailsView
 from mods.content.views.flow import FlowDetailsView
 
 router = DefaultRouter()
@@ -22,7 +22,8 @@ router.register(r'content_custom', ContentCustomFieldsView, basename="convo_cont
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('create/', ContentCreateView.as_view()),
+    path('content-create-update/', ContentCreateView.as_view()),
+    path('single-content-details/', SingleContentDetailsView.as_view()),
     path('flow-create-update/', FlowCreateOrUpdateView.as_view()),
     path('flow-list/', FlowListView.as_view()),
     path('flow-delete/', FlowDeleteView.as_view()),
