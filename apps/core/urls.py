@@ -10,4 +10,5 @@ urlpatterns = [
     path('create-user/', views.CreateUserView.as_view(), name='create-users'),
     path('groups/', views.GroupsView.as_view(), name='groups'),
     path('add-texonomy/', views.TexonomyView.as_view(), name='texonomy'),
+    path('texonomy-by-type/<str:type>/', views.TexonomyByTypeView.as_view(), name='texonomy-by-type'),
 ]
