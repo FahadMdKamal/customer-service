@@ -6,6 +6,7 @@ from mods.content.views import ContentView, ContentCreateView, ContentDataView, 
     FlowListView, FlowDeleteView, AddNodeView, UpdateNodeView, AttachContentView, DeleteContentView, \
     FlowNodeView, CreateUpdateNodeConfigView, SingleContentDetailsView, ContentTextModelView
 from mods.content.views.flow import FlowDetailsView
+from mods.content.views import MessageTemplateCreateOrUpdateView, MessageTemplateDetailsView, MessageTemplateDeleteView, MessageTemplateListView
 
 router = DefaultRouter()
 
@@ -18,7 +19,7 @@ router.register(r'content_text', ContentTextModelView, basename="convo_content_t
 router.register(r'content_type', ConverseContentTypeView, basename="convo_content_type"),
 router.register(r'content_vars', ContentVarsView, basename="convo_content_vars"),
 router.register(r'content_custom', ContentCustomFieldsView, basename="convo_content_custom_fields")
-# router.register(r'flow', FlowCreateOrUpdateView, basename="flow")
+
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -34,6 +35,10 @@ urlpatterns = [
     path('node-config-create-update/', CreateUpdateNodeConfigView.as_view()),
     path('attach-content/', AttachContentView.as_view()),
     path('delete-content/', DeleteContentView.as_view()),
-
     path('single_flow_details/', FlowDetailsView.as_view()),
+
+    path('message-template-create-update/', MessageTemplateCreateOrUpdateView.as_view()),
+    path('message-template-detail/', MessageTemplateDetailsView.as_view()),
+    path('message-template-list/', MessageTemplateListView.as_view()),
+    path('message-template-delete/', MessageTemplateDeleteView.as_view()),
 ]

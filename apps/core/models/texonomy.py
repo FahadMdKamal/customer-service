@@ -17,7 +17,13 @@ class Texonomy(models.Model):
 
     objects = TexonomyManager()
 
-    def save(self,*args, **kwargs):
+    def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify((self.name,self.texonomy_type))
+            temp_slug = slugify((self.name, self.texonomy_type))
+            count = 0
+            new_slug = temp_slug
+            while Texonomy.objects.filter(slug=new_slug).exists():
+                count += 1
+                new_slug = temp_slug + str(count)
+            self.slug = new_slug
         return super().save(*args, **kwargs)
