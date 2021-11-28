@@ -12,4 +12,5 @@ urlpatterns = [
     path('add-texonomy/', views.TexonomyCreateUpateView.as_view(), name='texonomy-create-update'),
     path('texonomy-by-type/<str:texo_type>/', views.TexonomyListOrFilterView.as_view(), name='texonomy-filter-by-type'),
     path('texonomy-by-type/', views.TexonomyListOrFilterView.as_view(), name='texonomy-list'),
+    path('texonomy-delete/', views.TexonomyDeleteView.as_view(), name='texonomy-delete'),
 ]

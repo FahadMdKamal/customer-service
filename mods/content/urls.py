@@ -18,7 +18,6 @@ router.register(r'content_text', ContentTextModelView, basename="convo_content_t
 router.register(r'content_type', ConverseContentTypeView, basename="convo_content_type"),
 router.register(r'content_vars', ContentVarsView, basename="convo_content_vars"),
 router.register(r'content_custom', ContentCustomFieldsView, basename="convo_content_custom_fields")
-# router.register(r'flow', FlowCreateOrUpdateView, basename="flow")
 
 urlpatterns = [
     path('', include(router.urls)),
