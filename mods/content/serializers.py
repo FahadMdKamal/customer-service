@@ -15,6 +15,7 @@ from mods.content.models.flow import Flow
 from mods.content.models.flow_node import FlowNode
 from mods.content.models.node_config import NodeConfig
 from mods.content.models.node_contents import NodeContent
+from mods.content.models.message_template import MessageTemplate
 
 
 class ContentSerializer(ModelSerializer):
@@ -174,3 +175,15 @@ class FlowDetailsSerializer(ModelSerializer):
         model = Flow
         fields = ("id", "name", "app_id", "group", "flownodes")
         depths = 1
+
+
+class MessageTemplateSerializer(ModelSerializer):
+
+    class Meta:
+        model = MessageTemplate
+        fields = "__all__"
+            # ("id", "template_code", "template_type", "template_format", "body_template",
+            #       "description", "template_var", "value_resolver",
+            #       "app_id", "template_group", "allowed_channel_types",
+            #       "attachment", "status", "usage_count",
+            #       "owner", "created_at", "updated_at")
