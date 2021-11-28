@@ -14,9 +14,14 @@ class ContentTextManager(models.Manager):
 
 class ContentText(models.Model):
     text_ref = models.CharField(max_length=244)
+<<<<<<< HEAD
     text_vars = models.JSONField(default=dict)
     text_body = models.JSONField(default=dict)
     text_group = models.ForeignKey(ContentTaxonomy, blank=True, null=True, on_delete=models.PROTECT)
+=======
+    text_vars = models.JSONField(default={})
+    text_body = models.JSONField(default={})
+>>>>>>> 4ff7404b5ea3189f6e825c0c6a49d6b7604b71d5
     text_encoding = models.CharField(max_length=244, blank=True, null=True)
     template_type = models.CharField(max_length=244, blank=True, null=True)
 

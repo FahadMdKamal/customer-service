@@ -18,6 +18,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('rest_registration.api.urls')),
     path('core/', include(('apps.core.urls', 'apps.core'), namespace='core')),
     path('webhook/', include(('mods.webhook.urls', 'mods.webhook'), namespace='webhook')),
     path('emailcare/', include('apps.emailcare.urls')),
