@@ -3,8 +3,8 @@ from django.utils.text import slugify
 
 class TexonomyManager(models.Manager):
 
-    def get_texonomies_by_type(self, texo_name):
-        pass
+    def get_texonomies_by_type(self, texonomy_type):
+        print(texonomy_type)
     pass 
 
 
