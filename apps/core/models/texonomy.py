@@ -21,11 +21,9 @@ class Texonomy(models.Model):
         if not self.slug:
             temp_slug = slugify((self.name, self.texonomy_type))
             count = 0
-            # print(Texonomy.objects.filter(slug=temp_slug).exists())
-            while Texonomy.objects.filter(slug=temp_slug).exists():
+            new_slug = temp_slug
+            while Texonomy.objects.filter(slug=new_slug).exists():
                 count += 1
-                temp_slug = temp_slug + str(count)
-            self.slug = temp_slug
-        # return True
-        # return self.objects.create(self, *args, **kwargs)
-        return super(self, Texonomy).save(*args, **kwargs)
+                new_slug = temp_slug + str(count)
+            self.slug = new_slug
+        return super().save(*args, **kwargs)

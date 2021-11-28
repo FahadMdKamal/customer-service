@@ -34,7 +34,7 @@ class TexonomySerilizer(serializers.ModelSerializer):
 
     class Meta:
         model = Texonomy
-        fields = ('texonomy_type', 'name', 'parent', 'details', 'slug')
+        fields = ('id', 'texonomy_type', 'name', 'parent', 'details', 'slug')
 
 
 class CoreTokenObtainPairSerializer(TokenObtainPairSerializer):
