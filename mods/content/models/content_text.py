@@ -16,7 +16,6 @@ class ContentText(models.Model):
     text_ref = models.CharField(max_length=244)
     text_vars = models.JSONField(default={})
     text_body = models.JSONField(default={})
-    text_group = models.ForeignKey(ContentTaxonomy, blank=True, null=True, on_delete=models.PROTECT)
     text_encoding = models.CharField(max_length=244, blank=True, null=True)
     template_type = models.CharField(max_length=244, blank=True, null=True)
 
