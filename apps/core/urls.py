@@ -5,8 +5,9 @@ from . import views
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    path('token/', views.CoreTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('register/', views.RegisterView.as_view(), name='auth_register'),
+    path('login/', views.CoreTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('login/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('create-user/', views.CreateUserView.as_view(), name='create-users'),
     path('groups/', views.GroupsView.as_view(), name='groups'),
     path('add-texonomy/', views.TexonomyView.as_view(), name='texonomy'),
