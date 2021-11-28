@@ -14,14 +14,11 @@ class ContentTextManager(models.Manager):
 
 class ContentText(models.Model):
     text_ref = models.CharField(max_length=244)
-    parent_id = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT)
-    lang = models.CharField(max_length=244, choices=LANG)
-    text_body = models.TextField()
-    has_vars = models.BooleanField()
-    error_text_ref = models.CharField(max_length=244)
+    text_vars = models.JSONField(default={})
+    text_body = models.JSONField(default={})
     text_group = models.ForeignKey(ContentTaxonomy, blank=True, null=True, on_delete=models.PROTECT)
-    text_encoding = models.CharField(max_length=244)
-    template_type = models.CharField(max_length=244)
+    text_encoding = models.CharField(max_length=244, blank=True, null=True)
+    template_type = models.CharField(max_length=244, blank=True, null=True)
 
     objects = ContentTextManager()
 
