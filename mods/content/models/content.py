@@ -22,7 +22,7 @@ class Content(models.Model):
     parent_id = models.ForeignKey('self', blank=True, null=True, on_delete=models.PROTECT)
     left_contents = models.JSONField()
     display_order = models.CharField(max_length=100)
-    content_body = models.TextField()
+    content_body = models.JSONField()
     content_format = models.CharField(max_length=100, choices=FORMAT)
     template_cache = models.CharField(max_length=100)
     value_cache = models.CharField(max_length=244)
