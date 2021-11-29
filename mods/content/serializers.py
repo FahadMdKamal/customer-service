@@ -134,9 +134,42 @@ class FlowSerializer(ModelSerializer):
 
 
 class FlowNodeSerializer(ModelSerializer):
+    config = serializers.JSONField(write_only=True)
+
     class Meta:
         model = FlowNode
-        fields = ('id', 'name', 'flow', 'node_type')
+        fields = ('id', 'name', 'flow', 'node_type', 'config')
+
+    def create(self, validated_data):
+        """
+        Create and return a new `FlowNode` instance, given the validated data.
+        """
+        config = validated_data.pop('config')
+        flow_node = FlowNode.objects.create(**validated_data)
+        for key, value in config.items():
+            node_config = NodeConfig(flow_node=flow_node, key=key, value=value)
+            node_config.save()
+        return flow_node
+
+    def update(self, instance, validated_data):
+        """
+        Update and return an existing `Snippet` instance, given the validated data.
+        """
+        instance.name = validated_data.get('name', instance.name)
+        instance.flow = validated_data.get('flow', instance.flow)
+        instance.node_type = validated_data.get('node_type', instance.node_type)
+        print(instance)
+        instance.save()
+        # id = validated_data.get('id', instance.id)
+        # config = validated_data.get('config', instance.config)
+        # for key, value in config.items():
+        #     try:
+        #         node_config = NodeConfig.objects.filter(flow_node_id=id, key=key).update(flow_node=id, key=key, value=value)
+        #         node_config.save()
+        #     except:
+        #         pass
+
+        return instance
 
 
 class NodeConfigSerializer(ModelSerializer):

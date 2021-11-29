@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from mods.content.views import ContentView, ContentCreateView, ContentDataView, ContentMediaView, ContentTaxonomyView, \
     ContentTextView, ConverseContentTypeView, ContentVarsView, ContentCustomFieldsView, FlowCreateOrUpdateView, \
-    FlowListView, FlowDeleteView, AddNodeView, UpdateNodeView, AttachContentView, DeleteContentView, \
+    FlowListView, FlowDeleteView, AttachContentView, DeleteContentView, \
     FlowNodeView, CreateUpdateNodeConfigView, SingleContentDetailsView, ContentTextModelView, ContentTextSearchView
 from mods.content.views.flow import FlowDetailsView
 
@@ -23,15 +23,16 @@ router.register(r'content_custom', ContentCustomFieldsView, basename="convo_cont
 urlpatterns = [
     path('', include(router.urls)),
     path('content-create-update/', ContentCreateView.as_view()),
+    path('csat-create-update/', ContentCreateView.as_view()),
+    # path('csat-list/', ContentView.as_view()),
     path('text-create-update/', ContentTextView.as_view()),
     path('text-search/', ContentTextSearchView.as_view()),
     path('single-content-details/', SingleContentDetailsView.as_view()),
+    path('single-csat-details/', SingleContentDetailsView.as_view()),
     path('flow-create-update/', FlowCreateOrUpdateView.as_view()),
     path('flow-list/', FlowListView.as_view()),
     path('flow-delete/', FlowDeleteView.as_view()),
-    path('node-create-update/', AddNodeView.as_view()),
-    path('flow-node/', FlowNodeView.as_view()),
-    path('update-node/', UpdateNodeView.as_view()),
+    path('node-create-update/', FlowNodeView.as_view()),
     path('node-config-create-update/', CreateUpdateNodeConfigView.as_view()),
     path('attach-content/', AttachContentView.as_view()),
     path('delete-content/', DeleteContentView.as_view()),
