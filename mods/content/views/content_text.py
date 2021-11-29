@@ -5,7 +5,9 @@ from rest_framework.views import APIView
 from rest_framework import response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
-
+from django.contrib.postgres.search import SearchVector
+from django.db.models import TextField
+from django.db.models.functions import Cast
 from mods.content.models import ContentText
 from mods.content.serializers import ContentTextSerializer
 
@@ -36,3 +38,15 @@ class ContentTextView(APIView):
                 if flow:
                     return response.Response(data=serializer.data, status=status.HTTP_201_CREATED)
             return response.Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ContentTextSearchView(APIView):
+    def post(self, request):
+        search_data = request.data["data"]
+        data = ContentText.objects.annotate(search=SearchVector(Cast('text_body', TextField())),).filter(search=search_data)
+        if data:
+            content_text = ContentText.objects.filter(pk=data.first().id)
+            serializer = ContentTextSerializer(content_text, many=True)
+            return response.Response(serializer.data)
+        else:
+            return response.Response(data="Not match", status=status.HTTP_400_BAD_REQUEST)
