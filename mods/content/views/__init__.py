@@ -7,7 +7,7 @@ from .content_type import ConverseContentTypeView
 from .content_vars import ContentVarsView
 from .custom_content_field import ContentCustomFieldsView
 from .flow import FlowCreateOrUpdateView, FlowListView, FlowDeleteView
-from .flow_node import UpdateNodeView, AddNodeView, FlowNodeView
+from .flow_node import FlowNodeView
 from .node_config import CreateUpdateNodeConfigView
 from .node_contents import AttachContentView, DeleteContentView
 from .message_template import MessageTemplateCreateOrUpdateView, MessageTemplateListView, MessageTemplateDetailsView, MessageTemplateDeleteView
