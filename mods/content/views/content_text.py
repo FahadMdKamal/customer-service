@@ -41,8 +41,9 @@ class ContentTextView(APIView):
 
 
 class ContentTextSearchView(APIView):
-    def post(self, request):
-        search_data = request.data["data"]
+
+    def get(self, request, format=None):
+        search_data = request.GET.get('data')
         data = ContentText.objects.annotate(search=SearchVector(Cast('text_body', TextField())),).filter(search=search_data)
         if data:
             content_text = ContentText.objects.filter(pk=data.first().id)
