@@ -51,8 +51,8 @@ class TaxonomyDeleteView(APIView):
             try:
                 obj = Taxonomy.objects.get(pk=data['id'])
                 obj.delete()
-                return Response(status=200, data={"Taxonomy deleted successfully."})
+                return Response(status=200, data={"message": "Taxonomy deleted successfully."})
             except ObjectDoesNotExist:
-                return Response(status=404, data={"Taxonomy not found."})
+                return Response(status=404, data={"message": "Taxonomy not found."})
         else:
-            return Response(status=404, data={"Taxonomy not found."})
+            return Response(status=404, data={"message": "Taxonomy not found."})
