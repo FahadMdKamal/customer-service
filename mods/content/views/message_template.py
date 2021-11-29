@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage
 
 from rest_framework.views import APIView
 from mods.content.models import MessageTemplate
@@ -7,6 +7,7 @@ from mods.content.serializers import MessageTemplateSerializer
 from rest_framework import response
 from rest_framework import status
 import json
+
 
 class MessageTemplateCreateOrUpdateView(APIView):
 
@@ -33,12 +34,9 @@ class MessageTemplateCreateOrUpdateView(APIView):
 
 
 class MessageTemplateListView(APIView):
+
     def get(self, request, format=None):
-        # message_templates = MessageTemplate.objects.all().order_by('-id')
-        # serializer = MessageTemplateSerializer(message_templates, many=True)
-
         message_template = MessageTemplate.objects.all().order_by('-id')
-
         data = []
         nextPage = 1
         previousPage = 1
@@ -65,7 +63,6 @@ class MessageTemplateListView(APIView):
                  'next': nextPage,
                  'prev': previousPage,
                  'limit': limit})
-
 
 
 class MessageTemplateDeleteView(APIView):

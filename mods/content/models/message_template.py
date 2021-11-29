@@ -1,5 +1,5 @@
 from django.db import models
-from apps.core.models import Texonomy
+from apps.core.models import Taxonomy
 
 
 class MessageTemplateManager(models.Manager):
@@ -29,7 +29,7 @@ class MessageTemplate(models.Model):
     template_var = models.TextField(null=True, blank=True)
     value_resolver = models.CharField(max_length=255, null=True, blank=True)
     app_id = models.IntegerField(default=0)
-    template_group = models.ForeignKey(Texonomy, on_delete=models.CASCADE, null=True, blank=True)
+    template_group = models.ForeignKey(Taxonomy, on_delete=models.CASCADE, null=True, blank=True)
 
     allowed_channel_types = models.CharField(
         max_length=15,
