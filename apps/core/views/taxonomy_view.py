@@ -32,16 +32,16 @@ class TaxonomyCreateUpateView(APIView):
 
 class TaxonomyListOrFilterView(APIView):
 
-    def get(self, request, texo_type=None):
-        if texo_type:
-            texos = Taxonomy.objects.filter(texonomy_type=texo_type).order_by("-id")
+    def get(self, request):
+        taxo_type = request.GET.get('type', None)
+        if taxo_type:
+            taxos = Taxonomy.objects.filter(taxonomy_type=taxo_type).order_by("-id")
         else:
-            texos = Taxonomy.objects.all().order_by("-id")
-
-        texonomies = TaxonomySerilizer(texos, many=True)
-        if len(texonomies.data)>0:
-            return Response(texonomies.data, status=status.HTTP_200_OK)
-        return Response({"message": "No Texonomies Found"}, status=status.HTTP_404_NOT_FOUND)
+            taxos = Taxonomy.objects.all().order_by("-id")
+        taxonomies = TaxonomySerilizer(taxos, many=True)
+        if taxonomies.data:
+            return Response(taxonomies.data, status=status.HTTP_200_OK)
+        return Response({"message": "No Taxonomies Found"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class TaxonomyDeleteView(APIView):
@@ -51,8 +51,8 @@ class TaxonomyDeleteView(APIView):
             try:
                 obj = Taxonomy.objects.get(pk=data['id'])
                 obj.delete()
-                return Response(status=200, data={"Texonomy deleted successfully."})
+                return Response(status=200, data={"Taxonomy deleted successfully."})
             except ObjectDoesNotExist:
-                return Response(status=404, data={"Texonomy not found."})
+                return Response(status=404, data={"Taxonomy not found."})
         else:
-            return Response(status=404, data={"Texonomy not found."})
+            return Response(status=404, data={"Taxonomy not found."})

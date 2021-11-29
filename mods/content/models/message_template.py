@@ -35,7 +35,7 @@ class MessageTemplate(models.Model):
         max_length=15,
         choices=(
             ('live-chat', 'Live Chat'),
-            ('messanger', 'Messanger'),
+            ('messenger', 'Messenger'),
             ('comment', 'Comment'),
         ),
         default='',

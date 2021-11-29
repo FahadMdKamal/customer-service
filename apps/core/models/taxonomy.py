@@ -1,10 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
 
-class TaxonomyManager(models.Manager):
 
-    def get_texonomies_by_type(self, taxonomy_type):
-        print(taxonomy_type)
+class TaxonomyManager(models.Manager):
     pass 
 
 
