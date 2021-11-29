@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from mods.content.views import ContentView, ContentCreateView, ContentDataView, ContentMediaView, ContentTaxonomyView, \
     ContentTextView, ConverseContentTypeView, ContentVarsView, ContentCustomFieldsView, FlowCreateOrUpdateView, \
     FlowListView, FlowDeleteView, AddNodeView, UpdateNodeView, AttachContentView, DeleteContentView, \
-    FlowNodeView, CreateUpdateNodeConfigView, SingleContentDetailsView, ContentTextModelView
+    FlowNodeView, CreateUpdateNodeConfigView, SingleContentDetailsView, ContentTextModelView, ContentTextSearchView
 from mods.content.views.flow import FlowDetailsView
 from mods.content.views import MessageTemplateCreateOrUpdateView, MessageTemplateDetailsView, MessageTemplateDeleteView, MessageTemplateListView
 
@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('content-create-update/', ContentCreateView.as_view()),
     path('text-create-update/', ContentTextView.as_view()),
+    path('text-search/', ContentTextSearchView.as_view()),
     path('single-content-details/', SingleContentDetailsView.as_view()),
     path('flow-create-update/', FlowCreateOrUpdateView.as_view()),
     path('flow-list/', FlowListView.as_view()),
