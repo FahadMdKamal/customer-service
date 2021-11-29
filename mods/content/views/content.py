@@ -24,7 +24,38 @@ class ContentCreateView(APIView):
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
         if 'id' in data and data['id'] is not None and int(data['id']) > 0:
-            pass
+            content_parent_id = Content.objects.filter(pk=data['parent_id']).exists()
+            if content_parent_id:
+                content_parent_id = content_parent_id
+            else:
+                content_parent_id = None
+            # content save
+            content_create = Content.objects.filter(id=data["id"]).update(type_ref=data["content_type"],
+                                                                          title=data["title"],
+                                                                          subtitle=data["subtitle"],
+                                                                          description=data["description"],
+                                                                          default_action="",
+                                                                          action_items=data["action_items"],
+                                                                          parent_id=content_parent_id,
+                                                                          left_contents="",
+                                                                          display_order=data["display_order"],
+                                                                          content_body=data["content_body"],
+                                                                          content_format=data["content_format"],
+                                                                          template_cache="",
+                                                                          value_cache=""
+                                                                          )
+            content_create.save()
+            # # content options save
+            # for key, value in data["options"].items():
+            #     content_options = ContentOptions(content=content_create,
+            #                                      option_name=key,
+            #                                      option_value=value)
+            #     content_options.save()
+            # # node content save
+            # node_content = NodeContent(flow_node_id=data["node_id"],
+            #                            content_id=content_create.id)
+            # node_content.save()
+            # # Content Media save
         else:
             content_parent_id = Content.objects.filter(pk=data['parent_id']).exists()
             if content_parent_id:
@@ -73,7 +104,7 @@ class SingleContentDetailsView(APIView):
         results.update({"node_id": NodeContent.objects.filter(content_id=id).first().flow_node.id})
         option = {}
         for i in ContentOptions.objects.filter(content=id):
-            option.update({i.option_name : i.option_value})
+            option.update({i.option_name: i.option_value})
         results.update(options=option)
         results.update(content_type=content_create.type_ref,
                        title=content_create.title,
