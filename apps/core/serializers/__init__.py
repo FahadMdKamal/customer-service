@@ -1,5 +1,5 @@
 from .core_token_obtain_pair_serializer import CoreTokenObtainPairSerializer
 from .group_serializer import GroupSerializer
-from .texonomy_serializer import TexonomySerilizer
+from .taxonomy_serializer import TaxonomySerilizer
 from .user_serializer import UserSerializers
 from .register import RegisterSerializer

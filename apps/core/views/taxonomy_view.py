@@ -1,19 +1,19 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView, status
 from rest_framework.response import Response
-from apps.core.models import Texonomy
-from apps.core.serializers import TexonomySerilizer
+from apps.core.models import Taxonomy
+from apps.core.serializers import TaxonomySerilizer
 import json
 
 
-class TexonomyCreateUpateView(APIView):
+class TaxonomyCreateUpateView(APIView):
 
     def post(self, request, format='json'):
         data = json.loads(request.body.decode('utf-8'))
         if 'id' in data and data['id'] is not None and int(data['id']) > 0:
             try:
-                flow = Texonomy.objects.get(pk=data['id'])
-                serializer = TexonomySerilizer(flow, data=data)
+                flow = Taxonomy.objects.get(pk=data['id'])
+                serializer = TaxonomySerilizer(flow, data=data)
                 if serializer.is_valid():
                     serializer.save()
                     return Response(data=serializer.data, status=status.HTTP_201_CREATED)
@@ -22,7 +22,7 @@ class TexonomyCreateUpateView(APIView):
             except ObjectDoesNotExist:
                 pass
         else:
-            serializer = TexonomySerilizer(data=request.data)
+            serializer = TaxonomySerilizer(data=request.data)
             if serializer.is_valid():
                 flow = serializer.save()
                 if flow:
@@ -30,29 +30,29 @@ class TexonomyCreateUpateView(APIView):
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class TexonomyListOrFilterView(APIView):
+class TaxonomyListOrFilterView(APIView):
 
-    def get(self, request, texo_type=None):
-        if texo_type:
-            texos = Texonomy.objects.filter(texonomy_type=texo_type).order_by("-id")
+    def get(self, request):
+        taxo_type = request.GET.get('type', None)
+        if taxo_type:
+            taxos = Taxonomy.objects.filter(taxonomy_type=taxo_type).order_by("-id")
         else:
-            texos = Texonomy.objects.all().order_by("-id")
+            taxos = Taxonomy.objects.all().order_by("-id")
+        taxonomies = TaxonomySerilizer(taxos, many=True)
+        if taxonomies.data:
+            return Response(taxonomies.data, status=status.HTTP_200_OK)
+        return Response({"message": "No Taxonomies Found"}, status=status.HTTP_404_NOT_FOUND)
 
-        texonomies = TexonomySerilizer(texos, many=True)
-        if len(texonomies.data)>0:
-            return Response(texonomies.data, status=status.HTTP_200_OK)
-        return Response({"message": "No Texonomies Found"}, status=status.HTTP_404_NOT_FOUND)
 
-
-class TexonomyDeleteView(APIView):
+class TaxonomyDeleteView(APIView):
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
         if 'id' in data and data['id'] is not None and int(data['id']) > 0:
             try:
-                obj = Texonomy.objects.get(pk=data['id'])
+                obj = Taxonomy.objects.get(pk=data['id'])
                 obj.delete()
-                return Response(status=200, data={"Texonomy deleted successfully."})
+                return Response(status=200, data={"message": "Taxonomy deleted successfully."})
             except ObjectDoesNotExist:
-                return Response(status=404, data={"Texonomy not found."})
+                return Response(status=404, data={"message": "Taxonomy not found."})
         else:
-            return Response(status=404, data={"Texonomy not found."})
+            return Response(status=404, data={"message": "Taxonomy not found."})

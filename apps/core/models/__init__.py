@@ -1,1 +1,1 @@
-from .texonomy import Texonomy
+from .taxonomy import Taxonomy
