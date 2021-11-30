@@ -38,6 +38,13 @@ class NodeListView(ModelViewSet):
     serializer_class = FlowNodeAllSerializer
     queryset = FlowNode.objects.all().order_by('-id')
 
+    def get_queryset(self):
+        params = {}
+        if self.request.query_params.get("flow_id", None) is not None:
+            params.update({"flow_id": self.request.query_params["flow_id"]})
+
+        return FlowNode.objects.filter(**params).order_by('-id')
+
 
 class FlowNodeDeleteView(APIView):
     def post(self, request):

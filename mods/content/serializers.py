@@ -164,11 +164,11 @@ class NodeConfigSerializer(ModelSerializer):
 
 class FlowNodeAllSerializer(ModelSerializer):
     # config = NodeConfigSerializer(many=True)
-    nodeconfigs = NodeConfigSerializer(many=True)
+    config = NodeConfigSerializer(many=True)
 
     class Meta:
         model = FlowNode
-        fields = ('id', 'name', 'flow', 'node_type', "nodeconfigs")
+        fields = ('id', 'name', 'flow', 'node_type', "config")
         depths = -1
 
 
