@@ -161,6 +161,16 @@ class NodeConfigSerializer(ModelSerializer):
         model = NodeConfig
         fields = ('id', 'flow_node', 'key', 'value')
 
+    def to_representation(self, instance):
+        """Convert `username` to lowercase."""
+        ret = super().to_representation(instance)
+        name = ret["key"]
+        value = ret["value"]
+        ret[name] = value
+        ret.pop("key")
+        ret.pop("value")
+        return ret
+
 
 class FlowNodeAllSerializer(ModelSerializer):
     # config = NodeConfigSerializer(many=True)
@@ -204,12 +214,11 @@ class FlowDetailsSerializer(ModelSerializer):
 
 
 class MessageTemplateSerializer(ModelSerializer):
-
     class Meta:
         model = MessageTemplate
         fields = "__all__"
-            # ("id", "template_code", "template_type", "template_format", "body_template",
-            #       "description", "template_var", "value_resolver",
-            #       "app_id", "template_group", "allowed_channel_types",
-            #       "attachment", "status", "usage_count",
-            #       "owner", "created_at", "updated_at")
+        # ("id", "template_code", "template_type", "template_format", "body_template",
+        #       "description", "template_var", "value_resolver",
+        #       "app_id", "template_group", "allowed_channel_types",
+        #       "attachment", "status", "usage_count",
+        #       "owner", "created_at", "updated_at")
