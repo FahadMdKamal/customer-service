@@ -149,27 +149,10 @@ class FlowNodeSerializer(ModelSerializer):
         for key, value in config.items():
             node_config = NodeConfig(flow_node=flow_node, key=key, value=value)
             node_config.save()
-        return flow_node
 
-    def update(self, instance, validated_data):
-        """
-        Update and return an existing `Snippet` instance, given the validated data.
-        """
-        instance.name = validated_data.get('name', instance.name)
-        instance.flow = validated_data.get('flow', instance.flow)
-        instance.node_type = validated_data.get('node_type', instance.node_type)
-        print(instance)
-        instance.save()
-        # id = validated_data.get('id', instance.id)
-        # config = validated_data.get('config', instance.config)
-        # for key, value in config.items():
-        #     try:
-        #         node_config = NodeConfig.objects.filter(flow_node_id=id, key=key).update(flow_node=id, key=key, value=value)
-        #         node_config.save()
-        #     except:
-        #         pass
-
-        return instance
+        validated_data["id"] = flow_node.id
+        validated_data["config"] = config
+        return validated_data
 
 
 class NodeConfigSerializer(ModelSerializer):
