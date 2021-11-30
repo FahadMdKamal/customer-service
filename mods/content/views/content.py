@@ -85,9 +85,12 @@ class ContentCreateView(APIView):
                                                  option_value=value)
                 content_options.save()
             # node content save
-            node_content = NodeContent(flow_node_id=data["node_id"],
-                                       content_id=content_create.id)
-            node_content.save()
+            try:
+                node_content = NodeContent(flow_node_id=data["node_id"],
+                                           content_id=content_create.id)
+                node_content.save()
+            except:
+                pass
             # Content Media save
             data["id"] = content_create.id
             return response.Response(data=data, status=status.HTTP_201_CREATED)
@@ -102,7 +105,10 @@ class SingleContentDetailsView(APIView):
         # content save
         content_create = Content.objects.filter(id=id).first()
         results.update({'id': id})
-        results.update({"node_id": NodeContent.objects.filter(content_id=id).first().flow_node.id})
+        try:
+            results.update({"node_id": NodeContent.objects.filter(content_id=id).first().flow_node.id})
+        except:
+            pass
         option = {}
         for i in ContentOptions.objects.filter(content=id):
             option.update({i.option_name: i.option_value})
