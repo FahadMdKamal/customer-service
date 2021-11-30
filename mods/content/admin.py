@@ -1,10 +1,18 @@
 from django.contrib import admin
 
 from mods.content.models.flow import Flow
-from .models import Content, ContentText, ContentData, ContentMedia, ConverseContentType, ContentTaxonomy, ContentCustomFields, ContentVars
-from .models.flow_node import FlowNode
-from .models.node_config import NodeConfig
-from .models.node_contents import NodeContent
+from .models import (Content,
+                     ContentText,
+                     ContentData,
+                     ContentMedia,
+                     ConverseContentType,
+                     ContentTaxonomy,
+                     ContentCustomFields,
+                     ContentVars,
+                     FlowNode,
+                     NodeConfig,
+                     NodeContent,
+                     MessageTemplate)
 
 admin.site.register(Content)
 admin.site.register(ContentText)
@@ -18,3 +26,4 @@ admin.site.register(Flow)
 admin.site.register(FlowNode)
 admin.site.register(NodeConfig)
 admin.site.register(NodeContent)
+admin.site.register(MessageTemplate)

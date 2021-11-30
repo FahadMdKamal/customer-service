@@ -10,3 +10,4 @@ from .flow import FlowCreateOrUpdateView, FlowListView, FlowDeleteView
 from .flow_node import FlowNodeView, FlowNodeDeleteView, NodeListView
 from .node_config import CreateUpdateNodeConfigView
 from .node_contents import AttachContentView, DeleteContentView
+from .message_template import MessageTemplateCreateOrUpdateView, MessageTemplateListView, MessageTemplateDetailsView, MessageTemplateDeleteView
