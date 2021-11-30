@@ -44,7 +44,6 @@ class ContentCreateView(APIView):
                                                                           template_cache="",
                                                                           value_cache=""
                                                                           )
-            content_create.save()
             # # content options save
             # for key, value in data["options"].items():
             #     content_options = ContentOptions(content=content_create,
@@ -56,6 +55,7 @@ class ContentCreateView(APIView):
             #                            content_id=content_create.id)
             # node_content.save()
             # # Content Media save
+            return response.Response(data=data, status=status.HTTP_201_CREATED)
         else:
             content_parent_id = Content.objects.filter(pk=data['parent_id']).exists()
             if content_parent_id:
@@ -89,7 +89,8 @@ class ContentCreateView(APIView):
                                        content_id=content_create.id)
             node_content.save()
             # Content Media save
-            return response.Response(data="Successfully add content", status=status.HTTP_201_CREATED)
+            data["id"] = content_create.id
+            return response.Response(data=data, status=status.HTTP_201_CREATED)
 
 
 class SingleContentDetailsView(APIView):
