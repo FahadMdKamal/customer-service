@@ -36,6 +36,7 @@ class FlowCreateOrUpdateView(APIView):
 class FlowListView(ModelViewSet):
     serializer_class = FlowSerializer
     queryset = Flow.objects.all().order_by('-id')
+    http_method_names = ['get']
 
     def get_queryset(self):
         params = {}
