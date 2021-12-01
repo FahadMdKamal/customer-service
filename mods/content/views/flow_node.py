@@ -42,6 +42,8 @@ class NodeListView(ModelViewSet):
         params = {}
         if self.request.query_params.get("flow_id", None) is not None:
             params.update({"flow_id": self.request.query_params["flow_id"]})
+        if self.request.query_params.get("node_type", None) is not None:
+            params.update({"node_type": self.request.query_params["node_type"]})
 
         return FlowNode.objects.filter(**params).order_by('-id')
 
