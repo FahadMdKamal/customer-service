@@ -12,6 +12,7 @@ from mods.content.views import MessageTemplateCreateOrUpdateView, MessageTemplat
 router = DefaultRouter()
 
 router.register(r'content_list', ContentView, basename="content")
+router.register(r'csat_list', ContentView, basename="csat")
 # router.register(r'create', ContentCreateView.as_view(), basename="convo_content_create"),
 router.register(r'content_data', ContentDataView, basename="convo_content_data"),
 router.register(r'content_media', ContentMediaView, basename="convo_content_media"),
@@ -43,6 +44,7 @@ urlpatterns = [
     path('node-config-create-update/', CreateUpdateNodeConfigView.as_view()),
     path('attach-content/', AttachContentView.as_view()),
     path('delete-content/', DeleteContentView.as_view()),
+    path('delete-csat/', DeleteContentView.as_view()),
     path('single_flow_details/', FlowDetailsView.as_view()),
 
     path('message-template-create-update/', MessageTemplateCreateOrUpdateView.as_view()),
