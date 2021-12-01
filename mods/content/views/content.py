@@ -16,7 +16,21 @@ import json
 class ContentView(ModelViewSet):
     serializer_class = ContentSerializer
     queryset = Content.objects.all().order_by('-id')
-    permission_classes = [IsAuthenticated]
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        params = {}
+
+        if self.request.query_params.get("app_id", None) is not None:
+            params.update({"app_id": self.request.query_params["app_id"]})
+
+        if self.request.query_params.get("content_type", None) is not None:
+            params.update({"content_type": self.request.query_params["content_type"]})
+
+        if self.request.query_params.get("node_id", None) is not None:
+            params.update({"node_id": self.request.query_params["node_id"]})
+
+        return Content.objects.filter(**params).order_by('-id')
 
 
 class ContentCreateView(APIView):
