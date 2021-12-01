@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 
 class MessageTemplate(models.Model):
@@ -26,7 +27,6 @@ class MessageTemplate(models.Model):
     description = models.TextField(null=True, blank=True)
     template_vars = models.JSONField(default=dict, blank=True, null=True)
     value_resolver = models.CharField(max_length=255, null=True, blank=True)
-    app_id = models.IntegerField(default=0)
     template_group_id = models.IntegerField(default=1, null=True, blank=True)
 
     allowed_channel_types = models.JSONField(default=dict, blank=True, null=True)
@@ -48,4 +48,14 @@ class MessageTemplate(models.Model):
 
     class Meta:
         db_table = 'content_message_template'
-   
+
+    def save(self, *args, **kwargs):
+        if not self.template_code:
+            temp_code= slugify(self.name)
+            count = 0
+            new_template_code = temp_code
+            while MessageTemplate.objects.filter(template_code=new_template_code).exists():
+                count += 1
+                new_template_code = temp_code + str(count)
+            self.template_code = new_template_code
+        return super().save(*args, **kwargs)

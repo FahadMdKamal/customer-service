@@ -217,11 +217,25 @@ class FlowDetailsSerializer(ModelSerializer):
 
 
 class MessageTemplateSerializer(ModelSerializer):
+    template_code = serializers.CharField(required=False)
+
     class Meta:
         model = MessageTemplate
-        fields = "__all__"
-        # ("id", "template_code", "template_type", "template_format", "body_template",
-        #       "description", "template_var", "value_resolver",
-        #       "app_id", "template_group", "allowed_channel_types",
-        #       "attachment", "status", "usage_count",
-        #       "owner", "created_at", "updated_at")
+        fields = ("id",
+        "app_id",
+        "name",
+        "template_code", 
+        "template_type",
+        "template_format", 
+        "body_template",
+        "description", 
+        "template_vars",
+        "value_resolver",
+        "template_group_id", 
+        "allowed_channel_types",
+        "attachments", 
+        "status", 
+        "usage_count",
+        "owner", 
+        "created_at", 
+        "updated_at")
