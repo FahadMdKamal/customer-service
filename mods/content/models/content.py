@@ -14,6 +14,7 @@ class ContentManager(models.Manager):
 
 class Content(models.Model):
     type_ref = models.CharField(max_length=100)
+    app_id = models.CharField(max_length=244, default=0)
     title = models.CharField(max_length=244)
     subtitle = models.CharField(max_length=244)
     description = models.TextField()
