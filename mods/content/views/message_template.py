@@ -2,6 +2,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, EmptyPage
 
 from rest_framework.views import APIView
+from apps.core.models.taxonomy import Taxonomy
+from apps.core.serializers import TaxonomyListSerilizer
 from mods.content.models import MessageTemplate
 from mods.content.serializers import MessageTemplateSerializer
 from rest_framework import response
@@ -51,6 +53,9 @@ class MessageTemplateListView(APIView):
             data = paginator.page(paginator.num_pages)
 
         serializer = MessageTemplateSerializer(data, context={'request': request}, many=True)
+
+        taxonomies_serializer = TaxonomyListSerilizer(Taxonomy.objects.all(), many=True)
+
         if data.has_next():
             nextPage = data.next_page_number()
         if data.has_previous():
@@ -58,6 +63,7 @@ class MessageTemplateListView(APIView):
 
         return response.Response(
                 {'data': serializer.data,
+                'groups':taxonomies_serializer.data,
                  'count': paginator.count,
                  'total_pages': paginator.num_pages,
                  'next': nextPage,
