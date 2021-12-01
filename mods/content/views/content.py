@@ -31,6 +31,7 @@ class ContentCreateView(APIView):
                 content_parent_id = None
             # content save
             content_create = Content.objects.filter(id=data["id"]).update(type_ref=data["content_type"],
+                                                                          app_id=data["app_id"],
                                                                           title=data["title"],
                                                                           subtitle=data["subtitle"],
                                                                           description=data["description"],
@@ -64,6 +65,7 @@ class ContentCreateView(APIView):
                 content_parent_id = None
             # content save
             content_create = Content(type_ref=data["content_type"],
+                                     app_id=data["app_id"],
                                      title=data["title"],
                                      subtitle=data["subtitle"],
                                      description=data["description"],
@@ -114,6 +116,7 @@ class SingleContentDetailsView(APIView):
             option.update({i.option_name: i.option_value})
         results.update(options=option)
         results.update(content_type=content_create.type_ref,
+                       app_id=content_create.app_id,
                        title=content_create.title,
                        subtitle=content_create.subtitle,
                        description=content_create.description,

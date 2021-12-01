@@ -93,6 +93,7 @@ class ContentCreateSerializer(serializers.Serializer):
 
         content = Content(type_ref=validated_data["type_ref"],
                           title=validated_data["title"],
+                          app_id=validated_data["app_id"],
                           subtitle=validated_data["subtitle"],
                           description=validated_data["description"],
                           default_action="action",
@@ -169,6 +170,8 @@ class NodeConfigSerializer(ModelSerializer):
         ret[name] = value
         ret.pop("key")
         ret.pop("value")
+        ret.pop("id")
+        ret.pop("flow_node")
         return ret
 
 
