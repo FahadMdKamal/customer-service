@@ -1,5 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
+
 from mods.content.models import Flow
 from mods.content.serializers import FlowSerializer, FlowDetailsSerializer
 from rest_framework import response
@@ -31,11 +33,17 @@ class FlowCreateOrUpdateView(APIView):
             return response.Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class FlowListView(APIView):
-    def get(self, request, format=None):
-        transformers = Flow.objects.all().order_by('-id')
-        serializer = FlowSerializer(transformers, many=True)
-        return response.Response(serializer.data)
+class FlowListView(ModelViewSet):
+    serializer_class = FlowSerializer
+    queryset = Flow.objects.all().order_by('-id')
+
+    def get_queryset(self):
+        params = {}
+
+        if self.request.query_params.get("app_id", None) is not None:
+            params.update({"app_id": self.request.query_params["app_id"]})
+
+        return Flow.objects.filter(**params).order_by('-id')
 
 
 class FlowDeleteView(APIView):
