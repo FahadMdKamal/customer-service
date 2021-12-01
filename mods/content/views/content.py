@@ -128,3 +128,16 @@ class SingleContentDetailsView(APIView):
                        )
 
         return response.Response(data=results, status=status.HTTP_201_CREATED)
+
+
+class ContentDeleteView(APIView):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body.decode('utf-8'))
+        id = data['id']
+        try:
+            Content.objects.filter(id=id).delete()
+            ContentOptions.objects.filter(content=id).delete()
+        except:
+            pass
+
+        return response.Response(data="Deleted", status=status.HTTP_200_OK)
