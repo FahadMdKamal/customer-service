@@ -21,6 +21,7 @@ router.register(r'content_type', ConverseContentTypeView, basename="convo_conten
 router.register(r'content_vars', ContentVarsView, basename="convo_content_vars"),
 router.register(r'content_custom', ContentCustomFieldsView, basename="convo_content_custom_fields")
 router.register(r'node-list', NodeListView, basename="flow_node_list")
+router.register(r'flow-list', FlowListView, basename="flow_list")
 # router.register(r'flow', FlowCreateOrUpdateView, basename="flow")
 
 
@@ -35,7 +36,7 @@ urlpatterns = [
     path('single-content-details/', SingleContentDetailsView.as_view()),
     path('single-csat-details/', SingleContentDetailsView.as_view()),
     path('flow-create-update/', FlowCreateOrUpdateView.as_view()),
-    path('flow-list/', FlowListView.as_view()),
+    # path('flow-list/', FlowListView.as_view()),
     path('flow-delete/', FlowDeleteView.as_view()),
     path('node-create-update/', FlowNodeView.as_view()),
     path('node-delete/', FlowNodeDeleteView.as_view()),
