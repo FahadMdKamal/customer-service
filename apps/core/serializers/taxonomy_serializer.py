@@ -7,4 +7,4 @@ class TaxonomySerilizer(serializers.ModelSerializer):
 
     class Meta:
         model = Taxonomy
-        fields = ('id', 'taxonomy_type', 'name', 'parent', 'details', 'slug')
+        fields = "__all__"
