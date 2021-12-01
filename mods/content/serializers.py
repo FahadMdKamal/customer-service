@@ -170,6 +170,8 @@ class NodeConfigSerializer(ModelSerializer):
         ret[name] = value
         ret.pop("key")
         ret.pop("value")
+        ret.pop("id")
+        ret.pop("flow_node")
         return ret
 
 
