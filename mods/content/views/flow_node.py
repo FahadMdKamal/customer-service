@@ -1,10 +1,13 @@
 import json
+
+import export as export
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.migrations import serializer
 from rest_framework.views import APIView
 from rest_framework import response, status
 from rest_framework.viewsets import ModelViewSet
 
+from mods.content.models import Content
 from mods.content.models.flow_node import FlowNode
 from mods.content.models.node_config import NodeConfig
 from mods.content.serializers import FlowNodeSerializer, FlowNodeAllSerializer
@@ -16,22 +19,38 @@ class FlowNodeView(APIView):
         data = json.loads(request.body.decode('utf-8'))
         if 'id' in data and data['id'] is not None and int(data['id']) > 0:
             try:
-                flow = FlowNode.objects.filter(pk=data['id']).update(name=data['name'], flow_id=data["flow"],
-                                                                     node_type=data["node_type"])
-                for key, value in data["config"].items():
-                    NodeConfig.objects.filter(flow_node=data["id"], key=key).update(value=value)
-                result = json.loads(request.body)
-                return response.Response(data=result, status=status.HTTP_400_BAD_REQUEST)
+                result = {}
+
+                flow_node = FlowNode.objects.filter(pk=data['id']).update(name=data['name'], flow_id=data["flow"],
+                                                                          node_type=data["node_type"])
+                try:
+                    config = data['config']
+                    if config:
+                        if NodeConfig.objects.filter().exists():
+                            for key, value in data["config"].items():
+                                NodeConfig.objects.filter(flow_node=data["id"], key=key).update(value=value)
+                        else:
+                            for key, value in config.items():
+                                node_config = NodeConfig(flow_node=flow_node, key=key, value=value)
+                                node_config.save()
+                except:
+                    pass
+
+                return response.Response(data=data, status=status.HTTP_201_CREATED)
             except ObjectDoesNotExist:
                 pass
         else:
-            serializer = FlowNodeSerializer(data=request.data)
-            if serializer.is_valid():
-                flow = serializer.save()
-                if flow:
-                    serializer.data["config"] = request.data["config"]
-                    return response.Response(data=serializer.data, status=status.HTTP_201_CREATED)
-            return response.Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            result = {}
+            flow_node = FlowNode.objects.create(flow_id=data["flow"], node_type=data["node_type"])
+            result.update({"id": flow_node.id, "flow": data["flow"], "node_type": data["node_type"]})
+
+            try:
+                content_type = data["content_type"]
+                contnt = Content.objects.create(title="")
+                result.update({"content_type": content_type, "content_id": contnt.id})
+            except:
+                pass
+            return response.Response(data=result, status=status.HTTP_201_CREATED)
 
 
 class NodeListView(ModelViewSet):

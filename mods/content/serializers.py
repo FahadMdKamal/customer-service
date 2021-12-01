@@ -136,11 +136,11 @@ class FlowSerializer(ModelSerializer):
 
 
 class FlowNodeSerializer(ModelSerializer):
-    config = serializers.JSONField(write_only=True)
+    config = serializers.JSONField(write_only=True, default={})
 
     class Meta:
         model = FlowNode
-        fields = ('id', 'name', 'flow', 'node_type', 'config')
+        fields = ('id', 'name', 'flow', 'node_type', 'content_type', 'config')
 
     def create(self, validated_data):
         """
