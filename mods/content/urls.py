@@ -30,6 +30,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('content-create-update/', ContentCreateView.as_view()),
     path('content-delete/', ContentDeleteView.as_view()),
+    path('csat-delete/', ContentDeleteView.as_view()),
     path('csat-create-update/', ContentCreateView.as_view()),
     # path('csat-list/', ContentView.as_view()),
     path('text-create-update/', ContentTextView.as_view()),
