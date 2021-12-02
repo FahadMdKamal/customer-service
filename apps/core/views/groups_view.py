@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group, User
 
 from apps.core.serializers import GroupSerializer
 
+
 class GroupsView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -15,4 +16,3 @@ class GroupsView(APIView):
 
         serializer = GroupSerializer(groups, many=True, context={"request": request})
         return Response(serializer.data)
-

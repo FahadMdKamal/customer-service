@@ -7,6 +7,7 @@ from mods.content.serializers import FlowSerializer, FlowDetailsSerializer
 from rest_framework import response
 from rest_framework import status
 import json, re
+from user_agents import parse
 
 
 class FlowCreateOrUpdateView(APIView):
@@ -96,4 +97,6 @@ class UserIPView(APIView):
         else:
             ip = "Not Found"
         browser = request.META['HTTP_USER_AGENT']
-        return response.Response(status=status.HTTP_200_OK, data={"ip": ip, "browser": browser})
+        user_agent = parse(browser)
+        user_agent_deatils = user_agent.browser.family + " on " + user_agent.os.family + " " + user_agent.os.version_string
+        return response.Response(status=status.HTTP_200_OK, data={"ip": ip, "browser": user_agent_deatils})
