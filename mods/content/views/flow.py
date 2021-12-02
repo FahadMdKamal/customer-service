@@ -6,7 +6,7 @@ from mods.content.models import Flow
 from mods.content.serializers import FlowSerializer, FlowDetailsSerializer
 from rest_framework import response
 from rest_framework import status
-import json
+import json, re
 
 
 class FlowCreateOrUpdateView(APIView):
@@ -78,3 +78,22 @@ class FlowDetailsView(APIView):
 
         else:
             return response.Response(status=404, data={"Flow not found."})
+
+
+class UserIPView(APIView):
+    def get(self, request, *args, **kwargs):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+
+        if x_forwarded_for:
+            ip_address = x_forwarded_for.split(',')[0]
+        else:
+            ip_address = request.META.get('REMOTE_ADDR')
+
+        pat = re.compile("^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
+        verify = pat.match(ip_address)
+        if verify:
+            ip = ip_address
+        else:
+            ip = "Not Found"
+        browser = request.META['HTTP_USER_AGENT']
+        return response.Response(status=status.HTTP_200_OK, data={"ip": ip, "browser": browser})

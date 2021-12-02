@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 
+
 class Taxonomy(models.Model):
     app_id = models.CharField(max_length=255, null=True, blank=True)
     taxonomy_type = models.CharField(max_length=50)
@@ -21,7 +22,6 @@ class Taxonomy(models.Model):
     class Meta:
         db_table = 'core_taxonomy'
         unique_together = ('taxonomy_type', 'name')
-
 
     def save(self, *args, **kwargs):
         if not self.slug:
