@@ -5,7 +5,7 @@ from mods.content.views import ContentView, ContentCreateView, ContentDataView, 
     ContentTextView, ConverseContentTypeView, ContentVarsView, ContentCustomFieldsView, FlowCreateOrUpdateView, \
     FlowListView, FlowDeleteView, AttachContentView, DeleteContentView, \
     FlowNodeView, CreateUpdateNodeConfigView, SingleContentDetailsView, ContentTextModelView, ContentTextSearchView, \
-    FlowNodeDeleteView, NodeListView, ContentDeleteView
+    FlowNodeDeleteView, NodeListView, ContentDeleteView, RenderView
 from mods.content.views.flow import FlowDetailsView
 from mods.content.views import MessageTemplateCreateOrUpdateView, MessageTemplateDetailsView, MessageTemplateDeleteView, MessageTemplateListView
 
@@ -51,4 +51,5 @@ urlpatterns = [
     path('message-template-detail/', MessageTemplateDetailsView.as_view()),
     path('message-template-list/', MessageTemplateListView.as_view()),
     path('message-template-delete/', MessageTemplateDeleteView.as_view()),
+    path('render/',  RenderView.as_view()),
 ]
