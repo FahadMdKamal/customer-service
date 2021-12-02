@@ -46,6 +46,9 @@ class FlowNodeView(APIView):
                 content_type = data["content_type"]
                 contnt = Content.objects.create(title="")
                 result.update({"content_type": content_type, "content_id": contnt.id})
+                flow_node.content_type = content_type
+                flow_node.initial_content_id = contnt
+                flow_node.save()
             except:
                 pass
             return response.Response(data=result, status=status.HTTP_201_CREATED)
@@ -67,8 +70,15 @@ class NodeListView(ModelViewSet):
 
 class FlowNodeDeleteView(APIView):
     def post(self, request):
-        id = request.data["id"]
-        FlowNode.objects.filter(id=id).delete()
-        NodeConfig.objects.filter(flow_node_id=id).delete()
+        data = json.loads(request.body.decode('utf-8'))
+        if 'id' in data and data['id'] is not None and int(data['id']) > 0:
+            try:
+                flow = FlowNode.objects.get(pk=data['id'])
+                flow.delete()
+                NodeConfig.objects.filter(flow_node_id=data['id']).delete()
+                return response.Response(status=200, data={"Flow deleted successfully."})
+            except ObjectDoesNotExist:
+                return response.Response(status=404, data={"Flow not found."})
 
-        return response.Response(data="success", status=status.HTTP_200_OK)
+        else:
+            return response.Response(status=404, data={"Flow not found."})
