@@ -181,8 +181,16 @@ class FlowNodeAllSerializer(ModelSerializer):
 
     class Meta:
         model = FlowNode
-        fields = ('id', 'name', 'flow', 'node_type', "config")
+        fields = ('id', 'name', 'flow', 'node_type', "config", "content_type", "initial_content_id")
         depths = -1
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        if ret["node_type"] == "start":
+            ret.pop("content_type")
+            ret.pop("initial_content_id")
+
+        return ret
 
 
 class NodeContentSerializer(ModelSerializer):
@@ -222,20 +230,20 @@ class MessageTemplateSerializer(ModelSerializer):
     class Meta:
         model = MessageTemplate
         fields = ("id",
-        "app_id",
-        "name",
-        "template_code", 
-        "template_type",
-        "template_format", 
-        "body_template",
-        "description", 
-        "template_vars",
-        "value_resolver",
-        "template_group_id", 
-        "allowed_channel_types",
-        "attachments", 
-        "status", 
-        "usage_count",
-        "owner", 
-        "created_at", 
-        "updated_at")
+                  "app_id",
+                  "name",
+                  "template_code",
+                  "template_type",
+                  "template_format",
+                  "body_template",
+                  "description",
+                  "template_vars",
+                  "value_resolver",
+                  "template_group_id",
+                  "allowed_channel_types",
+                  "attachments",
+                  "status",
+                  "usage_count",
+                  "owner",
+                  "created_at",
+                  "updated_at")

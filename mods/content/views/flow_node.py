@@ -46,6 +46,9 @@ class FlowNodeView(APIView):
                 content_type = data["content_type"]
                 contnt = Content.objects.create(title="")
                 result.update({"content_type": content_type, "content_id": contnt.id})
+                flow_node.content_type = content_type
+                flow_node.initial_content_id = contnt
+                flow_node.save()
             except:
                 pass
             return response.Response(data=result, status=status.HTTP_201_CREATED)
