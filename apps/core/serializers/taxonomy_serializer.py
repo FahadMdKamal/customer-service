@@ -8,30 +8,29 @@ class TaxonomySerilizer(serializers.ModelSerializer):
 
     class Meta:
         model = Taxonomy
-        fields =  ('id',
-        'app_id', 
-        'taxonomy_type', 
-        'context',
-        'name', 
-        'description', 
-        'slug',
-    'crumbs',
-    'ref_path',
-    'parent',
-    'display_order', 
-    'photo_url',
-    'details',
-    'status',
-    'created_at', 
-    'updated_at', 
-    'child_count')
-    
+        fields = ('id',
+                  'app_id',
+                  'taxonomy_type',
+                  'context',
+                  'name',
+                  'description',
+                  'slug',
+                  'crumbs',
+                  'ref_path',
+                  'parent',
+                  'display_order',
+                  'photo_url',
+                  'details',
+                  'status',
+                  'created_at',
+                  'updated_at',
+                  'child_count')
+
     def get_child_count(self, obj):
         return Taxonomy.objects.filter(parent=obj.id).count()
 
-class TaxonomyListSerilizer(serializers.ModelSerializer):
 
+class TaxonomyListSerilizer(serializers.ModelSerializer):
     class Meta:
         model = Taxonomy
         fields = ('id', 'name', 'taxonomy_type')
-

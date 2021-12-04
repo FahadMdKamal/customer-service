@@ -25,7 +25,7 @@ class ContentView(ModelViewSet):
             params.update({"app_id": self.request.query_params["app_id"]})
 
         if self.request.query_params.get("content_type", None) is not None:
-            params.update({"content_type": self.request.query_params["content_type"]})
+            params.update({"type_ref": self.request.query_params["content_type"]})
 
         if self.request.query_params.get("node_id", None) is not None:
             params.update({"node_id": self.request.query_params["node_id"]})
@@ -147,11 +147,13 @@ class SingleContentDetailsView(APIView):
 class ContentDeleteView(APIView):
     def post(self, request, *args, **kwargs):
         data = json.loads(request.body.decode('utf-8'))
-        id = data['id']
-        try:
-            Content.objects.filter(id=id).delete()
-            ContentOptions.objects.filter(content=id).delete()
-        except:
-            pass
+        if 'id' in data and data['id'] is not None and int(data['id']) > 0:
+            try:
+                Content.objects.filter(id=data["id"]).delete()
+                ContentOptions.objects.filter(content=data["id"]).delete()
+                return response.Response(status=200, data={"Content deleted successfully."})
+            except:
+                return response.Response(status=404, data={"Content not found."})
 
-        return response.Response(data="Deleted", status=status.HTTP_200_OK)
+        else:
+            return response.Response(status=404, data={"Content not found."})

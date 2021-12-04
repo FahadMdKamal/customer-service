@@ -5,8 +5,8 @@ from mods.content.views import ContentView, ContentCreateView, ContentDataView, 
     ContentTextView, ConverseContentTypeView, ContentVarsView, ContentCustomFieldsView, FlowCreateOrUpdateView, \
     FlowListView, FlowDeleteView, AttachContentView, DeleteContentView, \
     FlowNodeView, CreateUpdateNodeConfigView, SingleContentDetailsView, ContentTextModelView, ContentTextSearchView, \
-    FlowNodeDeleteView, NodeListView, ContentDeleteView, RenderView
-from mods.content.views.flow import FlowDetailsView
+    FlowNodeDeleteView, NodeListView, ContentDeleteView
+from mods.content.views.flow import FlowDetailsView, UserIPView
 from mods.content.views import MessageTemplateCreateOrUpdateView, MessageTemplateDetailsView, MessageTemplateDeleteView, MessageTemplateListView
 
 router = DefaultRouter()
@@ -30,6 +30,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('content-create-update/', ContentCreateView.as_view()),
     path('content-delete/', ContentDeleteView.as_view()),
+    path('csat-delete/', ContentDeleteView.as_view()),
     path('csat-create-update/', ContentCreateView.as_view()),
     # path('csat-list/', ContentView.as_view()),
     path('text-create-update/', ContentTextView.as_view()),
@@ -51,5 +52,5 @@ urlpatterns = [
     path('message-template-detail/', MessageTemplateDetailsView.as_view()),
     path('message-template-list/', MessageTemplateListView.as_view()),
     path('message-template-delete/', MessageTemplateDeleteView.as_view()),
-    path('render/',  RenderView.as_view()),
+    path('user-ip/', UserIPView.as_view()),
 ]

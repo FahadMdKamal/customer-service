@@ -8,4 +8,8 @@ admin.site.index_title = "Welcome to Univa Portal"
 
 admin.site.register(Taxonomy)
 admin.site.register(TaxonomyType)
-admin.site.register(App)
+
+
+@admin.register(App)
+class AppAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}

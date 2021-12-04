@@ -10,6 +10,7 @@ urlpatterns = [
     path('login/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('create-user/', views.CreateUserView.as_view(), name='create-users'),
     path('groups/', views.GroupsView.as_view(), name='groups'),
+    path('apps-list/', views.AppsListView.as_view(), name='apps-list'),
 
     path('taxonomy-create-update/', views.TaxonomyCreateUpateView.as_view(), name='taxonomy-create-update'),
     path('taxonomy-list/', views.TaxonomyListOrFilterView.as_view(), name='taxonomy-list-filter'),

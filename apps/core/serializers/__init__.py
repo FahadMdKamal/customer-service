@@ -4,3 +4,4 @@ from .taxonomy_serializer import TaxonomySerilizer, TaxonomyListSerilizer
 from .taxonomy_type_serializer import TaxonomyTypeSerilizer
 from .user_serializer import UserSerializers
 from .register import RegisterSerializer
+from .app_serializers import AppSerializer
