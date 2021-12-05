@@ -2,7 +2,7 @@ from .core_token_obtain_pair_serializer import CoreTokenObtainPairSerializer
 from .group_serializer import GroupSerializer
 from .taxonomy_serializer import TaxonomySerilizer, TaxonomyListSerilizer
 from .taxonomy_type_serializer import TaxonomyTypeSerilizer
-from .user_serializer import UserSerializers, UserUpdateSerializers
+from .user_serializers import UserSerializers, UserUpdateSerializers, UserProfileUpdateSerializers
 from .register import RegisterSerializer
 from .app_serializers import AppSerializer
 from .change_password_serializers import ChangePasswordSerializer

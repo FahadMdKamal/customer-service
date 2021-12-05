@@ -6,3 +6,4 @@ from .taxonomy_type_view import TaxonomyTypeCreateUpateView, TaxonomyTypeListOrF
 from .register import RegisterView
 from .app_views import AppsListView
 from .change_password_view import ChangePasswordView
+from .profile_update_view import ProfileUpdateView
