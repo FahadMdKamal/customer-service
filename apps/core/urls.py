@@ -8,7 +8,7 @@ urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('login/', views.CoreTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('login/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('create-user/', views.CreateUserView.as_view(), name='create-users'),
+    path('create-update-user/', views.CreateOrUpdateUserView.as_view(), name='create_update_users'),
     path('groups/', views.GroupsView.as_view(), name='groups'),
     path('apps-list/', views.AppsListView.as_view(), name='apps-list'),
 
