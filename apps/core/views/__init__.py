@@ -7,3 +7,4 @@ from .register import RegisterView
 from .app_views import AppsListView
 from .change_password_view import ChangePasswordView
 from .profile_update_view import ProfileUpdateView
+from .password_reset_views import PasswordResetAPIView, PasswordResetConfirmAPIView, CompleteResetPassword
