@@ -18,7 +18,7 @@ class CreateOrUpdateUserView(APIView):
         if 'id' in data and data['id'] is not None and int(data['id']) > 0:
             try:
                 db_object = User.objects.get(pk=data['id'])
-                serializer = UserUpdateSerializers(db_object, data=data)
+                serializer = UserUpdateSerializers(db_object, data=data, partial=True)
                 if serializer.is_valid():
                     serializer.save()
                     return Response(data=serializer.data, status=status.HTTP_201_CREATED)

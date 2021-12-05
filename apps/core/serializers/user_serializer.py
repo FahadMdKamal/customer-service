@@ -28,13 +28,15 @@ class UserUpdateSerializers(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
-        groups_data = validated_data.pop('groups')
 
-        if groups_data:
-            instance.groups.clear()
-            for group in groups_data:
-                instance.groups.add(group)
+        if validated_data.get('groups') is not None:
+            groups_data = validated_data.pop('groups')
+            if groups_data:
+                instance.groups.clear()
+                for group in groups_data:
+                    instance.groups.add(group)
         instance.save()
         return instance 

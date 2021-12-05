@@ -9,6 +9,8 @@ urlpatterns = [
     path('login/', views.CoreTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('login/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('create-update-user/', views.CreateOrUpdateUserView.as_view(), name='create_update_users'),
+    path('change-password/', views.ChangePasswordView.as_view(), name='change_password'),
+
     path('groups/', views.GroupsView.as_view(), name='groups'),
     path('apps-list/', views.AppsListView.as_view(), name='apps-list'),
 

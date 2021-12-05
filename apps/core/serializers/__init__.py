@@ -5,3 +5,4 @@ from .taxonomy_type_serializer import TaxonomyTypeSerilizer
 from .user_serializer import UserSerializers, UserUpdateSerializers
 from .register import RegisterSerializer
 from .app_serializers import AppSerializer
+from .change_password_serializers import ChangePasswordSerializer
