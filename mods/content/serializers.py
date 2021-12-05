@@ -135,6 +135,10 @@ class FlowSerializer(ModelSerializer):
         fields = ('id', 'name', 'app_id', 'group')
 
 
+class FlowCreateSerializer(serializers.Serializer):
+    name = serializers.Serializer()
+
+
 class FlowNodeSerializer(ModelSerializer):
     config = serializers.JSONField(write_only=True, default={})
 
@@ -247,3 +251,7 @@ class MessageTemplateSerializer(ModelSerializer):
                   "owner",
                   "created_at",
                   "updated_at")
+
+
+class IdSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
