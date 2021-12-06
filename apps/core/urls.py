@@ -12,10 +12,13 @@ urlpatterns = [
     path('login/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('create-update-user/', views.CreateOrUpdateUserView.as_view(), name='create_update_users'),
     path('change-password/', views.ChangePasswordView.as_view(), name='change_password'),
+    path('update-password/', views.UpdateUserPassword.as_view(), name='update_password'),
     path('profile-update/', views.ProfileUpdateView.as_view(), name='profile_update'),
     path('password-reset/', views.PasswordResetAPIView.as_view(), name='password_reset_view'),
     path('password-confirm/<str:uidb64>/<str:token>/', views.PasswordResetConfirmAPIView.as_view(), name='password-reset-confirm'),
     path('password-reset-complete/', views.CompleteResetPassword.as_view(), name='password-reset-complete'),
+    path('users-list/', views.UserListApiView.as_view(), name='users_list'),
+
 
     path('groups/', views.GroupsView.as_view(), name='groups'),
     path('apps-list/', views.AppsListView.as_view(), name='apps-list'),

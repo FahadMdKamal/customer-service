@@ -27,10 +27,12 @@ class CreateOrUpdateUserView(APIView):
             except ObjectDoesNotExist:
                 pass
         else:
-            request.data['password'] = make_password(request.data['password'])
+            if 'password' in data:
+                request.data['password'] = make_password(request.data['password'])
             serializer = UserSerializers(data=request.data)
             if serializer.is_valid():
                 user = serializer.save()
                 if user:
                     return Response(serializer.data)
-            return Response(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
