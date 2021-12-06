@@ -16,9 +16,11 @@ class ChangePasswordView(APIView):
     """
 
     def post(self, request, *args, **kwargs):
+        data = json.loads(request.body.decode('utf-8'))
         self.object = request.user
-        serializer = ChangePasswordSerializer(data=request.data)
+        serializer = ChangePasswordSerializer(data=data)
         if serializer.is_valid():
+            print(serializer.data.get("old_password"))
             if not self.object.check_password(serializer.data.get("old_password")):
                 return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
             self.object.set_password(serializer.data.get("new_password"))
