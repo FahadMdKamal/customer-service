@@ -5,6 +5,7 @@ from .taxonomy_view import TaxonomyCreateUpateView, TaxonomyListOrFilterView, Ta
 from .taxonomy_type_view import TaxonomyTypeCreateUpateView, TaxonomyTypeListOrFilterView, TaxonomyTypeDeleteView
 from .register import RegisterView
 from .app_views import AppsListView
-from .change_password_view import ChangePasswordView
+from .change_password_view import ChangePasswordView, UpdateUserPassword
 from .profile_update_view import ProfileUpdateView
 from .password_reset_views import PasswordResetAPIView, PasswordResetConfirmAPIView, CompleteResetPassword
+from .users_list import UserListApiView

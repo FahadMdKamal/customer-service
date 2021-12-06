@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.password_validation import validate_password
 
 class PasswordResetSerializer(serializers.Serializer):
 
@@ -9,8 +10,8 @@ class PasswordResetSerializer(serializers.Serializer):
 
 
 class SetNewPasswordSerializer(serializers.Serializer):
-    password = serializers.CharField( min_length=6, max_length=68, write_only=True)
-    password2 = serializers.CharField( min_length=6, max_length=68, write_only=True)
+    password = serializers.CharField( min_length=6, max_length=68, write_only=True, required=True, validators=[validate_password])
+    password2 = serializers.CharField( min_length=6, max_length=68, write_only=True, required=True, validators=[validate_password])
     uidb64 = serializers.CharField()
     token = serializers.CharField()
   

@@ -8,14 +8,10 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.hashers import make_password
 
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from six import text_type
 import json, os
 from django.urls import reverse
 from rest_framework import status
-
-
-from django.core.mail import EmailMessage
-import threading
+from apps.core.utils import Util
 
 from apps.core.serializers import SetNewPasswordSerializer
 
@@ -23,29 +19,6 @@ from apps.core.serializers import SetNewPasswordSerializer
 class CustomRedirect(HttpResponsePermanentRedirect):
 
     allowed_schemes = [os.environ.get('APP_SCHEME'), 'http', 'https']
-
-
-class EmailThread(threading.Thread):
-
-    def __init__(self, email):
-        self.email = email
-        threading.Thread.__init__(self)
-
-    def run(self):
-        self.email.send()
-
-class Util:
-    @staticmethod
-    def send_email(data):
-        email = EmailMessage(
-            subject=data['email_subject'], body=data['email_body'], to=[data['to_email']])
-        EmailThread(email).start()
-
-
-class AccountActivationTokenGenerator(PasswordResetTokenGenerator):
-
-    def _make_hash_value(self, user, timestamp):
-        return (text_type(user.pk) + text_type(timestamp) + text_type(user.is_active))
 
 
 class PasswordResetAPIView(APIView):
@@ -60,7 +33,7 @@ class PasswordResetAPIView(APIView):
                 user_obj = User.objects.get(email=email)
                 if user_obj:
                     uidb64 = urlsafe_base64_encode(force_bytes(user_obj.pk))
-                    token = AccountActivationTokenGenerator().make_token(user_obj)
+                    token = PasswordResetTokenGenerator().make_token(user_obj)
                     current_site = get_current_site(request=request).domain
 
                     relativeLink = reverse('core:password-reset-confirm', kwargs={'uidb64': uidb64, 'token': token})
@@ -74,9 +47,9 @@ class PasswordResetAPIView(APIView):
                         'email_subject': 'Reset your passsword'
                         }
                     Util.send_email(data)
-                return Response({'message':'Password Reset Link was sent', 'token': token}, status=status.HTTP_200_OK)
+                return Response({'message':'Password Reset Link was sent', 'token': token, 'uidb64': uidb64}, status=status.HTTP_200_OK)
         except:
-            return Response({'message':'Could not Complete Password Reset Request'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message':'Invalid email or No User found With the Given email'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class PasswordResetConfirmAPIView(APIView):
@@ -85,17 +58,16 @@ class PasswordResetConfirmAPIView(APIView):
         try:
             uid = force_text(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
-        except:
-            return Response({'message': 'No User Found With the given token'}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            if user is not None and AccountActivationTokenGenerator().check_token(user,token):
+            if user is not None and PasswordResetTokenGenerator().check_token(user,token):
                 id = force_text(urlsafe_base64_decode(uidb64))
                 user = User.objects.get(id=id)
                 
                 return Response({'message':'Please Enter Password', 
                     'token': token, 
                     'uidb64': uidb64 }, status=status.HTTP_200_OK)
+            else:
+                return Response({'message':'Token might be expired or invalid'}, status=status.HTTP_400_BAD_REQUEST)
+
         except:
             return Response({'message':'Password Reset Token is Invalid'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -111,7 +83,7 @@ class CompleteResetPassword(APIView):
             uid = force_text(urlsafe_base64_decode(uidb64))
 
             user = User.objects.get(pk=uid)
-            if AccountActivationTokenGenerator().check_token(user,token):
+            if PasswordResetTokenGenerator().check_token(user,token):
                 
                 serializer_data = SetNewPasswordSerializer(instance=user,data=data)
                 
