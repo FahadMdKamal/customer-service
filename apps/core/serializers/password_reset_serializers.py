@@ -11,7 +11,7 @@ class PasswordResetSerializer(serializers.Serializer):
 
 class SetNewPasswordSerializer(serializers.Serializer):
     password = serializers.CharField( min_length=6, max_length=68, write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField( min_length=6, max_length=68, write_only=True, required=True, validators=[validate_password])
+    password2 = serializers.CharField( min_length=6, max_length=68, write_only=True, required=True)
     uidb64 = serializers.CharField()
     token = serializers.CharField()
   
