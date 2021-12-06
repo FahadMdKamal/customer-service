@@ -5,7 +5,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from apps.core.serializers import UserSerializers, UserUpdateSerializers
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
 import json
 
 
@@ -27,12 +26,9 @@ class CreateOrUpdateUserView(APIView):
             except ObjectDoesNotExist:
                 pass
         else:
-            if 'password' in data:
-                request.data['password'] = make_password(request.data['password'])
             serializer = UserSerializers(data=request.data)
             if serializer.is_valid():
                 user = serializer.save()
                 if user:
                     return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            

@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from django.contrib.auth.models import Group, User
+from django.contrib.auth.password_validation import validate_password
 
 
 class UserSerializers(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
 
     class Meta:
         model = User
@@ -12,6 +13,7 @@ class UserSerializers(serializers.ModelSerializer):
     def create(self, validated_data):
         groups_data = validated_data.pop('groups')
         user = User.objects.create(**validated_data)
+        user.set_password(validated_data['password'])
 
         for groupdata in groups_data:
             user.groups.add(groupdata)
