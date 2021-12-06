@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
 
+import chevron
+
 
 class MessageTemplate(models.Model):
     app_id = models.IntegerField(default=0)
@@ -45,7 +47,6 @@ class MessageTemplate(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
     class Meta:
         db_table = 'content_message_template'
 
@@ -59,3 +60,20 @@ class MessageTemplate(models.Model):
                 new_template_code = temp_code + str(count)
             self.template_code = new_template_code
         return super().save(*args, **kwargs)
+
+    def prepare_template(self):
+        tvs = self.template_vars[0]
+        for t in tvs.items():
+            print(t)
+
+        # value = eval('value_resolver()')
+        # if not value:
+        #     value = value['default']
+        # return value
+
+
+# from mods.content.models import MessageTemplate
+# mt = MessageTemplate.objects.all().first()
+# mt.prepare_template()
+
+# [{"key": "today", "default": "jani na", "value_resolver": "func_date_today"}]
