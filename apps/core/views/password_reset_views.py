@@ -83,8 +83,10 @@ class CompleteResetPassword(APIView):
             uid = force_text(urlsafe_base64_decode(uidb64))
 
             user = User.objects.get(pk=uid)
-            if PasswordResetTokenGenerator().check_token(user,token):
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                return Response({'message': 'Invalid attempt, token or uid isn\'t valid.'}, status=status.HTTP_400_BAD_REQUEST)
                 
+            else:
                 serializer_data = SetNewPasswordSerializer(instance=user,data=data)
                 
                 if serializer_data.is_valid():
@@ -92,7 +94,7 @@ class CompleteResetPassword(APIView):
                     user.save()
                     return Response({'message': 'Password Changed Successfully'}, status=status.HTTP_200_OK)
                 else:
-                    return Response(serializer_data.errors)
+                    return Response(serializer_data.errors, status=status.HTTP_400_BAD_REQUEST)
+
         except :
-            return Response({'message': 'Invalid attempt, token or uid isn\'t vlaid.'}, status=status.HTTP_400_BAD_REQUEST)
-        
+            return Response({'message': 'Could not Change the Password'}, status=status.HTTP_400_BAD_REQUEST)
