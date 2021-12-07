@@ -50,4 +50,4 @@ class ContentTextSearchView(APIView):
             serializer = ContentTextSerializer(content_text, many=True)
             return response.Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return response.Response(data="Not match", status=status.HTTP_200_OK)
+            return response.Response(data="Not match", status=status.HTTP_204_NO_CONTENT)
