@@ -4,11 +4,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from rest_framework import response, status
 from rest_framework.viewsets import ModelViewSet
-
-from mods.content.models import Content
+from rest_framework.exceptions import ValidationError
+from mods.content.models import Content, Flow
 from mods.content.models.flow_node import FlowNode
 from mods.content.models.node_config import NodeConfig
-from mods.content.serializers import FlowNodeSerializer, FlowNodeAllSerializer
+from mods.content.serializers import FlowNodeAllSerializer, IdSerializer
 
 
 class FlowNodeView(APIView):
@@ -17,7 +17,8 @@ class FlowNodeView(APIView):
         data = json.loads(request.body.decode('utf-8'))
         if 'id' in data and data['id'] is not None and int(data['id']) > 0:
             try:
-                result = {}
+                if Flow.objects.filter(id=data["flow"]).exists() is False:
+                    raise ValidationError("Flow id Does not exists")
 
                 flow_node = FlowNode.objects.filter(pk=data['id']).update(name=data['name'], flow_id=data["flow"],
                                                                           node_type=data["node_type"])
@@ -39,6 +40,10 @@ class FlowNodeView(APIView):
                 pass
         else:
             result = {}
+
+            if Flow.objects.filter(id=data["flow"]).exists() is False or isinstance(data["flow"], int) is False:
+                raise ValidationError("Flow id Does not exists")
+
             flow_node = FlowNode.objects.create(flow_id=data["flow"], node_type=data["node_type"])
             result.update({"id": flow_node.id, "flow": data["flow"], "node_type": data["node_type"]})
 
@@ -60,25 +65,58 @@ class NodeListView(ModelViewSet):
 
     def get_queryset(self):
         params = {}
-        if self.request.query_params.get("flow_id", None) is not None:
-            params.update({"flow_id": self.request.query_params["flow_id"]})
-        if self.request.query_params.get("node_type", None) is not None:
-            params.update({"node_type": self.request.query_params["node_type"]})
+        errors = []
 
+        if "flow_id" in list(self.request.query_params.keys()):
+            flow_id = self.request.query_params.get("flow_id", None)
+            if flow_id.isnumeric():
+                if flow_id is not None:
+                    params.update({"flow_id": self.request.query_params["flow_id"]})
+            else:
+                errors.append({"flow_id": "flow id must be Integer"})
+        else:
+            errors.append({"flow_id": "key name will be flow_id"})
+
+        if "node_type" in list(self.request.query_params.keys()):
+            if self.request.query_params.get("node_type", None) is not None:
+                params.update({"node_type": self.request.query_params["node_type"]})
+        else:
+            errors.append({"node_type": "key name will be node_type"})
+
+        if len(errors) > 0:
+            raise ValidationError(errors)
         return FlowNode.objects.filter(**params).order_by('-id')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            if (len(serializer.data)) > 0:
+                return self.get_paginated_response(serializer.data)
+            else:
+                return response.Response(status=404, data={"No Data Found"})
+
+        serializer = self.get_serializer(queryset, many=True)
+        return response.Response(serializer.data)
 
 
 class FlowNodeDeleteView(APIView):
+
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
-        if 'id' in data and data['id'] is not None and int(data['id']) > 0:
-            try:
-                flow = FlowNode.objects.get(pk=data['id'])
-                flow.delete()
-                NodeConfig.objects.filter(flow_node_id=data['id']).delete()
-                return response.Response(status=200, data={"Flow deleted successfully."})
-            except ObjectDoesNotExist:
-                return response.Response(status=404, data={"Flow not found."})
+        serializer = IdSerializer(data=request.data)
+        if serializer.is_valid():
+            if 'id' in data and data['id'] is not None and int(data['id']) > 0:
+                try:
+                    flow = FlowNode.objects.get(pk=data['id'])
+                    flow.delete()
+                    NodeConfig.objects.filter(flow_node_id=data['id']).delete()
+                    return response.Response(status=200, data={"Flow Node deleted successfully."})
+                except ObjectDoesNotExist:
+                    return response.Response(status=404, data={"Flow Node not found."})
 
+            else:
+                return response.Response(status=404, data={"Flow Node not found."})
         else:
-            return response.Response(status=404, data={"Flow not found."})
+            return response.Response(status=404, data=serializer.errors)

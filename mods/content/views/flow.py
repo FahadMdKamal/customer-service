@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from mods.content.models import Flow
-from mods.content.serializers import FlowSerializer, FlowDetailsSerializer
+from mods.content.serializers import FlowSerializer, FlowDetailsSerializer, IdSerializer
 from rest_framework import response
 from rest_framework import status
 import json, re
@@ -52,16 +52,19 @@ class FlowDeleteView(APIView):
 
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
-        if 'id' in data and data['id'] is not None and int(data['id']) > 0:
-            try:
-                flow = Flow.objects.get(pk=data['id'])
-                flow.delete()
-                return response.Response(status=200, data={"Flow deleted successfully."})
-            except ObjectDoesNotExist:
+        serializer = IdSerializer(data=request.data)
+        if serializer.is_valid():
+            if 'id' in data and data['id'] is not None and int(data['id']) > 0:
+                try:
+                    flow = Flow.objects.get(pk=data['id'])
+                    flow.delete()
+                    return response.Response(status=200, data={"Flow deleted successfully."})
+                except ObjectDoesNotExist:
+                    return response.Response(status=404, data={"Flow not found."})
+            else:
                 return response.Response(status=404, data={"Flow not found."})
-
         else:
-            return response.Response(status=404, data={"Flow not found."})
+            return response.Response(status=404, data=serializer.errors)
 
 
 class FlowDetailsView(APIView):

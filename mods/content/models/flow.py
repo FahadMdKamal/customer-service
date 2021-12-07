@@ -11,7 +11,6 @@ class Flow(models.Model):
     app_id = models.CharField(max_length=244, blank=True, null=True)
     group = models.ForeignKey(ContentTaxonomy, blank=True, null=True, on_delete=models.CASCADE)
     objects = FlowManager()
-    
-    
+
     class Meta:
         db_table = 'content_flow'
