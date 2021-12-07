@@ -48,6 +48,6 @@ class ContentTextSearchView(APIView):
         if data:
             content_text = ContentText.objects.filter(pk=data.first().id)
             serializer = ContentTextSerializer(content_text, many=True)
-            return response.Response(serializer.data)
+            return response.Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return response.Response(data="Not match", status=status.HTTP_400_BAD_REQUEST)
+            return response.Response(data="Not match", status=status.HTTP_200_OK)
