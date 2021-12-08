@@ -6,7 +6,7 @@ from mods.content.views import ContentView, ContentCreateView, ContentDataView, 
     FlowListView, FlowDeleteView, AttachContentView, DeleteContentView, \
     FlowNodeView, CreateUpdateNodeConfigView, SingleContentDetailsView, ContentTextModelView, ContentTextSearchView, \
     FlowNodeDeleteView, NodeListView, ContentDeleteView
-from mods.content.views.flow import FlowDetailsView, UserIPView
+from mods.content.views.flow import FlowDetailsView, FlowIntent
 from mods.content.views import MessageTemplateCreateOrUpdateView, MessageTemplateDetailsView, MessageTemplateDeleteView, MessageTemplateListView
 
 router = DefaultRouter()
@@ -40,6 +40,7 @@ urlpatterns = [
     path('flow-create-update/', FlowCreateOrUpdateView.as_view()),
     # path('flow-list/', FlowListView.as_view()),
     path('flow-delete/', FlowDeleteView.as_view()),
+    path('intent-flow/', FlowIntent.as_view()),
     path('node-create-update/', FlowNodeView.as_view()),
     path('node-delete/', FlowNodeDeleteView.as_view()),
     path('node-config-create-update/', CreateUpdateNodeConfigView.as_view()),
@@ -52,5 +53,4 @@ urlpatterns = [
     path('message-template-detail/', MessageTemplateDetailsView.as_view()),
     path('message-template-list/', MessageTemplateListView.as_view()),
     path('message-template-delete/', MessageTemplateDeleteView.as_view()),
-    path('user-ip/', UserIPView.as_view()),
 ]

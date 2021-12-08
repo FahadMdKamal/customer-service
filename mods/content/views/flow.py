@@ -9,6 +9,8 @@ from rest_framework import status
 import json, re
 from user_agents import parse
 
+from mods.nlu.models import NluIntent
+
 
 class FlowCreateOrUpdateView(APIView):
 
@@ -84,22 +86,10 @@ class FlowDetailsView(APIView):
             return response.Response(status=404, data={"Flow not found."})
 
 
-class UserIPView(APIView):
-    def get(self, request, *args, **kwargs):
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-
-        if x_forwarded_for:
-            ip_address = x_forwarded_for.split(',')[0]
-        else:
-            ip_address = request.META.get('REMOTE_ADDR')
-
-        pat = re.compile("^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
-        verify = pat.match(ip_address)
-        if verify:
-            ip = ip_address
-        else:
-            ip = "Not Found"
-        browser = request.META['HTTP_USER_AGENT']
-        user_agent = parse(browser)
-        user_agent_deatils = user_agent.browser.family + " on " + user_agent.os.family + " " + user_agent.os.version_string
-        return response.Response(status=status.HTTP_200_OK, data={"ip": ip, "browser": user_agent_deatils})
+class FlowIntent(APIView):
+    def post(self, request, *args, **kwargs):
+        intent_name = request.data.get("intent")
+        data = NluIntent.objects.filter(name__icontains=intent_name)
+        print(data)
+        print(intent_name)
+        return response.Response(status=200, data={"hello"})
