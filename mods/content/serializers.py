@@ -134,6 +134,16 @@ class FlowSerializer(ModelSerializer):
         model = Flow
         fields = ('id', 'name', 'app_id', 'group')
 
+    def to_representation(self, instance):
+        """Convert `username` to lowercase."""
+        ret = super().to_representation(instance)
+        try:
+            group_name = instance.group.name
+        except:
+            group_name = None
+        ret["group"] = group_name
+        return ret
+
 
 class FlowCreateSerializer(serializers.Serializer):
     name = serializers.Serializer()
