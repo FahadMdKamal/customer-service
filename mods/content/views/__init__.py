@@ -6,7 +6,7 @@ from .content_text import ContentTextView, ContentTextModelView, ContentTextSear
 from .content_type import ConverseContentTypeView
 from .content_vars import ContentVarsView
 from .custom_content_field import ContentCustomFieldsView
-from .flow import FlowCreateOrUpdateView, FlowListView, FlowDeleteView
+from .flow import FlowCreateOrUpdateView, FlowListView, FlowDeleteView, FlowIntent
 from .flow_node import FlowNodeView, FlowNodeDeleteView, NodeListView
 from .node_config import CreateUpdateNodeConfigView
 from .node_contents import AttachContentView, DeleteContentView
