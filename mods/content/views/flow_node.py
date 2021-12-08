@@ -67,24 +67,30 @@ class NodeListView(ModelViewSet):
         params = {}
         errors = []
 
-        if "flow_id" in list(self.request.query_params.keys()):
-            flow_id = self.request.query_params.get("flow_id", None)
-            if flow_id.isnumeric():
-                if flow_id is not None:
-                    params.update({"flow_id": self.request.query_params["flow_id"]})
-            else:
-                errors.append({"flow_id": "flow id must be Integer"})
-        else:
-            errors.append({"flow_id": "key name will be flow_id"})
+        # if "flow_id" in list(self.request.query_params.keys()):
+        #     flow_id = self.request.query_params.get("flow_id", None)
+        #     if flow_id.isnumeric():
+        #         if flow_id is not None:
+        #             params.update({"flow_id": self.request.query_params["flow_id"]})
+        #     else:
+        #         errors.append({"flow_id": "flow id must be Integer"})
+        # else:
+        #     errors.append({"flow_id": "key name will be flow_id"})
+        #
+        # if "node_type" in list(self.request.query_params.keys()):
+        #     if self.request.query_params.get("node_type", None) is not None:
+        #         params.update({"node_type": self.request.query_params["node_type"]})
+        # else:
+        #     errors.append({"node_type": "key name will be node_type"})
+        #
+        # if len(errors) > 0:
+        #     raise ValidationError(errors)
 
-        if "node_type" in list(self.request.query_params.keys()):
-            if self.request.query_params.get("node_type", None) is not None:
-                params.update({"node_type": self.request.query_params["node_type"]})
-        else:
-            errors.append({"node_type": "key name will be node_type"})
+        if self.request.query_params.get("node_type", None) is not None:
+            params.update({"node_type": self.request.query_params["node_type"]})
 
-        if len(errors) > 0:
-            raise ValidationError(errors)
+        if self.request.query_params.get("flow_id", None) is not None:
+            params.update({"flow_id": self.request.query_params["flow_id"]})
         return FlowNode.objects.filter(**params).order_by('-id')
 
     def list(self, request, *args, **kwargs):
