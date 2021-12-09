@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-
+from rest_framework.exceptions import ValidationError
 from mods.content.models import Flow, NodeConfig
 from mods.content.serializers import FlowSerializer, FlowDetailsSerializer, IdSerializer, FlowIntentNodeSerializer
 from rest_framework import response
@@ -90,11 +90,21 @@ class FlowDetailsView(APIView):
 
 class FlowIntent(APIView):
     def post(self, request, *args, **kwargs):
+        errors = []
         intent_name = request.data.get("intent")
-        data = NluIntent.objects.filter(name__icontains=intent_name).first()
+        try:
+            data = NluIntent.objects.filter(name__icontains=intent_name).first()
+        except:
+            errors.append("not found intent")
+        try:
+            data = NodeConfig.objects.filter(value=data.id).first()
+            flow_id = data.flow_node.flow.pk
+        except:
+            errors.append("not found")
 
-        data = NodeConfig.objects.filter(value=data.id).first()
-        flow_id = data.flow_node.flow.pk
+        if len(errors) > 0:
+            raise ValidationError(errors)
+
         if data:
             content_text = Flow.objects.filter(pk=flow_id)
             serializer = FlowIntentNodeSerializer(content_text, many=True)
