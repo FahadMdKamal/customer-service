@@ -1,16 +1,12 @@
-from django.contrib.postgres.search import SearchVector
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import TextField
-from django.db.models.functions import Cast
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from mods.content.models import Flow, NodeConfig
-from mods.content.serializers import FlowSerializer, FlowDetailsSerializer, IdSerializer
+from mods.content.serializers import FlowSerializer, FlowDetailsSerializer, IdSerializer, FlowIntentNodeSerializer
 from rest_framework import response
 from rest_framework import status
-import json, re
-from user_agents import parse
+import json
 
 from mods.nlu.models import NluIntent
 
@@ -95,16 +91,13 @@ class FlowDetailsView(APIView):
 class FlowIntent(APIView):
     def post(self, request, *args, **kwargs):
         intent_name = request.data.get("intent")
-        data = NluIntent.objects.filter(name__icontains=intent_name)
+        data = NluIntent.objects.filter(name__icontains=intent_name).first()
 
-        print(data)
-        print(intent_name)
-        search_data = request.data.get('data')
-        data = NodeConfig.objects.annotate(search=SearchVector(Cast('text_body', TextField())), ).filter(
-            search=search_data)
+        data = NodeConfig.objects.filter(value=data.id).first()
+        flow_id = data.flow_node.flow.pk
         if data:
-            content_text = Flow.objects.filter(pk=data.first().id)
-            serializer = FlowSerializer(content_text, many=True)
+            content_text = Flow.objects.filter(pk=flow_id)
+            serializer = FlowIntentNodeSerializer(content_text, many=True)
             return response.Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return response.Response(data="Not match", status=status.HTTP_202_ACCEPTED)

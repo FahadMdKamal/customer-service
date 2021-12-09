@@ -7,6 +7,7 @@ NODE_TYPE = (
     ('Content', 'content'),
 )
 
+
 class FlowNodeManager(models.Manager):
     pass
 
@@ -16,7 +17,7 @@ class FlowNode(models.Model):
     flow = models.ForeignKey(Flow, on_delete=models.CASCADE, related_name='flownodes')
     node_type = models.CharField(max_length=255, null=True, blank=True, choices=NODE_TYPE)
     content_type = models.CharField(max_length=255, null=True, blank=True)
-    initial_content_id = models.ForeignKey(Content, on_delete=models.CASCADE, blank=True, null=True)
+    initial_content_id = models.ForeignKey(Content, on_delete=models.CASCADE, blank=True, null=True, related_name='contents')
 
     objects = FlowNodeManager()
 
