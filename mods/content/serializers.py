@@ -141,7 +141,7 @@ class FlowSerializer(ModelSerializer):
             group_name = instance.group.name
         except:
             group_name = None
-        ret["group"] = group_name
+        ret["group_name"] = group_name
         return ret
 
 
