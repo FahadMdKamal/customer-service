@@ -265,3 +265,35 @@ class MessageTemplateSerializer(ModelSerializer):
 
 class IdSerializer(serializers.Serializer):
     id = serializers.IntegerField()
+
+
+class FlowNodeAllDataSerializer(ModelSerializer):
+    config = NodeConfigSerializer(many=True)
+
+    class Meta:
+        model = FlowNode
+        fields = ('id', 'name', 'flow', 'node_type', "config", "content_type", "initial_content_id")
+        depths = -1
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        if ret["node_type"] == "start":
+            ret.pop("content_type")
+            ret.pop("initial_content_id")
+        try:
+            from django.core import serializers
+            qs = list(Content.objects.filter(id=ret["initial_content_id"]).values())
+            content = qs
+        except:
+            content = None
+
+        ret["content"] = content
+        return ret
+
+
+class FlowIntentNodeSerializer(ModelSerializer):
+    flownodes = FlowNodeAllDataSerializer(many=True, read_only=True)
+    class Meta:
+        model = Flow
+        fields = ("id", "name", "app_id", "group", "flownodes")
+        depths = 1

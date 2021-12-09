@@ -24,15 +24,13 @@ class FlowNodeView(APIView):
                                                                           node_type=data["node_type"])
                 try:
                     config = data['config']
-                    print(config)
                     if config:
-                        if NodeConfig.objects.filter(flow_node=flow_node.id).exists():
-                            print("hello")
+                        if NodeConfig.objects.filter(flow_node_id=data["id"]).exists():
                             for key, value in data["config"].items():
                                 NodeConfig.objects.filter(flow_node_id=data["id"], key=key).update(value=value)
                         else:
                             for key, value in config.items():
-                                node_config = NodeConfig(flow_node=flow_node, key=key, value=value)
+                                node_config = NodeConfig(flow_node_id=data["id"], key=key, value=value)
                                 node_config.save()
                 except:
                     pass
