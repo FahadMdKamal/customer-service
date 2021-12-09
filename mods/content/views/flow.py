@@ -50,6 +50,9 @@ class FlowListView(ModelViewSet):
         if self.request.query_params.get("app_id", None) is not None:
             params.update({"app_id": self.request.query_params["app_id"]})
 
+        if self.request.query_params.get("group_id", None) is not None:
+            params.update({"group_id": self.request.query_params["group_id"]})
+
         return Flow.objects.filter(**params).order_by('-id')
 
 
