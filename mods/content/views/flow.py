@@ -1,8 +1,11 @@
+from django.contrib.postgres.search import SearchVector
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import TextField
+from django.db.models.functions import Cast
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from mods.content.models import Flow
+from mods.content.models import Flow, NodeConfig
 from mods.content.serializers import FlowSerializer, FlowDetailsSerializer, IdSerializer
 from rest_framework import response
 from rest_framework import status
@@ -90,6 +93,15 @@ class FlowIntent(APIView):
     def post(self, request, *args, **kwargs):
         intent_name = request.data.get("intent")
         data = NluIntent.objects.filter(name__icontains=intent_name)
+
         print(data)
         print(intent_name)
-        return response.Response(status=200, data={"hello"})
+        search_data = request.data.get('data')
+        data = NodeConfig.objects.annotate(search=SearchVector(Cast('text_body', TextField())), ).filter(
+            search=search_data)
+        if data:
+            content_text = Flow.objects.filter(pk=data.first().id)
+            serializer = FlowSerializer(content_text, many=True)
+            return response.Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return response.Response(data="Not match", status=status.HTTP_202_ACCEPTED)
