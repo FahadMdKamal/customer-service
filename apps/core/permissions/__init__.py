@@ -1,0 +1,1 @@
+from .email_permissions import IsEmailAdmin, IsEmailAgent, IsEmailSupervisor
