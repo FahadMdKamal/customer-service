@@ -1,5 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, EmptyPage
+from django.shortcuts import get_object_or_404
 
 from rest_framework.views import APIView
 from apps.core.models.taxonomy import Taxonomy
@@ -38,17 +39,27 @@ class MessageTemplateCreateOrUpdateView(APIView):
 class MessageTemplateListView(APIView):
 
     def get(self, request, format=None):
-        message_template = MessageTemplate.objects.all().order_by('-id')
+        params = {}
+
+        if self.request.query_params.get("template-group-id", None) is not None:
+            params.update({"template_group_id": self.request.query_params["template-group-id"]})
+
+        if self.request.query_params.get("app-id", None) is not None:
+            params.update({"app_id": self.request.query_params["app-id"]})
+
         data = []
-        nextPage = 1
-        previousPage = 1
+        nextPage = 0
+        previousPage = 0
+        
         page = request.GET.get('page', 1)
         limit = request.GET.get('limit', 10)
+        message_template = MessageTemplate.objects.filter(**params).order_by('-id')
+
         paginator = Paginator(message_template, limit)
         try:
             data = paginator.page(page)
         except ObjectDoesNotExist:
-            data = paginator.page(1)
+            data = paginator.page(page)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
 
@@ -75,16 +86,18 @@ class MessageTemplateDeleteView(APIView):
 
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
-        if 'id' in data and data['id'] is not None and int(data['id']) > 0:
+        if 'id' in data and data['id'] is not None:
             try:
-                message_template = MessageTemplate.objects.get(pk=data['id'])
-                message_template.delete()
-                return response.Response(status=200, data={"Message Template deleted successfully."})
+                for id in data['id']:
+                    if int(id) > 0:
+                        message_template = get_object_or_404(MessageTemplate, pk=id)
+                        message_template.delete()
+                return response.Response(status=200, data={"message": "Message Template deleted successfully."})
             except ObjectDoesNotExist:
-                return response.Response(status=404, data={"Message Template not found."})
+                return response.Response(status=404, data={"message": "Message Template not found."})
 
         else:
-            return response.Response(status=404, data={"Message Template not found."})
+            return response.Response(status=404, data={"message": "Message Template not found."})
 
 
 class MessageTemplateDetailsView(APIView):
@@ -94,11 +107,11 @@ class MessageTemplateDetailsView(APIView):
 
         if message_template_id is not None and message_template_id > 0:
             try:
-                flow = MessageTemplate.objects.filter(pk=message_template_id)
-                serializer = MessageTemplateSerializer(flow, many=True)
+                flow = MessageTemplate.objects.get(pk=message_template_id)
+                serializer = MessageTemplateSerializer(flow)
                 return response.Response(status=200, data=serializer.data)
             except ObjectDoesNotExist:
-                return response.Response(status=404, data={"Message Template not found."})
+                return response.Response(status=404, data={"message": "Message Template not found."})
 
         else:
-            return response.Response(status=404, data={"Message Template not found."})
+            return response.Response(status=404, data={"message": "Message Template not found."})
