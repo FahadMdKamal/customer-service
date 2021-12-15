@@ -27,6 +27,10 @@ class UserUpdateSerializers(serializers.ModelSerializer):
         model = User
         fields = ('id', 'email', 'username', 'first_name', 'last_name', 'groups')
 
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+
 
     def update(self, instance, validated_data):
         instance.username = validated_data.get('username', instance.username)
@@ -34,7 +38,7 @@ class UserUpdateSerializers(serializers.ModelSerializer):
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
 
-        if validated_data.get('groups') is not None:
+        if validated_data.get('groups') is not None and self.user.is_admin:
             groups_data = validated_data.pop('groups')
             if groups_data:
                 instance.groups.clear()
