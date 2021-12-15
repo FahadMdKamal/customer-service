@@ -1,39 +1,21 @@
 from rest_framework import permissions
-from django.utils.text import slugify
+from .permission_extractor import get_permission
 
 
 class IsLivechatAdmin(permissions.BasePermission):
 
     def has_permission(self, request, view):
-
-        all_groups = request.user.groups.all()
-        group_names = [slugify(group.name) for group in all_groups]
-
-        if "chatbot-admin" in group_names:
-            return True
-        return False
+        return get_permission(request, "chatbot-admin")
 
 
 class IsLivechatAgent(permissions.BasePermission):
 
     def has_permission(self, request, view):
-
-        all_groups = request.user.groups.all()
-        group_names = [slugify(group.name) for group in all_groups]
-
-        if "chatbot-agent"  in group_names:
-            return True
-        return False
+        return get_permission(request, "chatbot-agent")
 
 
 class IsLivechatTeamlead(permissions.BasePermission):
 
     def has_permission(self, request, view):
-
-        all_groups = request.user.groups.all()
-        group_names = [slugify(group.name) for group in all_groups]
-
-        if "chatbot-teamlead"  in group_names:
-            return True
-        return False
+        return get_permission(request, "chatbot-teamlead")
         

@@ -22,7 +22,7 @@ class CreateOrUpdateUserView(APIView):
             try:
                 db_object = User.objects.get(pk=data['id'])
                 if request.user.is_staff or request.user == db_object:
-                    serializer = UserUpdateSerializers(db_object, data=data, partial=True)
+                    serializer = UserUpdateSerializers(db_object, data=data, partial=True, user=request.user)
                     if serializer.is_valid():
                         serializer.save()
                         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
