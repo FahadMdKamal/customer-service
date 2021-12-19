@@ -9,10 +9,10 @@ class CoreTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         groups = user.groups.all()
         serializer = GroupSerializer(groups, many=True)
+
         token['username'] = user.username
         token['email'] = user.email
         token['first_name'] = user.first_name
         token['last_name'] = user.last_name
         token['groups'] = serializer.data
-
         return token
