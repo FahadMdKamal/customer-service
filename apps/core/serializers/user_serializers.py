@@ -3,6 +3,8 @@ from django.contrib.auth.models import Group, User
 from django.contrib.auth.password_validation import validate_password
 
 
+from apps.core.models import Profile
+
 class UserSerializers(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
 
@@ -62,3 +64,11 @@ class UserProfileUpdateSerializers(serializers.ModelSerializer):
     
         instance.save()
         return instance 
+
+
+class UserProfileSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = ('profile_image', 'mobile', 'organization')
+
