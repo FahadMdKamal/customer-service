@@ -5,12 +5,21 @@ from django.contrib.auth.password_validation import validate_password
 
 from apps.core.models import Profile
 
+
+class UserProfileSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = ('profile_image', 'mobile', 'organization')
+
+
 class UserSerializers(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    profile = UserProfileSerializers(source='profile_data')
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'password', 'groups')
+        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'password', 'groups', 'profile')
 
     def create(self, validated_data):
         groups_data = validated_data.pop('groups')
@@ -65,10 +74,4 @@ class UserProfileUpdateSerializers(serializers.ModelSerializer):
         instance.save()
         return instance 
 
-
-class UserProfileSerializers(serializers.ModelSerializer):
-
-    class Meta:
-        model = Profile
-        fields = ('profile_image', 'mobile', 'organization')
 

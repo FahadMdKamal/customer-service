@@ -8,7 +8,7 @@ app_user_model = get_user_model()
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(app_user_model, on_delete=models.CASCADE, related_name="profile")
+    user = models.OneToOneField(app_user_model, on_delete=models.CASCADE, related_name="profile_data")
     profile_image = models.ImageField(upload_to="profile", null=True, blank=True)
     mobile = models.CharField(max_length=20, null=True, blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="user_belong_to", null=True, blank=True)
