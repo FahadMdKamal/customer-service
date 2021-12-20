@@ -1,7 +1,6 @@
 from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .user_serializers import UserSerializers
-from apps.core.models import Profile
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
