@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from apps.core.serializers import UserSerializers
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.paginator import Paginator, EmptyPage
 from rest_framework.permissions import IsAuthenticated
 
@@ -13,10 +13,15 @@ class UserListApiView(APIView):
 
     
     def get(self, request, format=None):
-        obj_list = User.objects.all().order_by('-id')
+        params = {}
+
+        if self.request.query_params.get("user-group", None) is not None:
+            params.update({"groups__name": self.request.query_params["user-group"]})
+        
+        obj_list = User.objects.filter(**params).order_by('-id')
         data = []
-        nextPage = 1
-        previousPage = 1
+        nextPage = 0
+        previousPage = 0
         page = request.GET.get('page', 1)
         limit = request.GET.get('limit', 10)
         paginator = Paginator(obj_list, limit)
