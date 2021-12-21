@@ -26,14 +26,14 @@ def is_password_change_valid(user, password):
     user_deatils = user.username + password
     hash_value = sha256( user_deatils.encode("utf-32") ).hexdigest().upper()
 
-    pwd_store = PasswordStore.objects.filter(user=user, password=hash_value)
+    pwd_store = PasswordStore.objects.filter(user=user, hashed_pass=hash_value).first()
     if pwd_store:
-        if pwd_store.objects.is_allowed():
+        if pwd_store.is_allowed:
             pwd_store.updated_on = datetime.datetime.now()
             pwd_store.save()
         else:
             return False
     else:
-        # TODO: Is Causing the problems
-        PasswordStore.objects.create(user=user, hash_value=hash_value)
+        pwd_store = PasswordStore(user=user, hashed_pass=hash_value)
+        pwd_store.save()
     return True
