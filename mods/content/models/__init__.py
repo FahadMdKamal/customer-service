@@ -11,3 +11,4 @@ from .flow_node import FlowNode
 from .node_config import NodeConfig
 from .node_contents import NodeContent
 from .message_template import MessageTemplate
+from .uploads import Upload
