@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from apps.core.models.taxonomy import Taxonomy
 from apps.core.serializers import TaxonomyListSerilizer
-from mods.content.models import MessageTemplate
+from mods.content.models import MessageTemplate, Upload
 from mods.content.serializers import MessageTemplateSerializer
 from rest_framework import response
 from rest_framework import status
@@ -15,11 +15,10 @@ import json
 class MessageTemplateCreateOrUpdateView(APIView):
 
     def post(self, request):
-        data = json.loads(request.body.decode('utf-8'))
-        if 'id' in data and data['id'] is not None and int(data['id']) > 0:
+        if request.data.get('id') is not None and int(request.data.get('id')) > 0:
             try:
-                message_template = MessageTemplate.objects.get(pk=data['id'])
-                serializer = MessageTemplateSerializer(message_template, data=data)
+                message_template = MessageTemplate.objects.get(pk=request.data.get('id'))
+                serializer = MessageTemplateSerializer(message_template, data=request.data)
                 if serializer.is_valid():
                     serializer.save()
                     return response.Response(data=serializer.data, status=status.HTTP_201_CREATED)
@@ -30,6 +29,7 @@ class MessageTemplateCreateOrUpdateView(APIView):
         else:
             serializer = MessageTemplateSerializer(data=request.data)
             if serializer.is_valid():
+                
                 message_template = serializer.save()
                 if message_template:
                     return response.Response(data=serializer.data, status=status.HTTP_201_CREATED)

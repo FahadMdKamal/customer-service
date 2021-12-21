@@ -5,6 +5,7 @@ from .content_taxonomy import ContentTaxonomy
 from .content_text import ContentText
 from .content_type import ConverseContentType
 from .content_vars import ContentVars
+from .content_options import ContentOptions
 from .custom_content_field import ContentCustomFields
 from .flow import Flow
 from .flow_node import FlowNode

@@ -1,21 +1,23 @@
-from django.contrib.sessions.backends import file
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from mods.content.models.content import Content
-from mods.content.models.content_data import ContentData
-from mods.content.models.content_media import ContentMedia
-from mods.content.models.content_taxonomy import ContentTaxonomy
-from mods.content.models.content_text import ContentText
-from mods.content.models.content_type import ConverseContentType
-from mods.content.models.content_vars import ContentVars
-from mods.content.models.custom_content_field import ContentCustomFields
-from mods.content.models.content_options import ContentOptions
-from mods.content.models.flow import Flow
-from mods.content.models.flow_node import FlowNode
-from mods.content.models.node_config import NodeConfig
-from mods.content.models.node_contents import NodeContent
-from mods.content.models.message_template import MessageTemplate
+from mods.content.models import (
+    Content,
+    ContentData,
+    ContentMedia,
+    ContentTaxonomy,
+    ContentText,
+    ConverseContentType,
+    ContentVars,
+    ContentCustomFields,
+    ContentOptions,
+    Flow,
+    FlowNode,
+    NodeConfig,
+    NodeContent,
+    MessageTemplate,
+    Upload
+)
 
 
 class ContentSerializer(ModelSerializer):
@@ -237,9 +239,14 @@ class FlowDetailsSerializer(ModelSerializer):
         fields = ("id", "name", "app_id", "group", "flownodes")
         depths = 1
 
+class UploadSerializer(ModelSerializer):
+    class Meta:
+        model = Upload
+        fields = "__all__"
 
 class MessageTemplateSerializer(ModelSerializer):
     template_code = serializers.CharField(required=False)
+    file = serializers.FileField(required=False)
 
     class Meta:
         model = MessageTemplate
@@ -256,11 +263,48 @@ class MessageTemplateSerializer(ModelSerializer):
                   "template_group_id",
                   "allowed_channel_types",
                   "attachments",
+                  "file",
                   "status",
                   "usage_count",
                   "owner",
                   "created_at",
                   "updated_at")
+        read_only_fields = ('attachments',)
+        
+    def create(self, validated_data):
+        file = validated_data.pop("file")
+        if file:
+            obj = Upload(
+                app_id=validated_data['app_id'],
+                owner=validated_data['owner'],
+                filepath=file
+                )
+            obj.save()
+            validated_data['attachments'] = {"id":obj.id,"url":obj.secure_url}
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        file = validated_data.pop("file", None)
+        if file:
+            attachment_id = instance.attachments.get('id')
+            attachment_obj_url = instance.attachments.get('url')
+            upload_obj = Upload.objects.filter(id=attachment_id).first()
+            if Upload.objects.filter(id=attachment_id).exists() and attachment_obj_url == upload_obj.secure_url:
+                obj_id = Upload.objects.filter(id=attachment_id).update(
+                    app_id=validated_data['app_id'],
+                    owner=validated_data['owner'],
+                    filepath=file
+                    )
+                obj = Upload.objects.get(id=obj_id)
+            else:
+                obj = Upload(
+                    app_id=validated_data['app_id'],
+                    owner=validated_data['owner'],
+                    filepath=file
+                    )
+            obj.save()
+            validated_data['attachments'] = {"id":obj.id,"url":obj.secure_url}
+        return super().update(instance, validated_data)
 
 
 class IdSerializer(serializers.Serializer):
