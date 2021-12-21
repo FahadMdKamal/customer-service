@@ -51,8 +51,10 @@ class MessageTemplateListView(APIView):
         nextPage = 0
         previousPage = 0
         
-        page = request.GET.get('page', 1)
-        limit = request.GET.get('limit', 10)
+        raw_page = request.GET.get('page')
+        raw_limit = request.GET.get('limit')
+        page = int(raw_page) if raw_page and raw_page.isdigit() else 1
+        limit = int(raw_limit) if raw_limit and raw_limit.isdigit() else 10
         message_template = MessageTemplate.objects.filter(**params).order_by('-id')
 
         paginator = Paginator(message_template, limit)
@@ -73,7 +75,7 @@ class MessageTemplateListView(APIView):
             previousPage = data.previous_page_number()
 
         return response.Response(
-                {'data': serializer.data,
+                {'data': serializer.data if page <= paginator.num_pages else [],
                 'groups':taxonomies_serializer.data,
                  'count': paginator.count,
                  'total_pages': paginator.num_pages,
