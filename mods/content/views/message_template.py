@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from apps.core.models.taxonomy import Taxonomy
 from apps.core.serializers import TaxonomyListSerilizer
-from mods.content.models import MessageTemplate
+from mods.content.models import MessageTemplate, Upload
 from mods.content.serializers import MessageTemplateSerializer
 from rest_framework import response
 from rest_framework import status
@@ -15,11 +15,10 @@ import json
 class MessageTemplateCreateOrUpdateView(APIView):
 
     def post(self, request):
-        data = json.loads(request.body.decode('utf-8'))
-        if 'id' in data and data['id'] is not None and int(data['id']) > 0:
+        if request.data.get('id') is not None and int(request.data.get('id')) > 0:
             try:
-                message_template = MessageTemplate.objects.get(pk=data['id'])
-                serializer = MessageTemplateSerializer(message_template, data=data)
+                message_template = MessageTemplate.objects.get(pk=request.data.get('id'))
+                serializer = MessageTemplateSerializer(message_template, data=request.data)
                 if serializer.is_valid():
                     serializer.save()
                     return response.Response(data=serializer.data, status=status.HTTP_201_CREATED)
@@ -30,6 +29,7 @@ class MessageTemplateCreateOrUpdateView(APIView):
         else:
             serializer = MessageTemplateSerializer(data=request.data)
             if serializer.is_valid():
+                
                 message_template = serializer.save()
                 if message_template:
                     return response.Response(data=serializer.data, status=status.HTTP_201_CREATED)
@@ -51,8 +51,10 @@ class MessageTemplateListView(APIView):
         nextPage = 0
         previousPage = 0
         
-        page = request.GET.get('page', 1)
-        limit = request.GET.get('limit', 10)
+        raw_page = request.GET.get('page')
+        raw_limit = request.GET.get('limit')
+        page = int(raw_page) if raw_page and raw_page.isdigit() else 1
+        limit = int(raw_limit) if raw_limit and raw_limit.isdigit() else 10
         message_template = MessageTemplate.objects.filter(**params).order_by('-id')
 
         paginator = Paginator(message_template, limit)
@@ -73,7 +75,7 @@ class MessageTemplateListView(APIView):
             previousPage = data.previous_page_number()
 
         return response.Response(
-                {'data': serializer.data,
+                {'data': serializer.data if page <= paginator.num_pages else [],
                 'groups':taxonomies_serializer.data,
                  'count': paginator.count,
                  'total_pages': paginator.num_pages,
