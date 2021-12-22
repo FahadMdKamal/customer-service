@@ -21,4 +21,4 @@ from .message_template_serializers import MessageTemplateSerializer
 from .node_config_detail_serializers import NodeConfigDetailsSerializer
 from .node_config_serializers import NodeConfigSerializer
 from .node_content_serializers import NodeContentSerializer
-from .upload_serializers import UploadSerializer
+from .upload_serializers import UploadDetailSerializer, UploadShortSerializer

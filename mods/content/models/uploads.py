@@ -25,9 +25,11 @@ class Upload(models.Model):
     filemeta = models.JSONField(default=dict, null=True, blank=True)
     variation = models.JSONField(default=dict, null=True, blank=True)
     details = models.JSONField(default=dict, null=True, blank=True)
-    parent_model = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    parent_object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('parent_model', 'parent_object_id')
+    
+    # Below the mandatory fields for generic relation
+    # content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name="attachments")
+    # object_id = models.PositiveIntegerField()
+    # content_object = GenericForeignKey()
     
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
@@ -38,3 +40,4 @@ class Upload(models.Model):
     @property
     def secure_url(self):
         return self.filepath.url
+        
