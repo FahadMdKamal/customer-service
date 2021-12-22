@@ -5,19 +5,22 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from apps.core.models.taxonomy import Taxonomy
 from apps.core.serializers import TaxonomyListSerilizer
-from mods.content.models import MessageTemplate, Upload
+from mods.content.models import MessageTemplate
 from mods.content.serializers import MessageTemplateSerializer
 from rest_framework import response
 from rest_framework import status
 import json
-
+from apps.core.utils import upload_handler
 
 class MessageTemplateCreateOrUpdateView(APIView):
 
     def post(self, request):
         if request.data.get('id') is not None and int(request.data.get('id')) > 0:
             try:
-                message_template = MessageTemplate.objects.get(pk=request.data.get('id'))
+                message_template = MessageTemplate.objects.filter(pk=request.data.get('id')).first()
+                if request.data.get('file', None):
+                    request.data['attachment'] = upload_handler(request)
+                    request.data.pop('file')
                 serializer = MessageTemplateSerializer(message_template, data=request.data)
                 if serializer.is_valid():
                     serializer.save()
@@ -27,6 +30,10 @@ class MessageTemplateCreateOrUpdateView(APIView):
             except ObjectDoesNotExist:
                 pass
         else:
+            if request.data.get('file', None):
+                request.data['attachment'] = upload_handler(request)
+                request.data.pop('file')
+           
             serializer = MessageTemplateSerializer(data=request.data)
             if serializer.is_valid():
                 
