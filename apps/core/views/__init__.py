@@ -9,3 +9,4 @@ from .change_password_view import ChangePasswordView, UpdateUserPassword
 from .profile_update_view import ProfileUpdateView
 from .password_reset_views import PasswordResetAPIView, PasswordResetConfirmAPIView, CompleteResetPassword
 from .users_list import UserListApiView
+

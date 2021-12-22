@@ -3,13 +3,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from apps.core.serializers import ChangePasswordSerializer
-from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.hashers import make_password
 import json
-
 from apps.core.serializers.password_reset_serializers import SetNewPasswordSerializer
-
-
+from apps.core.utils import is_password_change_valid
+        
 class ChangePasswordView(APIView):
     """
     An endpoint for changing password.
@@ -22,6 +20,9 @@ class ChangePasswordView(APIView):
         if serializer.is_valid():
             user = serializer.validated_data['user']
             user.set_password(serializer.validated_data["new_password"])
+            if not is_password_change_valid(user, password=serializer.validated_data["new_password"]):
+                return Response({'message': 'This password could not be used now'}, status=status.HTTP_200_OK)
+
             user.save()
             return Response({'message': 'Password changed successfully'},status=status.HTTP_200_OK)
         else:
@@ -39,6 +40,9 @@ class UpdateUserPassword(APIView):
                 
                 if serializer_data.is_valid():
                     user.password = make_password(data.get('password'))
+                    if not is_password_change_valid(user, password=data.get('password')):
+                        return Response({'message': 'This password could not be used now'}, status=status.HTTP_200_OK)
+
                     user.save()
                     return Response({'message': 'Password Changed Successfully'}, status=status.HTTP_200_OK)
                 else:
