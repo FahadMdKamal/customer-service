@@ -1,3 +1,5 @@
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 import os, uuid, datetime
 
@@ -23,6 +25,10 @@ class Upload(models.Model):
     filemeta = models.JSONField(default=dict, null=True, blank=True)
     variation = models.JSONField(default=dict, null=True, blank=True)
     details = models.JSONField(default=dict, null=True, blank=True)
+    parent_model = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    parent_object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('parent_model', 'parent_object_id')
+    
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 

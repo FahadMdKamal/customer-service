@@ -17,7 +17,7 @@ class MessageTemplateCreateOrUpdateView(APIView):
     def post(self, request):
         if request.data.get('id') is not None and int(request.data.get('id')) > 0:
             try:
-                message_template = MessageTemplate.objects.get(pk=request.data.get('id'))
+                message_template = MessageTemplate.objects.filter(pk=request.data.get('id')).first()
                 serializer = MessageTemplateSerializer(message_template, data=request.data)
                 if serializer.is_valid():
                     serializer.save()
