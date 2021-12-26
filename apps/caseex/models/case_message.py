@@ -18,8 +18,8 @@ class CaseMessage(models.Model):
     )
     platform = models.CharField(max_length=100,null=True, blank=True)
     source_ref = models.IntegerField(default=0)
-    body = models.TextField()
-    plain_body = models.TextField()
+    body = models.TextField(null=True, blank=True)
+    plain_body = models.TextField(null=True, blank=True)
     body_format = models.CharField(
         max_length=20,
         choices=(

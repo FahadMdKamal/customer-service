@@ -1,0 +1,1 @@
+from .caseex_views import CaseMessageAPIView
