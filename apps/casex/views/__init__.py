@@ -1,1 +1,1 @@
-from .casex_views import CaseMessageAPIView
+from .casex import CaseMessageAPIView
