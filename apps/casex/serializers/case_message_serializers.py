@@ -1,4 +1,3 @@
-from typing import OrderedDict
 from rest_framework import serializers
 from apps.casex.models import CaseMessage, CaseId, CaseAudience
 from apps.core.utils import ChoicesFieldSerializer
