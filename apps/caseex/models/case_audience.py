@@ -1,9 +1,10 @@
 from django.db import models
-from .case_message import CaseMessage
+
+from .case_message import CaseMessage, CaseId
 
 class CaseAudience(models.Model):
-    case_id = models.IntegerField(default=0)
-    source_message_id = models.ForeignKey(CaseMessage, on_delete=models.CASCADE, related_name='audience_case_message', null=True, blank=True)
+    case_id = models.ForeignKey(CaseId, on_delete=models.CASCADE,related_name="audiance_case_id")
+    source_message = models.ForeignKey(CaseMessage, on_delete=models.CASCADE, related_name='audience_case_message', null=True, blank=True)
     audience_type = models.CharField(max_length=50, null=True, blank=True)
     audience_role = models.CharField(max_length=50, null=True, blank=True)
     audience_ref = models.CharField(max_length=50, null=True, blank=True)
