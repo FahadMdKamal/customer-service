@@ -44,5 +44,5 @@ class CaseMessage(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = "caseex_case_message"
+        db_table = "casex_case_message"
         

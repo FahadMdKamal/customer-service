@@ -63,7 +63,7 @@ PROJECT_APPS = [
     'apps.chatbot',
     'apps.mixed',
     'apps.reports',
-    'apps.caseex',
+    'apps.casex',
 ]
 
 PROJECT_MODS = [

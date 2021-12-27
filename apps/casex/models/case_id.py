@@ -58,7 +58,7 @@ class CaseId(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = "caseex_CaseId"
+        db_table = "casex_case_id"
 
     def save(self):
         if not self.ref_id:

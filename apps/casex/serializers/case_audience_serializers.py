@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.caseex.models import CaseAudience
+from apps.casex.models import CaseAudience
 
 
 class CaseAudienceSerializer(serializers.ModelSerializer):

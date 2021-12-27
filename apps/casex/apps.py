@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CaseexConfig(AppConfig):
+class CasexConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.caseex'
+    name = 'apps.casex'

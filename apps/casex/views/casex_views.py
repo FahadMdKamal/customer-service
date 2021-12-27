@@ -1,11 +1,11 @@
 from rest_framework.viewsets import ModelViewSet
-from apps.caseex.serializers import CaseMessageSerializer
-from apps.caseex.models import CaseMessage
+from apps.casex.models import CaseMessage
+from apps.casex.serializers import case_message_serializers
 
 
 class CaseMessageAPIView(ModelViewSet):
     """
     An endpoint for CaseMessage.
     """
-    serializer_class = CaseMessageSerializer
+    serializer_class = case_message_serializers
     queryset = CaseMessage.objects.all().order_by('-id')
