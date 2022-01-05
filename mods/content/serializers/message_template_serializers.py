@@ -3,16 +3,24 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, Serializer
 from django.shortcuts import get_object_or_404
 from .upload_serializers import UploadDetailSerializer
+import markdown
 
 from mods.content.models import MessageTemplate, Upload
 
 
 class MessageTemplateSerializer(ModelSerializer):
     template_code = serializers.CharField(required=False)
+    template = serializers.SerializerMethodField()
 
     class Meta:
         model = MessageTemplate
         fields =  "__all__"
+
+    def get_template(self, instance):
+
+        if instance.template_format == 'markdown':
+            result = markdown.markdown(instance.body_template)
+            return result
 
    
     # def create(self, validated_data):

@@ -54,3 +54,23 @@ urlpatterns = [
     path('message-template-list/', MessageTemplateListView.as_view()),
     path('message-template-delete/', MessageTemplateDeleteView.as_view()),
 ]
+
+
+
+    # path('', include(router.urls)),
+    
+    # # supported actions create, list, delete, ecport 
+    # path('action/<string:model>/<string:action>', ContentCreateView.as_view()),
+
+    # # action/csat/list { data: { cast_type: 'urgent' } }
+    # # action/csat/delete { data: { id: 1 } }
+
+    # # action/csat { action: "list", data: { cast_type: 'urgent' } }
+    # # action/csat { action: "delete", data: { cast_type: 'urgent' } }
+
+
+    # path('cast/<string:action>', ContentCreateView.as_view()),
+
+    # # csat/list { cast_type: 'urgent' }
+    # # csat/delete { id: 1 }
+

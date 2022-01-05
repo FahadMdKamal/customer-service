@@ -12,6 +12,9 @@ from rest_framework import status
 import json
 from apps.core.utils import upload_handler
 
+import markdown
+
+
 class MessageTemplateCreateOrUpdateView(APIView):
 
     def post(self, request):
@@ -53,6 +56,9 @@ class MessageTemplateListView(APIView):
 
         if self.request.query_params.get("app-id", None) is not None:
             params.update({"app_id": self.request.query_params["app-id"]})
+
+        if self.request.query_params.get("channel-type", None) is not None:
+            params.update({"allowed_channel_types": self.request.query_params["channel-type"]})
 
         data = []
         nextPage = 0
@@ -112,15 +118,31 @@ class MessageTemplateDeleteView(APIView):
 class MessageTemplateDetailsView(APIView):
 
     def get(self, request):
+        params = {}
         message_template_id = int(request.GET.get('id'))
+
+        if self.request.query_params.get("id", None) is not None:
+            params.update({"id": self.request.query_params["id"]})
+
+        if self.request.query_params.get("app-id", None) is not None:
+            params.update({"app_id": self.request.query_params["app-id"]})
+
+        if self.request.query_params.get("template-code", None) is not None:
+            params.update({"template_code": self.request.query_params["template-code"]})
+
+        if self.request.query_params.get("channel-type", None) is not None:
+            params.update({"allowed_channel_types": self.request.query_params["channel-type"]})
 
         if message_template_id is not None and message_template_id > 0:
             try:
-                flow = MessageTemplate.objects.get(pk=message_template_id)
-                serializer = MessageTemplateSerializer(flow)
+                message_template = MessageTemplate.objects.filter(**params).order_by('-id').last()
+                serializer = MessageTemplateSerializer(message_template)
+                if not message_template:
+                    return response.Response(status=404, data={ "message": "Message Template not found."})
                 return response.Response(status=200, data=serializer.data)
             except ObjectDoesNotExist:
-                return response.Response(status=404, data={"message": "Message Template not found."})
+                return response.Response(status=404, data={ "error":serializer.errors, "message": "Message Template not found."})
 
         else:
             return response.Response(status=404, data={"message": "Message Template not found."})
+
