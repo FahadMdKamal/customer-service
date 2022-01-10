@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from mods.content.models import Content
 from mods.content.models.content_options import ContentOptions
 from mods.content.models.node_contents import NodeContent
-from mods.content.serializers import ContentSerializer, ContentCreateSerializer
+from mods.content.serializers import ContentSerializer, ContentCreateSerializer, ContentMenuDetailSerializer
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import response
@@ -157,3 +157,19 @@ class ContentDeleteView(APIView):
 
         else:
             return response.Response(status=404, data={"Content not found."})
+
+
+class MenuDetailAPIView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        params = {}
+        if self.request.query_params.get("menu-id", None) is not None:
+            params.update({"id": self.request.query_params["menu-id"]})
+
+
+        menus = Content.objects.filter(id=params.get('id', None)).first()
+
+        if not menus:
+            return Response({"message ": "Not-Found"})
+        
+        return Response({"data": ContentMenuDetailSerializer(menus).data})

@@ -1,4 +1,4 @@
-from .content_serializers import ContentSerializer
+from .content_serializers import ContentSerializer, ContentMenuDetailSerializer
 from .content_create_serializers import ContentCreateSerializer, ContentCustomSerializer, ContentOptionsSerializer
 from .content_data_serializers import ContentDataSerializer
 from .content_media_serializers import ContentMediaSerializer

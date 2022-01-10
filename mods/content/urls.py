@@ -5,7 +5,7 @@ from mods.content.views import ContentView, ContentCreateView, ContentDataView, 
     ContentTextView, ConverseContentTypeView, ContentVarsView, ContentCustomFieldsView, FlowCreateOrUpdateView, \
     FlowListView, FlowDeleteView, AttachContentView, DeleteContentView, \
     FlowNodeView, CreateUpdateNodeConfigView, SingleContentDetailsView, ContentTextModelView, ContentTextSearchView, \
-    FlowNodeDeleteView, NodeListView, ContentDeleteView
+    FlowNodeDeleteView, NodeListView, ContentDeleteView, MenuDetailAPIView
 from mods.content.views.flow import FlowDetailsView, FlowIntent
 from mods.content.views import MessageTemplateCreateOrUpdateView, MessageTemplateDetailsView, MessageTemplateDeleteView, MessageTemplateListView
 
@@ -30,6 +30,9 @@ urlpatterns = [
     path('', include(router.urls)),
     path('content-create-update/', ContentCreateView.as_view()),
     path('content-delete/', ContentDeleteView.as_view()),
+
+    path('menu/', MenuDetailAPIView.as_view()),
+
     path('csat-delete/', ContentDeleteView.as_view()),
     path('csat-create-update/', ContentCreateView.as_view()),
     # path('csat-list/', ContentView.as_view()),
