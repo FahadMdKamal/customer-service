@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from mods.content.models import Content, content
+from mods.content.models import Content
 
 
 class ContentSerializer(ModelSerializer):
@@ -13,15 +13,13 @@ class ContentNevItemSerializer(ModelSerializer):
 
     class Meta:
         model = Content
-        exclude = (
-            'type_ref',
-            'app_id',
-            'left_contents',
+        fields = (
             'content_format',
-            'template_cache',
-            'value_cache',
-            'subtitle',
-            'last_used_at',
+            'title',
+            'description',
+            'action_items',
+            'content_body',
+            'parent_id'
             )
     
     def post(self, *args, **kwargs):
@@ -30,18 +28,18 @@ class ContentNevItemSerializer(ModelSerializer):
 
 class ContentMenuDetailSerializer(ModelSerializer):
     nav_items = serializers.SerializerMethodField()
+    menu_detail = serializers.SerializerMethodField()
 
     class Meta:
         model = Content
-        exclude = (
-            'type_ref',
-            'app_id',
-            'left_contents',
+        fields = (
             'content_format',
-            'template_cache',
-            'value_cache',
-            'subtitle',
-            'last_used_at',
+            'title',
+            'description',
+            'action_items',
+            'content_body',
+            'nav_items',
+            'menu_detail'
             )
 
     def get_nav_items(self, instance):
@@ -56,13 +54,21 @@ class ContentMenuDetailSerializer(ModelSerializer):
             if ch.count() > 0:
                 for c in ch:
                     childs.append(c)
-        
-        objs = []
-            
+        menu_objecs = []
         for item in childs:
-            objs.append(ContentNevItemSerializer(item).data)
+            menu_objecs.append(ContentNevItemSerializer(item).data)
+            
+        return menu_objecs
 
-        return {"total-childs": len(objs), 'children': objs}
+    def get_menu_detail(self, instance):
+        return {
+            "menu":"", 
+            "nav_items":"",
+            "config":{
+                "show-images":"",
+                "menu-item":""
+                }
+            }
     
     def post(self, *args, **kwargs):
         pass
