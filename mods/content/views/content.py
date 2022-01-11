@@ -25,7 +25,8 @@ class ContentView(ModelViewSet):
             params.update({"app_id": self.request.query_params["app_id"]})
 
         if self.request.query_params.get("content_type", None) is not None:
-            params.update({"type_ref": self.request.query_params["content_type"]})
+            params.update(
+                {"type_ref": self.request.query_params["content_type"]})
 
         if self.request.query_params.get("node_id", None) is not None:
             params.update({"node_id": self.request.query_params["node_id"]})
@@ -38,27 +39,29 @@ class ContentCreateView(APIView):
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
         if 'id' in data and data['id'] is not None and int(data['id']) > 0:
-            content_parent_id = Content.objects.filter(pk=data['parent_id']).exists()
+            content_parent_id = Content.objects.filter(
+                pk=data['parent_id']).exists()
             if content_parent_id:
                 content_parent_id = content_parent_id
             else:
                 content_parent_id = None
             # content save
-            content_create = Content.objects.filter(id=data["id"]).update(type_ref=data["content_type"],
-                                                                          app_id=data["app_id"],
-                                                                          title=data["title"],
-                                                                          subtitle=data["subtitle"],
-                                                                          description=data["description"],
-                                                                          default_action="",
-                                                                          action_items=data["action_items"],
-                                                                          parent_id=content_parent_id,
-                                                                          left_contents="",
-                                                                          display_order=data["display_order"],
-                                                                          content_body=data["content_body"],
-                                                                          content_format=data["content_format"],
-                                                                          template_cache="",
-                                                                          value_cache=""
-                                                                          )
+            content_create = Content.objects.filter(id=data["id"])
+            content_create.update(type_ref=data["content_type"],
+                                  app_id=data["app_id"],
+                                  title=data["title"],
+                                  subtitle=data["subtitle"],
+                                  description=data["description"],
+                                  default_action="",
+                                  action_items=data["action_items"],
+                                  parent_id=content_parent_id,
+                                  left_contents="",
+                                  display_order=data["display_order"],
+                                  content_body=data["content_body"],
+                                  content_format=data["content_format"],
+                                  template_cache="",
+                                  value_cache=""
+                                  )
             # # content options save
             # for key, value in data["options"].items():
             #     content_options = ContentOptions(content=content_create,
@@ -72,7 +75,8 @@ class ContentCreateView(APIView):
             # # Content Media save
             return response.Response(data=data, status=status.HTTP_201_CREATED)
         else:
-            content_parent_id = Content.objects.filter(pk=data['parent_id']).exists()
+            content_parent_id = Content.objects.filter(
+                pk=data['parent_id']).exists()
             if content_parent_id:
                 content_parent_id = content_parent_id
             else:
@@ -122,7 +126,8 @@ class SingleContentDetailsView(APIView):
         content_create = Content.objects.filter(id=id).first()
         results.update({'id': id})
         try:
-            results.update({"node_id": NodeContent.objects.filter(content_id=id).first().flow_node.id})
+            results.update({"node_id": NodeContent.objects.filter(
+                content_id=id).first().flow_node.id})
         except:
             pass
         option = {}
@@ -160,16 +165,18 @@ class ContentDeleteView(APIView):
 
 
 class MenuDetailAPIView(APIView):
+    """
+    Responsible for showing menu Detail along with the children
+    """
 
     def get(self, request, *args, **kwargs):
         params = {}
         if self.request.query_params.get("menu-id", None) is not None:
             params.update({"id": self.request.query_params["menu-id"]})
 
-
         menus = Content.objects.filter(id=params.get('id', None)).first()
 
         if not menus:
-            return Response({"message ": "Not-Found"})
-        
-        return Response({"data": ContentMenuDetailSerializer(menus).data})
+            return Response({"message ": "Not-Found"}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({"data": ContentMenuDetailSerializer(menus).data}, status=status.HTTP_200_OK)
