@@ -22,7 +22,8 @@ class ContentNevItemSerializer(ModelSerializer):
                   'title',
                   'description',
                   'action_items',
-                  'content_body')
+                  'content_body', 
+                  'parent_id',)
 
 
 class ContentMenuDetailSerializer(ModelSerializer):
