@@ -15,6 +15,7 @@ from .models import (
     NodeContent,
     MessageTemplate,
     Upload,
+    ContentOptions
 )
 
 admin.site.register(Content)
@@ -25,6 +26,7 @@ admin.site.register(ConverseContentType)
 admin.site.register(ContentTaxonomy)
 admin.site.register(ContentCustomFields)
 admin.site.register(ContentVars)
+admin.site.register(ContentOptions)
 admin.site.register(Flow)
 admin.site.register(FlowNode)
 admin.site.register(NodeConfig)
