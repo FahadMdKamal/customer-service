@@ -14,11 +14,12 @@ class ContentNevItemSerializer(ModelSerializer):
     class Meta:
         model = Content
         fields = (
+            'id',
             'content_format',
             'title',
-            'description',
-            'action_items',
-            'content_body',
+            # 'description',
+            # 'action_items',
+            # 'content_body',
             'parent_id'
             )
     
@@ -33,6 +34,7 @@ class ContentMenuDetailSerializer(ModelSerializer):
     class Meta:
         model = Content
         fields = (
+            'id',
             'content_format',
             'title',
             'description',
@@ -42,22 +44,27 @@ class ContentMenuDetailSerializer(ModelSerializer):
             'menu_detail'
             )
 
+    def extract_item(self, nav_obj, nav_list : list):
+        """
+        Recursively call and check if there is any child available.
+        """
+        cont = Content.objects.filter(parent_id=nav_obj)
+        if cont.count() == 0:
+            return nav_list
+        else:
+            for ct in cont:
+                nav_list.append(ct)
+                self.extract_item(ct, nav_list)
+            return nav_list
+
     def get_nav_items(self, instance):
-        childs = []
-        items = Content.objects.filter(parent_id=instance)
-
-        for item in items:
-            childs.append(item)
-
-        for item in items:
-            ch = Content.objects.filter(parent_id=item)
-            if ch.count() > 0:
-                for c in ch:
-                    childs.append(c)
+        """
+        Get all the children for the model object
+        """
+        childs = self.extract_item(instance, [])
         menu_objecs = []
         for item in childs:
             menu_objecs.append(ContentNevItemSerializer(item).data)
-            
         return menu_objecs
 
     def get_menu_detail(self, instance):
