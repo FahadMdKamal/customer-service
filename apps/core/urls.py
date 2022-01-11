@@ -2,6 +2,8 @@ from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
 from . import views
 
+# from apps.core.handlers.api_handler import ApiHandler
+
 app_name = "core"
 
 # Wire up our API using automatic URL routing.
@@ -30,4 +32,6 @@ urlpatterns = [
     path('taxonomy-type-create-update/', views.TaxonomyTypeCreateUpateView.as_view(), name='taxonomy_type_create_update'),
     path('taxonomy-type-list/', views.TaxonomyTypeListOrFilterView.as_view(), name='taxonomy_type_list_or_filter'),
     path('taxonomy-type-delete/', views.TaxonomyTypeDeleteView.as_view(), name='taxonomy_type_delete'),
+
+    # path('api/', ApiHandler.as_view())
 ]

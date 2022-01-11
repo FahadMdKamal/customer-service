@@ -12,6 +12,7 @@ class Profile(models.Model):
     profile_image = models.ImageField(upload_to="profile", null=True, blank=True)
     mobile = models.CharField(max_length=20, null=True, blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="user_belong_to", null=True, blank=True)
+    login_attempts = models.IntegerField(default=0)
 
     class Meta:
         db_table = "user_profiles"

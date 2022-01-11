@@ -1,7 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
-from django.contrib.auth.hashers import make_password
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -24,6 +22,7 @@ class ChangePasswordSerializer(serializers.Serializer):
     
     def validate_old_password(self, data):
         user = self.user
+
         if not user.check_password(data):
             raise serializers.ValidationError("Invalid Old Password.")
         return data
