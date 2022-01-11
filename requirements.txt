@@ -16,9 +16,12 @@ django-rest-registration==0.6.4
 djangorestframework==3.12.4
 djangorestframework-simplejwt==5.0.0
 idna==3.3
+importlib-metadata==4.10.0
 kombu==5.2.2
+Markdown==3.3.6
 Pillow==8.4.0
 prompt-toolkit==3.0.22
+psycopg2==2.9.3
 psycopg2-binary==2.9.2
 PyJWT==2.3.0
 pytz==2021.3
@@ -30,3 +33,4 @@ urllib3==1.26.7
 user-agents==2.2.0
 vine==5.0.0
 wcwidth==0.2.5
+zipp==3.7.0

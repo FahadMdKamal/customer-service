@@ -63,6 +63,7 @@ PROJECT_APPS = [
     'apps.chatbot',
     'apps.mixed',
     'apps.reports',
+    'apps.casex',
 ]
 
 PROJECT_MODS = [
@@ -150,6 +151,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        'NAME': 'apps.core.utils.password_validator.PasswordPatternValidator',
     },
 ]
 

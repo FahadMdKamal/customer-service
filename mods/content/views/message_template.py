@@ -10,16 +10,21 @@ from mods.content.serializers import MessageTemplateSerializer
 from rest_framework import response
 from rest_framework import status
 import json
+from apps.core.utils import upload_handler
+
+import markdown
 
 
 class MessageTemplateCreateOrUpdateView(APIView):
 
     def post(self, request):
-        data = json.loads(request.body.decode('utf-8'))
-        if 'id' in data and data['id'] is not None and int(data['id']) > 0:
+        if request.data.get('id') is not None and int(request.data.get('id')) > 0:
             try:
-                message_template = MessageTemplate.objects.get(pk=data['id'])
-                serializer = MessageTemplateSerializer(message_template, data=data)
+                message_template = MessageTemplate.objects.filter(pk=request.data.get('id')).first()
+                if request.data.get('file', None):
+                    request.data['attachment'] = upload_handler(request)
+                    request.data.pop('file')
+                serializer = MessageTemplateSerializer(message_template, data=request.data)
                 if serializer.is_valid():
                     serializer.save()
                     return response.Response(data=serializer.data, status=status.HTTP_201_CREATED)
@@ -28,8 +33,13 @@ class MessageTemplateCreateOrUpdateView(APIView):
             except ObjectDoesNotExist:
                 pass
         else:
+            if request.data.get('file', None):
+                request.data['attachment'] = upload_handler(request)
+                request.data.pop('file')
+           
             serializer = MessageTemplateSerializer(data=request.data)
             if serializer.is_valid():
+                
                 message_template = serializer.save()
                 if message_template:
                     return response.Response(data=serializer.data, status=status.HTTP_201_CREATED)
@@ -47,12 +57,17 @@ class MessageTemplateListView(APIView):
         if self.request.query_params.get("app-id", None) is not None:
             params.update({"app_id": self.request.query_params["app-id"]})
 
+        if self.request.query_params.get("channel-type", None) is not None:
+            params.update({"allowed_channel_types": self.request.query_params["channel-type"]})
+
         data = []
         nextPage = 0
         previousPage = 0
         
-        page = request.GET.get('page', 1)
-        limit = request.GET.get('limit', 10)
+        raw_page = request.GET.get('page')
+        raw_limit = request.GET.get('limit')
+        page = int(raw_page) if raw_page and raw_page.isdigit() else 1
+        limit = int(raw_limit) if raw_limit and raw_limit.isdigit() else 10
         message_template = MessageTemplate.objects.filter(**params).order_by('-id')
 
         paginator = Paginator(message_template, limit)
@@ -73,7 +88,7 @@ class MessageTemplateListView(APIView):
             previousPage = data.previous_page_number()
 
         return response.Response(
-                {'data': serializer.data,
+                {'data': serializer.data if page <= paginator.num_pages else [],
                 'groups':taxonomies_serializer.data,
                  'count': paginator.count,
                  'total_pages': paginator.num_pages,
@@ -103,15 +118,31 @@ class MessageTemplateDeleteView(APIView):
 class MessageTemplateDetailsView(APIView):
 
     def get(self, request):
+        params = {}
         message_template_id = int(request.GET.get('id'))
+
+        if self.request.query_params.get("id", None) is not None:
+            params.update({"id": self.request.query_params["id"]})
+
+        if self.request.query_params.get("app-id", None) is not None:
+            params.update({"app_id": self.request.query_params["app-id"]})
+
+        if self.request.query_params.get("template-code", None) is not None:
+            params.update({"template_code": self.request.query_params["template-code"]})
+
+        if self.request.query_params.get("channel-type", None) is not None:
+            params.update({"allowed_channel_types": self.request.query_params["channel-type"]})
 
         if message_template_id is not None and message_template_id > 0:
             try:
-                flow = MessageTemplate.objects.get(pk=message_template_id)
-                serializer = MessageTemplateSerializer(flow)
+                message_template = MessageTemplate.objects.filter(**params).order_by('-id').last()
+                serializer = MessageTemplateSerializer(message_template)
+                if not message_template:
+                    return response.Response(status=404, data={ "message": "Message Template not found."})
                 return response.Response(status=200, data=serializer.data)
             except ObjectDoesNotExist:
-                return response.Response(status=404, data={"message": "Message Template not found."})
+                return response.Response(status=404, data={ "error":serializer.errors, "message": "Message Template not found."})
 
         else:
             return response.Response(status=404, data={"message": "Message Template not found."})
+

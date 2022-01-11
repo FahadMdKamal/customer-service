@@ -27,6 +27,7 @@ urlpatterns = [
     path('chatbot/', include('apps.chatbot.urls')),
     path('mixed/', include('apps.mixed.urls')),
     path('reports/', include('apps.reports.urls')),
+    path('casex/', include('apps.casex.urls')),
     path('content/', include('mods.content.urls')),
     path('nlu/', include('mods.nlu.urls')),
 ]

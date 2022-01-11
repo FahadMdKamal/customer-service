@@ -14,6 +14,7 @@ from rest_framework import status
 from apps.core.utils import Util
 
 from apps.core.serializers import SetNewPasswordSerializer
+from apps.core.utils import is_password_change_valid
 
 
 class CustomRedirect(HttpResponsePermanentRedirect):
@@ -91,6 +92,9 @@ class CompleteResetPassword(APIView):
                 
                 if serializer_data.is_valid():
                     user.password = make_password(data.get('password'))
+                    if not is_password_change_valid(user, password=data.get('password')):
+                        return Response({'message': 'This password could not be used now'}, status=status.HTTP_200_OK)
+
                     user.save()
                     return Response({'message': 'Password Changed Successfully'}, status=status.HTTP_200_OK)
                 else:

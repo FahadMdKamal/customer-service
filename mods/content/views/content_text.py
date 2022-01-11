@@ -1,6 +1,5 @@
 import json
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.migrations import serializer
 from rest_framework.views import APIView
 from rest_framework import response
 from rest_framework import status
