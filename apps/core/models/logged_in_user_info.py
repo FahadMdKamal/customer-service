@@ -4,11 +4,12 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
+# user display sessions
+
 class LoggedInUserInfo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="logged_info")
     os = models.CharField(max_length=50)
     browser = models.CharField(max_length=100)
-    ip = models.CharField(max_length=40)
+    ip = models.CharField(max_length=40) # CIDR
     hash = models.CharField(max_length=255)
     is_allowed = models.BooleanField(default=False)
-    

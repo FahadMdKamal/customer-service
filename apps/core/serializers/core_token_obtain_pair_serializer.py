@@ -2,6 +2,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .user_serializers import UserSerializers
 from django.contrib.auth import get_user_model
+from apps.core.models import UserAllowOrigin
 
 User = get_user_model()
 
@@ -10,8 +11,13 @@ class CoreTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         user_profile = None
-        # Get User with the username
         user_obj = User.objects.get(username= attrs.get('username'))
+
+        user_origin = UserAllowOrigin.objects.filter(user=user_obj)
+
+        # User needs to be allowed in UserAllowedOrigin model
+        if not user_origin.exists() or not user_origin.first().allowed:
+            raise ValidationError({"message": "You are not allowed to login."})
         
         if user_obj and not user_obj.is_staff:
             user_profile = user_obj.profile_data
