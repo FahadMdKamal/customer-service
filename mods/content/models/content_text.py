@@ -13,7 +13,7 @@ class ContentTextManager(models.Manager):
 
 
 class ContentText(models.Model):
-    text_ref = models.CharField(max_length=244)
+    text_ref = models.CharField(max_length=244) #TODO: Make it unique field, could be empty
     text_vars = models.JSONField(default=dict)
     text_body = models.JSONField(default=dict)
     text_group = models.ForeignKey(ContentTaxonomy, blank=True, null=True, on_delete=models.PROTECT)

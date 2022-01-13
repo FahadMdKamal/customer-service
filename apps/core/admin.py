@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.core.models import Taxonomy, TaxonomyType, App, Profile, Organization, LoggedInUserInfo, PasswordStore
+from apps.core.models import Taxonomy, TaxonomyType, App, Profile, Organization, LoggedInUserInfo, PasswordStore, UserAllowOrigin
 
 
 admin.site.site_header = "Univa Admin Panel"
@@ -24,3 +24,8 @@ class ProfileAdmin(admin.ModelAdmin):
 @admin.register(Organization)
 class OrganizationAdmin(admin.ModelAdmin):
     list_display = ('name', )
+
+@admin.register(UserAllowOrigin)
+class UserAllowOriginAdmin(admin.ModelAdmin):
+    list_display = ('user', 'principal', 'allowed', 'origin_type', 'origin_sig')
+    list_filter = ('user','origin_type', 'allowed')
