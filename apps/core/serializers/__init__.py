@@ -7,3 +7,4 @@ from .register import RegisterSerializer
 from .app_serializers import AppSerializer
 from .change_password_serializers import ChangePasswordSerializer
 from .password_reset_serializers import PasswordResetSerializer, SetNewPasswordSerializer
+from .user_allowed_origin_serializers import UserAllowedOriginSerializers

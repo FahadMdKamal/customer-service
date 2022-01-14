@@ -1,14 +1,21 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import viewsets
 from rest_framework_simplejwt import views as jwt_views
 from . import views
-
-# from apps.core.handlers.api_handler import ApiHandler
+from rest_framework.routers import DefaultRouter
 
 app_name = "core"
+
+router = DefaultRouter()
+
+router.register(r'user-origin', views.UserAllowedOriginView, basename="user-allowed-origin")
+
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
+    path('', include(router.urls)),
+    
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('login/', views.CoreTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('login/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
