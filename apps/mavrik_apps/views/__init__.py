@@ -1,0 +1,1 @@
+from .mavrik_apps import MavrikAppApiView
