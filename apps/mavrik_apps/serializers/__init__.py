@@ -1,0 +1,1 @@
+from .mavrik_app_serilizers import MavrikAppSerializer
