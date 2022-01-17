@@ -56,5 +56,5 @@ urlpatterns = [
          name='taxonomy_type_delete'),
 
     # path('api/', ApiHandler.as_view())
-    path('token-validate/', views.TokenValidationAPIView.as_view())
+    path('check/', views.TokenValidationAPIView.as_view())
 ]
