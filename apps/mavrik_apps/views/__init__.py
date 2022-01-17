@@ -1,1 +1,1 @@
-from .mavrik_apps import MavrikAppApiView
+from .mavrik_apps import MavrikAppApiView, MavrikAppCreateOrUpdateApiView
