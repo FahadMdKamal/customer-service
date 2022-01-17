@@ -5,7 +5,6 @@ from rest_framework import status
 
 from apps.mavrik_apps.serializers import MavrikAppSerializer
 from apps.mavrik_apps.models import MavrikApps
-from mods.content import serializers
 
 
 class MavrikAppApiView(APIView):
@@ -29,9 +28,8 @@ class MavrikAppApiView(APIView):
     
     def post(self, request):
         serializer = MavrikAppSerializer(data=request.data)
-        # TODO: Solve the issue
         if serializer.is_valid():
-            object = serializer.create()
-            return Response({"message":"test", "data":object})
-        return Response({"message":"test", "data": serializer.errors})
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   

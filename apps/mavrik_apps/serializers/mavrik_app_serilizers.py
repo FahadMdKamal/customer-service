@@ -1,18 +1,20 @@
 from rest_framework import serializers
 
 from apps.mavrik_apps.models import MavrikApps, ChannelTypes
-from apps.core.utils import ChoicesFieldSerializer
+# from apps.mavrik_apps.serializers import MavrikChannelTypeSerializer
+
+
+class MavrikChannelTypeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ChannelTypes
+        fields = ('id', 'channel_name',)
+
 
 class MavrikAppSerializer(serializers.ModelSerializer):
+    allowed_channel_types = MavrikChannelTypeSerializer(many=True)
 
     class Meta:
         model = MavrikApps
-        fields = '__all__'
-        depth=1
+        fields = ('id', 'app_code', 'app_domain', 'app_config', 'app_icon', 'status', 'allowed_domains', 'allowed_channel_types')
 
-    # def create(self, validated_data):
-    #     # channels = validated_data.pop('channels')
-
-    #     # validated_data['allowed_channel_types'] = channels
-    #     # print(channels)
-    #     return super().create(validated_data)
