@@ -11,8 +11,8 @@ class ChannelTypes(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = "marik_channels"
-        verbose_name_plural = "Marik Channels"
+        db_table = "mavrik_app_channel_types"
+        verbose_name_plural = "Marik Channel Types"
 
     def __str__(self) -> str:
         return self.channel_name
