@@ -5,7 +5,13 @@ class ChannelTypes(models.Model):
     """
     Responsible for storing Mavrik Channel Types
     """
-    channel_name = models.CharField(max_length=20)
+    PLATFORMS = (
+        ('facebook', 'Facebook'),
+    )
+    channel_name = models.CharField(max_length=20, unique=True)
+    platform = models.CharField(max_length=20, choices=PLATFORMS, default='facebook')
+    icon = models.CharField(max_length=20, null=True, blank=True)
+    label = models.CharField(max_length=100, null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

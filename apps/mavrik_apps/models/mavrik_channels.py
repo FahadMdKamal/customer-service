@@ -17,8 +17,12 @@ class MaverikChannels(models.Model):
         ('paused', 'Paused'),
         ('retired', 'Retired'),
         ('unused', 'Unused'),
-        ('active', 'Active'),
+        ('inactive', 'Inactive'),
     )
+    STATUS  = (
+        ('active', 'Active'), 
+        ('inactive', 'Inactive')
+        )
 
     app_id = models.CharField(max_length=50, null=True, blank=True)
     channel_name = models.CharField(max_length=20, null=True, blank=True, unique=True)
@@ -26,7 +30,7 @@ class MaverikChannels(models.Model):
     channel_type = models.ForeignKey(ChannelTypes, on_delete=models.CASCADE, related_name="channel_type_set")
     details = models.JSONField(default=dict, null=True, blank=True)
     config = models.JSONField(default=dict, null=True, blank=True)
-    status = models.CharField(max_length=20, blank=True, null=True)
+    status = models.CharField(choices=STATUS, max_length=10, default='active')
     connectivity_status = models.CharField(max_length=15, choices=CONNECTIVITY_STATUS, default='active')
     connectivity_note = models.CharField(max_length=255, null=True, blank=True)
 
