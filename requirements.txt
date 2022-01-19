@@ -35,3 +35,4 @@ vine==5.0.0
 wcwidth==0.2.5
 zipp==3.7.0
 django-mailbox==4.8.2
+django-mail-admin==0.2.5
