@@ -30,4 +30,5 @@ urlpatterns = [
     path('casex/', include('apps.casex.urls')),
     path('content/', include('mods.content.urls')),
     path('nlu/', include('mods.nlu.urls')),
+    path('queue/',include('mods.queue_service.urls')),
 ]

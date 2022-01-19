@@ -22,12 +22,12 @@ STATUS = (
 
 class QueueTopics(models.Model):
     app_id = models.IntegerField(default=0)
-    topic = models.CharField(
-        max_length=20,
+    topic = models.SlugField(
+        max_length=40,
         choices= TOPICS,
         default='social',
     )
-    strict_source=models.CharField(
+    allowed_source=models.CharField(
         max_length=100,
         default='',
         blank=True
