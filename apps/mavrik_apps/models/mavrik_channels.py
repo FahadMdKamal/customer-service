@@ -1,9 +1,6 @@
-from email.policy import default
-from hashlib import blake2b
-from operator import mod
-from xml.etree.ElementInclude import default_loader
 from django.db import models
-from .channel_typs import ChannelTypes
+
+from django_mailbox.models import Mailbox
 
 
 class MaverikChannels(models.Model):
@@ -20,18 +17,27 @@ class MaverikChannels(models.Model):
         ('inactive', 'Inactive'),
     )
     STATUS  = (
-        ('active', 'Active'), 
-        ('inactive', 'Inactive')
+        (True, 'Active'), 
+        (False, 'Inactive')
+        )
+    CH_TYPES = (
+        ('facebook_page', 'Facebook Page'), 
+        ('facebook_messenger', 'Facebook Messenger'),
+        ('live_chat', 'Live Chat'),
+        ('whatsapp', 'WhatsApp'),
+        ('API', 'API'),
+        ('email', 'Email'),
         )
 
     app_id = models.CharField(max_length=50, null=True, blank=True)
-    channel_name = models.CharField(max_length=20, null=True, blank=True, unique=True)
+    channel_name = models.CharField(max_length=100, unique=True)
     channel_ref = models.CharField(max_length=20, null=True, blank=True)
-    channel_type = models.ForeignKey(ChannelTypes, on_delete=models.CASCADE, related_name="channel_type_set")
+    channel_type = models.CharField(max_length=40, choices=CH_TYPES)
     details = models.JSONField(default=dict, null=True, blank=True)
+    mail_box = models.OneToOneField(Mailbox, on_delete=models.CASCADE, null=True, blank=True, related_name="channel_mail_box")
     config = models.JSONField(default=dict, null=True, blank=True)
-    status = models.CharField(choices=STATUS, max_length=10, default='active')
-    connectivity_status = models.CharField(max_length=15, choices=CONNECTIVITY_STATUS, default='active')
+    status = models.BooleanField(choices=STATUS, default=True)
+    connectivity_status = models.CharField(max_length=15, choices=CONNECTIVITY_STATUS, default=True)
     connectivity_note = models.CharField(max_length=255, null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -43,3 +49,4 @@ class MaverikChannels(models.Model):
 
     def __str__(self) -> str:
         return self.channel_name
+    
