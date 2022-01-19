@@ -1,5 +1,5 @@
 from django.db import models
-from .mavrik_channel_typs import ChannelTypes
+from .channel_typs import ChannelTypes
 
 class MavrikApps(models.Model):
     """

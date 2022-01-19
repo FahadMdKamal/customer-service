@@ -53,4 +53,5 @@ class MavrikAppSerializer(serializers.ModelSerializer):
                 for channel in channel_data:
                     instance.allowed_channel_types.add(channel)
         instance.save()
+        
         return instance 
