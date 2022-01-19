@@ -91,7 +91,6 @@ class MevrikAppDeleteApiView(APIView):
 
         if self.request.query_params.get("app-id", None) is not None:
             params.update({"id": self.request.query_params["app-id"]})
-        print(request.query_params.get('app-id'))
         
         app = MavrikApps.objects.filter(id=request.query_params.get('app-id'))
         if app:
