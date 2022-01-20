@@ -76,13 +76,24 @@ class MavrikAppCreateOrUpdateApiView(APIView):
             serializer = MavrikAppSerializer(db_object, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
-                return decorate_response(serializer.data, True, status.HTTP_201_CREATED, "App Updated successfully")
+                return decorate_response(status_code=status.HTTP_202_ACCEPTED,
+                        status=True,
+                        message="App Updated successfully",
+                        serializer_data=serializer.data)
         else:
             serializer = MavrikAppSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                return decorate_response(serializer.data, True, status.HTTP_201_CREATED, "App Updated successfully")
-        return decorate_response(serializer.errors, True, status.HTTP_400_BAD_REQUEST, "App Update Faild")
+                return decorate_response(status_code=status.HTTP_201_CREATED,
+                        status=True,
+                        message="App Created successfully",
+                        serializer_data=serializer.data)
+
+        return decorate_response(status_code=status.HTTP_400_BAD_REQUEST,
+                status=False,
+                message="App Update Faild",
+                serializer_data=[])
+
 
 class MevrikAppDeleteApiView(APIView):
 
@@ -95,6 +106,12 @@ class MevrikAppDeleteApiView(APIView):
         app = MavrikApps.objects.filter(id=request.query_params.get('app-id'))
         if app:
             app.delete()
-            return decorate_response(serializer_data="No Content", status=True, status_code=status.HTTP_204_NO_CONTENT, message="App Deleted Successfully")
+            return decorate_response(status_code=status.HTTP_204_NO_CONTENT,
+                    status=True,
+                    message="App Deleted Successfully",
+                    serializer_data="No Content")
 
-        return decorate_response(serializer_data="No App Found", status=False, status_code=status.HTTP_404_NOT_FOUND, message="App Deletion Faild")
+        return decorate_response(status_code=status.HTTP_404_NOT_FOUND,
+                status=False,
+                message="App Deleted Successfully",
+                serializer_data="App Deletion Faild")
