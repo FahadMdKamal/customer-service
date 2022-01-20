@@ -30,7 +30,7 @@ class TopicStatusUpdate(CreateModelMixin, GenericAPIView):
     def post(self, request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
-        if 'status' and 'id' not in body:
+        if 'status' not in body or 'id' not in body:
             return Response({'message':'Required field missing'},status=status.HTTP_400_BAD_REQUEST)
         else:
             snippet = self.get_object(body['id'])
@@ -58,11 +58,19 @@ class TopicList(ListAPIView):
 
 class TopicReset(APIView):
     serializer_class = TopicCreateSerializer
+
+    def get_object(self, pk):
+        try:
+            return QueueTopics.objects.get(app_id=pk)
+        except QueueTopics.DoesNotExist:
+            raise Http404
+
     def post(self, request):
         body_unicode = self.request.body.decode('utf-8')
         body = json.loads(body_unicode)
         if 'app_id' not in body:
             return Response({'message':'Required field missing'},status=status.HTTP_400_BAD_REQUEST)
         else:
+            self.get_object(body['app_id'])
             reset_qs = QueueTopics.objects.filter(app_id=body['app_id']).delete()
             return Response({'message':'Queue reset is successfull'},status=status.HTTP_200_OK)

@@ -39,12 +39,20 @@ class QueueItemPublish(CreateModelMixin, GenericAPIView):
 
 class QueueItemRemove(APIView):
     serializer_class = QueueItemsSerializer
+
+    def get_object(self, pk):
+        try:
+            return QueueItems.objects.get(pk=pk)
+        except QueueItems.DoesNotExist:
+            raise Http404
+
     def post(self, request):
         body_unicode = self.request.body.decode('utf-8')
         body = json.loads(body_unicode)
         if 'id' not in body:
             return Response({'message':'Required field missing'},status=status.HTTP_400_BAD_REQUEST)
         else:
+            self.get_object(body['id'])
             remove_qi = QueueItems.objects.filter(id=body['id']).delete()
             return Response({'message':'Queue item remove is successfull'},status=status.HTTP_200_OK)
 

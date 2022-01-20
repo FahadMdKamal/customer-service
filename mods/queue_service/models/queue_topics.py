@@ -13,6 +13,12 @@ DIRECTION = (
     ('lifo','LIFO')
 )
 
+STATUS = (
+    ('open','OPEN'),
+    ('paused','PAUSED'),
+    ('closed','CLOSED'),
+    ('retired','RETIRED')
+)
 
 class QueueTopics(models.Model):
     app_id = models.IntegerField()
@@ -38,9 +44,8 @@ class QueueTopics(models.Model):
     dispute_timeout = models.IntegerField(default=0,blank=True)
     status = models.CharField(
         max_length=20,
+        choices= STATUS,
         default='open',
-        null= True,
-        blank=True
     )
     last_open_at = models.DateTimeField(null= True, blank=True)
     last_closed_at = models.DateTimeField(null= True, blank=True)

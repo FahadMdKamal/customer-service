@@ -1,5 +1,4 @@
-from email.policy import default
-from telnetlib import STATUS
+
 from django.db import models
 
 TOPICS=(
