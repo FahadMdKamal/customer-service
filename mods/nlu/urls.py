@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from mods.nlu.views import RetrainView, NluImportDataView, NluEntitiesViewSet, StaticDictionaryViewSet, \
     NluIntentGroupViewSet, NluIntentUtterViewSet, NluIntentViewSet, NluUtteranceViewSet, NluLookupViewSet, \
     NluSyncViewSet, UtteranceUploadData, MessageView, NluUtterancesConfidenceView, NluUtterancesFullTextSearchView, \
-    SyncIntent, SyncEntities, SyncTraits, SyncUtterances, UtteranceTrainStatus
+    SyncIntent, SyncEntities, SyncTraits, SyncUtterances, UtteranceTrainStatus, ExtratorViewSet
 
 router = DefaultRouter()
 
@@ -29,6 +29,7 @@ router.register(r'sync/entities', SyncEntities, basename="entities_sync")
 router.register(r'sync/traits', SyncTraits, basename="traits_sync")
 router.register(r'sync/utterances', SyncUtterances, basename="utterances_sync")
 router.register(r'sync/utterances_status', UtteranceTrainStatus, basename="utterances_status")
+router.register(r'extract', ExtratorViewSet, basename="utterances_status")
 
 urlpatterns = [
     path('', include(router.urls)),
