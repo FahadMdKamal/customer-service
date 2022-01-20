@@ -30,6 +30,7 @@ urlpatterns = [
     path('mixed/', include('apps.mixed.urls')),
     path('reports/', include('apps.reports.urls')),
     path('casex/', include('apps.casex.urls')),
+    path('apps/', include('apps.mavrik_apps.urls')),
     path('content/', include('mods.content.urls')),
     path('nlu/', include('mods.nlu.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

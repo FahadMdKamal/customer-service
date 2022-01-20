@@ -1,5 +1,6 @@
 amqp==5.0.6
 asgiref==3.4.1
+bangla==0.0.2
 billiard==3.6.4.0
 celery==5.1.2
 certifi==2021.10.8
@@ -12,6 +13,7 @@ click-repl==0.2.0
 Django==3.2.9
 django-cors-headers==3.8.0
 django-environ==0.8.1
+django-mailbox==4.8.2
 django-rest-registration==0.6.4
 djangorestframework==3.12.4
 djangorestframework-simplejwt==5.0.0
@@ -23,11 +25,13 @@ Pillow==8.4.0
 prompt-toolkit==3.0.22
 # psycopg2==2.9.3
 psycopg2-binary==2.9.2
+pycodestyle==2.8.0
 PyJWT==2.3.0
 pytz==2021.3
 requests==2.26.0
 six==1.16.0
 sqlparse==0.4.2
+toml==0.10.2
 ua-parser==0.10.0
 urllib3==1.26.7
 user-agents==2.2.0

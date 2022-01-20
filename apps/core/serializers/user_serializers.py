@@ -1,22 +1,29 @@
 from rest_framework import serializers
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.password_validation import validate_password
-
 
 from apps.core.models import Profile, Organization
 
+from apps.mavrik_apps.serializers import MavrikAppSerializer
+
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ('id', 'name')
+
 
 class UserProfileSerializers(serializers.ModelSerializer):
+    allowed_apps = MavrikAppSerializer(many=True)
 
     class Meta:
         model = Profile
-        fields = ('profile_image', 'mobile', 'organization')
-        depth= 1
+        fields = ('profile_image', 'mobile', 'organization', 'allowed_apps')
 
 
 class UserSerializers(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     profile = UserProfileSerializers(source='profile_data')
+    groups = GroupSerializer(many=True)
 
     class Meta:
         model = User

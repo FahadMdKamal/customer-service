@@ -6,3 +6,4 @@ from .static_dictionary import StaticDictionaryViewSet, NluLookupViewSet
 from .nlu_entities import NluEntitiesViewSet
 from .message import MessageView
 from .nlu_import_file import NluImportDataView, UtteranceUploadData
+from .extractor import ExtratorViewSet
