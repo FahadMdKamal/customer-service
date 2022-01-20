@@ -53,20 +53,20 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     "corsheaders",
     'rest_registration',
-    # 'django_mailbox',
+    'django_mailbox',
     'django_mail_admin',
 ]
 
 PROJECT_APPS = [
     'apps.core',
+    'apps.mavrik_apps',
     'apps.emailcare',
     'apps.social',
     'apps.livechat',
     'apps.chatbot',
     'apps.mixed',
     'apps.reports',
-    'apps.casex',
-    'apps.mavrik_apps',
+    'apps.casex'
 ]
 
 PROJECT_MODS = [

@@ -17,7 +17,7 @@ class UserAllowOrigin(models.Model):
 
     app_id = models.CharField(max_length=50, null=True, blank=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='origin_user')
-    principal = models.CharField(max_length=15, choices=PRINCIPLE, default='username')
+    principal = models.CharField(max_length=15, choices=PRINCIPLE, default='user')
     token = models.CharField(max_length=255, null=True, blank=True)
     origin_type = models.CharField(max_length=15, choices=CIDR, default='cidr')
     origin_sig = models.CharField(max_length=20, null=True, blank=True, default='0.0.0.0')
