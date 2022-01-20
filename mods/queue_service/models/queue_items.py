@@ -25,14 +25,16 @@ class QueueItems(models.Model):
         choices= TOPICS,
         default='social',
     )
-    serial = models.IntegerField()
+    serial = models.CharField(
+        max_length=20
+    )
     source_ref = models.CharField(
         max_length=200,
         default='',
         null= True,
         blank=True
     )
-    principle_id = models.IntegerField()
+    principle_id = models.IntegerField(default=0)
     queue_variant = models.CharField(
         max_length=200,
         default='',
@@ -64,10 +66,13 @@ class QueueItems(models.Model):
     status = models.CharField(
         max_length=100,
         choices= STATUS,
-        default= 'unattended'
+        default= 'pending'
     )
     metadata = models.JSONField(default=dict)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "mevrik_queue_items"
 
 

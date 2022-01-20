@@ -6,8 +6,9 @@ from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.response import Response
 from mods.queue_service.models.queue_topics import QueueTopics
-from mods.queue_service.serializers.queue_topics_create_serializer import TopicCreateSerializer
+from mods.queue_service.serializers import TopicCreateSerializer
 from django.http import Http404, JsonResponse
+from urllib import parse
 
 class TopicCreate(CreateModelMixin, GenericAPIView):
     
@@ -42,11 +43,9 @@ class TopicStatusUpdate(CreateModelMixin, GenericAPIView):
 class TopicList(ListAPIView):
     serializer_class = TopicCreateSerializer
     def get_queryset(self):
-        body_unicode = self.request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        if 'app_id' not in body:
-            return Response({'message':'Required field missing'},status=status.HTTP_400_BAD_REQUEST)
-        snippet = QueueTopics.objects.filter(app_id=body['app_id']).all()
+        url = self.request.get_full_path()
+        param = dict(parse.parse_qsl(parse.urlsplit(url).query))
+        snippet = QueueTopics.objects.filter(**param).all()
         snippet = TopicCreateSerializer(snippet,many=True).data
         return snippet
     
@@ -54,12 +53,7 @@ class TopicList(ListAPIView):
         response = super().list(request, args, kwargs)
         return response
 
-    def post(self, request, *args, **kwargs):
-        body_unicode = self.request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        if 'app_id' not in body:
-            return Response({'message':'Required field missing'},status=status.HTTP_400_BAD_REQUEST)
-        else:
+    def get(self, request, *args, **kwargs):
             return self.list(self,request, *args, **kwargs)
 
 class TopicReset(APIView):
