@@ -1,4 +1,5 @@
 from django.db import models
+
 from .channel_typs import ChannelTypes
 
 class MavrikApps(models.Model):
@@ -41,4 +42,5 @@ class MavrikApps(models.Model):
         if self.app_domain:
             self.app_domain = self.app_domain.strip().lower()
         return super(MavrikApps, self).save(*args, **kwargs)
+
 

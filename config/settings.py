@@ -53,6 +53,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     "corsheaders",
     'rest_registration',
+    'django_mailbox',
 ]
 
 PROJECT_APPS = [
