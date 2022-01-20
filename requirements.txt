@@ -21,7 +21,7 @@ kombu==5.2.2
 Markdown==3.3.6
 Pillow==8.4.0
 prompt-toolkit==3.0.22
-psycopg2==2.9.3
+# psycopg2==2.9.3
 psycopg2-binary==2.9.2
 PyJWT==2.3.0
 pytz==2021.3
@@ -34,3 +34,4 @@ user-agents==2.2.0
 vine==5.0.0
 wcwidth==0.2.5
 zipp==3.7.0
+django-mailbox==4.8.2
