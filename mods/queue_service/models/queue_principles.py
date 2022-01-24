@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 
 TYPES =(
@@ -30,9 +31,10 @@ class QueuePrinciples(models.Model):
         choices=STAT,
         default='agent_not_present',
     )
-    last_active_at = models.DateTimeField(default=datetime.now())
+    last_active_at = models.DateTimeField(auto_now=True)
     last_assigned_at = models.DateTimeField(auto_now=True)
     principle_meta = models.JSONField(default=dict)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = "mevrik_queue_principles"

@@ -1,5 +1,6 @@
 
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 TOPICS=(
     ('social','Social'),
@@ -71,6 +72,7 @@ class QueueItems(models.Model):
     metadata = models.JSONField(default=dict)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = "mevrik_queue_items"
