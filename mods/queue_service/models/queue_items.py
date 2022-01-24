@@ -11,6 +11,7 @@ TOPICS=(
 
 STATUS = (
     ('incative','Inactive'),
+    ('attended','Attended'),
     ('pending','Pending'),
     ('closed','Closed'),
     ('unattended','Unattended'),
@@ -25,7 +26,7 @@ class QueueItems(models.Model):
         default='social',
     )
     serial = models.CharField(
-        max_length=20
+        max_length=20,
     )
     source_ref = models.CharField(
         max_length=200,
@@ -33,7 +34,7 @@ class QueueItems(models.Model):
         null= True,
         blank=True
     )
-    principle_id = models.IntegerField(default=0)
+    principle_id = models.IntegerField()
     queue_variant = models.CharField(
         max_length=200,
         default='',

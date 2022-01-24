@@ -53,17 +53,20 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     "corsheaders",
     'rest_registration',
+    'django_mailbox',
+    'django_mail_admin',
 ]
 
 PROJECT_APPS = [
     'apps.core',
+    'apps.mavrik_apps',
     'apps.emailcare',
     'apps.social',
     'apps.livechat',
     'apps.chatbot',
     'apps.mixed',
     'apps.reports',
-    'apps.casex',
+    'apps.casex'
 ]
 
 PROJECT_MODS = [
@@ -210,6 +213,7 @@ REST_REGISTRATION = {
 }
 
 
+EMAIL_BACKEND = 'django_mail_admin.backends.CustomEmailBackend'
 # EMAIL_BACKEND = env('EMAIL_BACKEND')
 # EMAIL_HOST = env('EMAIL_HOST')
 # EMAIL_PORT = env('EMAIL_PORT')

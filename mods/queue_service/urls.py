@@ -1,6 +1,6 @@
 from django.urls import path, include
 from mods.queue_service.views import (TopicCreate,TopicStatusUpdate,QueueItemRemove,
-TopicList,TopicReset,QueueItemPublish,QueueItemList,PrincipleOnline,PrincipleCreate)
+TopicList,TopicReset,QueueItemPublish,QueueItemList,PrincipleOnline,PrincipleCreate,QueueItemClaim)
 
 
 
@@ -14,6 +14,7 @@ urlpatterns = [
 
     # Queue Items
     path('item/publish',QueueItemPublish.as_view()),  # For any type update use patch
+    path('item/claim',QueueItemClaim.as_view()),
     path('item/remove',QueueItemRemove.as_view()),
     path('item/list',QueueItemList.as_view()),
 
