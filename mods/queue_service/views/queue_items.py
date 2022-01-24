@@ -73,8 +73,11 @@ class QueueItemClaim(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             elif count>5:
                 return Response({'message':'Max assign limit reached!'},status=status.HTTP_400_BAD_REQUEST)
-            else:
+            elif data.status == 'attended':
                 return Response({'message':'Item is already assigned!'},status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({'message':'Somethinng happened,try again!'},status=status.HTTP_400_BAD_REQUEST)
+
                 
 
 
