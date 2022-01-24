@@ -1,8 +1,8 @@
 from .create_or_update_user import CreateOrUpdateUserView
 from .groups_view import GroupsView
 from .core_token_obtain_pair_view import CoreTokenObtainPairView
-from .taxonomy_view import TaxonomyCreateUpateView, TaxonomyListOrFilterView, TaxonomyDeleteView
-from .taxonomy_type_view import TaxonomyTypeCreateUpateView, TaxonomyTypeListOrFilterView, TaxonomyTypeDeleteView
+from .taxonomy_view import TaxonomyCreateUpateView, TaxonomyDeleteView
+from .taxonomy_type_view import TaxonomyTypeCreateUpateView, TaxonomyTypeDeleteView
 from .register import RegisterView
 from .app_views import AppsListView
 from .change_password_view import ChangePasswordView, UpdateUserPassword
