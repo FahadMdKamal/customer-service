@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-from apps.mavrik_apps.models.mavrik_apps import MavrikApps
+from .mavrik_apps import MavrikApps
 from .organization import Organization
 from django.db.models.signals import post_save
 from django.dispatch import receiver

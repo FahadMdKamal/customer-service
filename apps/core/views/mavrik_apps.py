@@ -1,11 +1,12 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
+from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status
 from django.core.paginator import Paginator, EmptyPage
 
-from apps.mavrik_apps.serializers import MavrikAppSerializer
-from apps.mavrik_apps.models import MavrikApps
+from ..serializers import MavrikAppSerializer
+from ..models import MavrikApps
 from apps.core.utils import decorate_response
 
 
@@ -72,6 +73,7 @@ class MavrikAppCreateOrUpdateApiView(APIView):
     def post(self, request, *args, **kwargs):
         
         if request.data.get('id'):
+            print('update')
             db_object = MavrikApps.objects.get(id=request.data.get('id'))
             serializer = MavrikAppSerializer(db_object, data=request.data, partial=True)
             if serializer.is_valid():
@@ -81,7 +83,9 @@ class MavrikAppCreateOrUpdateApiView(APIView):
                         message="App Updated successfully",
                         serializer_data=serializer.data)
         else:
+            print('create')
             serializer = MavrikAppSerializer(data=request.data)
+            print(serializer.is_valid())
             if serializer.is_valid():
                 serializer.save()
                 return decorate_response(status_code=status.HTTP_201_CREATED,
@@ -91,8 +95,8 @@ class MavrikAppCreateOrUpdateApiView(APIView):
 
         return decorate_response(status_code=status.HTTP_400_BAD_REQUEST,
                 status=False,
-                message="App Update Faild",
-                serializer_data=[])
+                message="Operation Faild",
+                serializer_data=serializer.errors)
 
 
 class MevrikAppDeleteApiView(APIView):
@@ -113,5 +117,5 @@ class MevrikAppDeleteApiView(APIView):
 
         return decorate_response(status_code=status.HTTP_404_NOT_FOUND,
                 status=False,
-                message="App Deleted Successfully",
-                serializer_data="App Deletion Faild")
+                message="App Deletion Faild",
+                serializer_data=[])
