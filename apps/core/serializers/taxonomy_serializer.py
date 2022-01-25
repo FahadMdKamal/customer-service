@@ -17,7 +17,7 @@ class TaxonomySerilizer(serializers.ModelSerializer):
 
     def get_children(self, obj):
         taxos = Taxonomy.objects.filter(parent=obj.id)
-        taxo_serilizer = TaxonomyMiniSerializer(taxos, many=True).data
+        taxo_serilizer = TaxonomySerilizer(taxos, many=True).data
         if taxos.count() > 0:
             return {"total_childs": taxos.count(), "childs": taxo_serilizer}
 

@@ -37,6 +37,9 @@ class TaxonomyCreateUpateView(APIView):
         if self.request.query_params.get("type", None) is not None:
             params.update({"taxonomy_type": self.request.query_params["type"]})
 
+        if self.request.query_params.get("id", None) is not None:
+            params.update({"id": self.request.query_params["id"]})
+
         if self.request.query_params.get("app-id", None) is not None:
             params.update({"app_id": self.request.query_params["app-id"]})
 
