@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+
+from apps.mavrik_apps.models.mavrik_apps import MavrikApps
 from .organization import Organization
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -12,6 +14,7 @@ class Profile(models.Model):
     profile_image = models.ImageField(upload_to="profile", null=True, blank=True)
     mobile = models.CharField(max_length=20, null=True, blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="user_belong_to", null=True, blank=True)
+    allowed_apps = models.ManyToManyField(MavrikApps, related_name="user_apps", blank=True)
     login_attempts = models.IntegerField(default=0)
 
     class Meta:
