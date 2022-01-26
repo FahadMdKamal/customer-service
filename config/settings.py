@@ -55,7 +55,8 @@ THIRD_PARTY_APPS = [
     'rest_registration',
     'django_mailbox',
     'django_mail_admin',
-    'simple_history'
+    'simple_history',
+
 ]
 
 PROJECT_APPS = [
@@ -111,6 +112,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+BROKER_URL = 'django://'
 
 
 # Database
@@ -236,3 +238,5 @@ EMAIL_BACKEND = 'django_mail_admin.backends.CustomEmailBackend'
 #     # If you wish to associate users to errors (assuming you are using
 #     # django.contrib.auth) you may enable sending PII data.
 #     send_default_pii=True)
+CELERY_ENABLE_UTC = True
+CELERY_TIMEZONE = 'Etc/UTC'
