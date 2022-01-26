@@ -1,4 +1,3 @@
-from dataclasses import field
 from django import apps
 from rest_framework import serializers
 from apps.core.models import MavrikApps, MaverikChannels
@@ -39,7 +38,7 @@ class QueueItemsSerializer(serializers.ModelSerializer):
     def get_attending_user(self, object):
         return {
             "user_id": 8000,
-            "name": "AUN",
+            "name": "",
             "profile_pic": "AUN pic"
 
         }
