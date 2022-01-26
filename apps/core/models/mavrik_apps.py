@@ -31,7 +31,7 @@ class MavrikApps(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = "mavrik_apps"
+        db_table = "core_mavrik_apps"
         verbose_name_plural = "Mavrik Apps"
 
     def __str__(self) -> str:

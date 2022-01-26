@@ -28,7 +28,7 @@ urlpatterns = [
     path('mixed/', include('apps.mixed.urls')),
     path('reports/', include('apps.reports.urls')),
     path('casex/', include('apps.casex.urls')),
-    path('apps/', include('apps.mavrik_apps.urls')),
+    # path('apps/', include('apps.mavrik_apps.urls')),
     path('content/', include('mods.content.urls')),
     path('nlu/', include('mods.nlu.urls')),
     path('queue/',include('mods.queue_service.urls')),

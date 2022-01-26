@@ -65,7 +65,6 @@ PROJECT_APPS = [
     'apps.mixed',
     'apps.reports',
     'apps.casex',
-    'apps.mavrik_apps',
 ]
 
 PROJECT_MODS = [
