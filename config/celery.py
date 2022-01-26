@@ -16,7 +16,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
-app.conf.result_expires = 5
+task = app.task
 
 def fetch_mail():
     from django_mail_admin.models import Mailbox

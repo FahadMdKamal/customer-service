@@ -27,7 +27,6 @@ class QueueItemPublish(CreateModelMixin, GenericAPIView):
     def post(self, request, *args, **kwargs):
         assignee = QueuePrinciples.objects.all().order_by("last_assigned_at").first()
         request.data['principle_id'] = assignee.principle_id
-        print("ouk2")
         data = self.create(request, *args, **kwargs)
         QueuePrinciples.objects.filter(principle_id=assignee.principle_id).update(last_assigned_at=datetime.now())
         return data

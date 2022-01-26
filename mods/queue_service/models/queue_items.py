@@ -4,6 +4,8 @@ from django.db import models
 from django.core.serializers import serialize
 from simple_history.models import HistoricalRecords
 
+from mods.queue_service.tasks import set_updated_status
+
 
 
 TOPICS=(
@@ -83,23 +85,7 @@ class QueueItems(models.Model):
     class Meta:
         db_table = "mevrik_queue_items"
 
-    def save(self,*args, **kwargs):
-        # create_task = False # variable to know if celery task is to be created
-        # if self.id is None: # Check if instance has 'pk' attribute set 
-        #     # Celery Task is to created in case of 'INSERT'
-        #     create_task = True # set the variable 
-        super(QueueItems, self).save(*args, **kwargs)
-        
-        from mods.queue_service.tasks import set_escalated_status,set_dispute_status
-
-        if self.status== 'attended':
-            escalated_time = datetime.fromtimestamp((self.updated_at).timestamp(), tz=timezone.utc) + timedelta(seconds=int(self.escalation_timeout))
-            # expire =datetime.fromtimestamp((self.updated_at).timestamp(), tz=timezone.utc) + timedelta(seconds=int(self.escalation_timeout)+1)
-            set_escalated_status.apply_async(args=[{'pk':self.id}], eta=escalated_time,expires=5)
-        print('aekak')
-        dispute_time = datetime.fromtimestamp((self.updated_at).timestamp(), tz=timezone.utc) + timedelta(seconds=int(self.dispute_timeout))
-        set_dispute_status.apply_async(args=[{'pk':self.id}], eta=dispute_time,expires=5)
-        
+    
  
         
             

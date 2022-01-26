@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 import environ
 from datetime import timedelta
+
 # import sentry_sdk
 # from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -238,5 +239,4 @@ EMAIL_BACKEND = 'django_mail_admin.backends.CustomEmailBackend'
 #     # If you wish to associate users to errors (assuming you are using
 #     # django.contrib.auth) you may enable sending PII data.
 #     send_default_pii=True)
-CELERY_ENABLE_UTC = True
-CELERY_TIMEZONE = 'Etc/UTC'
+
