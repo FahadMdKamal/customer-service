@@ -30,7 +30,7 @@ class QueuePrinciples(models.Model):
         choices=STAT,
         default='agent_not_present',
     )
-    last_active_at = models.DateTimeField(default=datetime.now())
+    last_active_at = models.DateTimeField(null=True, blank=True)
     principle_meta = models.JSONField(default=dict)
 
     class Meta:
