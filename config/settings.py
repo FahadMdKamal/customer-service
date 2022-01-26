@@ -54,24 +54,27 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     'rest_registration',
     'django_mailbox',
+    'django_mail_admin',
+    'simple_history'
 ]
 
 PROJECT_APPS = [
     'apps.core',
+    'apps.mavrik_apps',
     'apps.emailcare',
     'apps.social',
     'apps.livechat',
     'apps.chatbot',
     'apps.mixed',
     'apps.reports',
-    'apps.casex',
-    'apps.mavrik_apps',
+    'apps.casex'
 ]
 
 PROJECT_MODS = [
     'mods.webhook',
     'mods.content',
     'mods.nlu',
+    'mods.queue_service',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + PROJECT_APPS + PROJECT_MODS
@@ -85,6 +88,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
 
 ]
 
@@ -112,23 +116,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'NAME': env('DB_NAME'),
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT')
-    },
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR + '/db.sqlite3',
-#     }
+#         'NAME': env('DB_NAME'),
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'USER': env('DB_USER'),
+#         'PASSWORD': env('DB_PASSWORD'),
+#         'HOST': env('DB_HOST'),
+#         'PORT': env('DB_PORT')
+#     },
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR + '/db.sqlite3',
+    }
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -211,6 +215,7 @@ REST_REGISTRATION = {
 }
 
 
+EMAIL_BACKEND = 'django_mail_admin.backends.CustomEmailBackend'
 # EMAIL_BACKEND = env('EMAIL_BACKEND')
 # EMAIL_HOST = env('EMAIL_HOST')
 # EMAIL_PORT = env('EMAIL_PORT')
