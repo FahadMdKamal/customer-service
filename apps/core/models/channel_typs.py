@@ -7,6 +7,8 @@ class ChannelTypes(models.Model):
     """
     PLATFORMS = (
         ('facebook', 'Facebook'),
+        ('whattsapp', 'WhattsApp'),
+        ('gmail', 'Mail'),
     )
     channel_name = models.CharField(max_length=20, unique=True)
     platform = models.CharField(max_length=20, choices=PLATFORMS, default='facebook')
@@ -17,7 +19,7 @@ class ChannelTypes(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = "mavrik_app_channel_types"
+        db_table = "core_mavrik_app_channel_type"
         verbose_name_plural = "Marik Channel Types"
 
     def __str__(self) -> str:

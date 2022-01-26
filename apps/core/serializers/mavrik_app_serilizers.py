@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.mavrik_apps.models import MavrikApps, ChannelTypes
+from ..models import MavrikApps, ChannelTypes
 
 class MavrikChannelTypeSerializer(serializers.ModelSerializer):
     """
@@ -15,7 +15,7 @@ class MavrikAppSerializer(serializers.ModelSerializer):
     """
     Represent Apps and performs object's Create and Update functionality
     """
-    allowed_channel_types = MavrikChannelTypeSerializer(many=True, read_only=True)
+    allowed_channel_types = MavrikChannelTypeSerializer(many=True, read_only=True, allow_null = True)
     channels = serializers.JSONField(write_only=True)
 
     class Meta:
@@ -36,6 +36,7 @@ class MavrikAppSerializer(serializers.ModelSerializer):
 
         for channel in channels_data:
             app.allowed_channel_types.add(channel)
+        app.save()
         return app
 
 
