@@ -9,3 +9,4 @@ from .password_reset_serializers import PasswordResetSerializer, SetNewPasswordS
 from .user_allowed_origin_serializers import UserAllowedOriginSerializers
 from .mavrik_app_channels_serializers import MavrikChannelSerializers
 from .mavrik_app_serilizers import MavrikChannelTypeSerializer, MavrikAppSerializer
+from .work_group_serializers import WorkGroupSerializers

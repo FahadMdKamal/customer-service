@@ -9,7 +9,9 @@ from apps.core.models import (Taxonomy,
                               UserAllowOrigin,
                               ChannelTypes,
                               MavrikApps,
-                              MaverikChannels)
+                              MaverikChannels,
+                              WorkGroups
+                              )
 
 
 admin.site.site_header = "Univa Admin Panel"
@@ -46,3 +48,8 @@ class UserAllowOriginAdmin(admin.ModelAdmin):
     list_display = ('user', 'principal', 'allowed',
                     'origin_type', 'origin_sig')
     list_filter = ('user', 'origin_type', 'allowed')
+
+
+@admin.register(WorkGroups)
+class WorkGroups(admin.ModelAdmin):
+    pass

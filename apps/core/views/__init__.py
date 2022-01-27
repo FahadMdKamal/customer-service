@@ -13,3 +13,4 @@ from .user_allowed_origin import UserAllowedOriginView
 from .jwt_token_check import TokenValidationAPIView
 from .mavrik_apps import MavrikAppApiView, MavrikAppCreateOrUpdateApiView, MevrikAppDeleteApiView
 from .mavrik_channels_view import MavrikChannelsApiView, MevrikChannelDeleteApiView
+from .work_group_views import WorkGroupCreateUpdateView

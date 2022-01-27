@@ -1,6 +1,9 @@
 from django.urls import path
+from apps.livechat.views import QueueItemList
 
 urlpatterns = [
+    path('item_list', QueueItemList.as_view()),
+
     # /livechat/queue/item_list?user_id=10&channel_id=10&queue_status=pending
     # /livechat/queue/item_list?user_id=10&channel_id=10&queue_status=disputed
     # /livechat/queue/item_list?user_id=10&channel_id=10&queue_status=active
