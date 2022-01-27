@@ -7,4 +7,5 @@ urlpatterns = [
     path('facebook/', views.FacebookWebhookView.as_view(), name='facebook'),
     path('resolver/', views.ResolverWebhookView.as_view(), name='resolver'),
     path('ticketupdate/', views.TicketUpdateView.as_view(), name='ticketupdate'),
+    path('capture/', views.CaptureView.as_view(), name='webhook-capture'),
 ]
