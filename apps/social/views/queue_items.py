@@ -1,6 +1,6 @@
-from django import apps
-from rest_framework import serializers
-from apps.core.models import MavrikApps, MaverikChannels
+# from rest_framework import serializers
+# from apps.core.models import MavrikApps, MaverikChannels
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from mods.queue_service.models import QueueItems
