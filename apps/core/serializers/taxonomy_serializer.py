@@ -1,33 +1,27 @@
 from rest_framework import serializers
 from apps.core.models import Taxonomy
 
+class TaxonomyMiniSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Taxonomy
+        exclude = ("created_at","updated_at","parent", "crumbs", "ref_path")
+
 
 class TaxonomySerilizer(serializers.ModelSerializer):
     slug = serializers.CharField(required=False)
-    child_count = serializers.SerializerMethodField()
+    children = serializers.SerializerMethodField()
 
     class Meta:
         model = Taxonomy
-        fields = ('id',
-                  'app_id',
-                  'taxonomy_type',
-                  'context',
-                  'name',
-                  'description',
-                  'slug',
-                  'crumbs',
-                  'ref_path',
-                  'parent',
-                  'display_order',
-                  'photo_url',
-                  'details',
-                  'status',
-                  'created_at',
-                  'updated_at',
-                  'child_count')
+        fields = '__all__'
 
-    def get_child_count(self, obj):
-        return Taxonomy.objects.filter(parent=obj.id).count()
+    def get_children(self, obj):
+        taxos = Taxonomy.objects.filter(parent=obj.id)
+        taxo_serilizer = TaxonomySerilizer(taxos, many=True).data
+        if taxos.count() > 0:
+            return {"total_childs": taxos.count(), "childs": taxo_serilizer}
+
+        return {"childs": 0}
 
 
 class TaxonomyListSerilizer(serializers.ModelSerializer):

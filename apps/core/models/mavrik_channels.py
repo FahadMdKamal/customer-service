@@ -44,7 +44,7 @@ class MaverikChannels(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = "mavrik_app_channels"
+        db_table = "core_mavrik_app_channel"
         verbose_name_plural = "Marik Channels"
 
     def __str__(self) -> str:

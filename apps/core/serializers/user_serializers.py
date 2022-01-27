@@ -4,7 +4,7 @@ from django.contrib.auth.password_validation import validate_password
 
 from apps.core.models import Profile, Organization
 
-from apps.mavrik_apps.serializers import MavrikAppSerializer
+from .mavrik_app_serilizers import MavrikAppSerializer
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:

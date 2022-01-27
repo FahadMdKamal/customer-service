@@ -3,10 +3,10 @@ from django.utils.text import slugify
 
 
 class Taxonomy(models.Model):
-    app_id = models.CharField(max_length=255, null=True, blank=True)
+    app_id = models.CharField(max_length=255)
     taxonomy_type = models.CharField(max_length=50)
     context = models.CharField(max_length=255, null=True, blank=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     slug = models.SlugField()
     crumbs = models.CharField(max_length=255, null=True, blank=True)
