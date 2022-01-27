@@ -31,6 +31,8 @@ class QueueItemPublish(CreateModelMixin, GenericAPIView):
         request.data['principle_id'] = assignee.principle_id
         data = self.create(request, *args, **kwargs)
         QueuePrinciples.objects.filter(principle_id=assignee.principle_id).update(last_assigned_at=datetime.now())
+        assignee.last_assigned_at = datetime.now()
+        assignee.save()
         return data
 
     def patch(self, request):
@@ -64,10 +66,12 @@ class QueueItemClaim(APIView):
         else:
             data = self.get_object(body['id'], body['principle_id'])
 
-            count = QueueItems.objects.filter(principle_id=body['principle_id'], status='attended').count()
+            count = QueueItems.objects.filter(
+                principle_id=body['principle_id'], status='attended').count()
             print(count)
             if count <= 5 and data.status == 'pending':
-                serializer = QueueItemsSerializer(data, data={'status': 'attended'}, partial=True)
+                serializer = QueueItemsSerializer(
+                    data, data={'status': 'attended'}, partial=True)
                 if serializer.is_valid(raise_exception=True):
                     serializer.save()
                     return Response(serializer.data)
