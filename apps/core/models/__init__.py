@@ -9,3 +9,4 @@ from .user_origin import UserAllowOrigin
 from .channel_typs import ChannelTypes
 from .mavrik_apps import MavrikApps
 from .mavrik_channels import MaverikChannels
+from .work_group import WorkGroups
