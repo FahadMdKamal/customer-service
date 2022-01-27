@@ -24,18 +24,27 @@ class PrincipleCreate(CreateModelMixin, GenericAPIView):
 
 class PrincipleOnline(APIView):
     serializers = QueuePrinciplesSerializer
-    def post(self,request):
+
+    def get_object(self, pk):
+        try:
+            return QueuePrinciples.objects.get(principle_id=pk)
+        except QueuePrinciples.DoesNotExist:
+            raise Http404
+
+    def post(self, request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
-        print(body)
         if 'online' not in body or 'principle_id' not in body:
-            return Response({'message':'Required field missing'},status=status.HTTP_400_BAD_REQUEST)
-            
-        if body['online']== 'agent_present':
-            QueuePrinciples.objects.filter(principle_id=body['principle_id']).update(online='agent_present',last_active_at=datetime.now())
-            return Response({'message':'Status updated successfully!'},status=status.HTTP_200_OK)
-        if body['online']== 'agent_not_present':
-            QueuePrinciples.objects.filter(principle_id=body['principle_id']).update(online='agent_not_present')
-            return Response({'message':'Status updated successfully!'},status=status.HTTP_200_OK)
+            return Response({'message': 'Required field missing'}, status=status.HTTP_400_BAD_REQUEST)
 
-       
+        data = self.get_object(body['principle_id'])
+        if body['online'] == 'agent_present':
+            serializer = QueuePrinciplesSerializer(data,
+                                                   data={'online': 'agent_present', 'last_active_at': datetime.now()},
+                                                   partial=True)
+        if body['online'] == 'agent_not_present':
+            serializer = QueuePrinciplesSerializer(data, data={'online': 'agent_not_present'}, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

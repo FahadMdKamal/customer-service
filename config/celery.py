@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 import os
-from django_mail_admin.models import Mailbox
+
 from celery import Celery
 from django.conf import settings
 # Set the default Django settings module for the 'celery' program.
@@ -16,9 +16,10 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
-
+task = app.task
 
 def fetch_mail():
+    from django_mail_admin.models import Mailbox
     qs = Mailbox.objects.iterator()
     for mailbox in qs:
         mailbox.get_new_mail()

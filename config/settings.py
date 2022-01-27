@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 import environ
 from datetime import timedelta
+
 # import sentry_sdk
 # from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -55,6 +56,8 @@ THIRD_PARTY_APPS = [
     'rest_registration',
     'django_mailbox',
     'django_mail_admin',
+    'simple_history',
+
 ]
 
 PROJECT_APPS = [
@@ -85,6 +88,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
 
 ]
 
@@ -107,28 +111,29 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+BROKER_URL = 'django://'
 
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'NAME': env('DB_NAME'),
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT')
-    },
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR + '/db.sqlite3',
-#     }
+#         'NAME': env('DB_NAME'),
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'USER': env('DB_USER'),
+#         'PASSWORD': env('DB_PASSWORD'),
+#         'HOST': env('DB_HOST'),
+#         'PORT': env('DB_PORT')
+#     },
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR + '/db.sqlite3',
+    }
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -232,3 +237,4 @@ EMAIL_BACKEND = 'django_mail_admin.backends.CustomEmailBackend'
 #     # If you wish to associate users to errors (assuming you are using
 #     # django.contrib.auth) you may enable sending PII data.
 #     send_default_pii=True)
+

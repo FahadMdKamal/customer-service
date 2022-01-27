@@ -1,3 +1,9 @@
+from datetime import datetime, timedelta, timezone
+from django.db import models
+from django.core.serializers import serialize
+from simple_history.models import HistoricalRecords
+
+from mods.queue_service.tasks import set_updated_status
 
 from django.db import models
 
@@ -11,6 +17,7 @@ TOPICS=(
 
 STATUS = (
     ('incative','Inactive'),
+    ('attended', 'Attended'),
     ('pending','Pending'),
     ('closed','Closed'),
     ('unattended','Unattended'),
@@ -68,10 +75,13 @@ class QueueItems(models.Model):
         default= 'pending'
     )
     metadata = models.JSONField(default=dict)
+    escalation_timeout = models.IntegerField(default=0)
+    dispute_timeout = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    history = HistoricalRecords()
 
     class Meta:
         db_table = "mevrik_queue_items"
-
 

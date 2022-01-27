@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('django_mailbox', '0009_auto_20220118_2321'),
+        # ('django_mailbox', '0009_auto_20220118_2321'),
         ('mavrik_apps', '0001_initial'),
     ]
 
