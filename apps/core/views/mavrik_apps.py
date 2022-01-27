@@ -73,7 +73,6 @@ class MavrikAppCreateOrUpdateApiView(APIView):
     def post(self, request, *args, **kwargs):
         
         if request.data.get('id'):
-            print('update')
             db_object = MavrikApps.objects.get(id=request.data.get('id'))
             serializer = MavrikAppSerializer(db_object, data=request.data, partial=True)
             if serializer.is_valid():
@@ -83,7 +82,6 @@ class MavrikAppCreateOrUpdateApiView(APIView):
                         message="App Updated successfully",
                         serializer_data=serializer.data)
         else:
-            print('create')
             serializer = MavrikAppSerializer(data=request.data)
             print(serializer.is_valid())
             if serializer.is_valid():

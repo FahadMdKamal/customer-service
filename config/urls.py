@@ -31,4 +31,5 @@ urlpatterns = [
     # path('apps/', include('apps.mavrik_apps.urls')),
     path('content/', include('mods.content.urls')),
     path('nlu/', include('mods.nlu.urls')),
+    path('queue/',include('mods.queue_service.urls')),
 ]
