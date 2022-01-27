@@ -38,8 +38,8 @@ urlpatterns = [
     path('users-list/', views.UserListApiView.as_view(), name='users_list'),
 
 
-    path('groups/', views.GroupsView.as_view(), name='groups'),
-    path('apps-list/', views.AppsListView.as_view(), name='apps-list'),
+#     path('groups/', views.GroupsView.as_view(), name='groups'),
+#     path('apps-list/', views.AppsListView.as_view(), name='apps-list'),
 
     path('taxonomy-list-create-update/', views.TaxonomyCreateUpateView.as_view(),
          name='taxonomy-create-update'),
