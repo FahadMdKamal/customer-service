@@ -1,7 +1,7 @@
 from django.contrib import admin
 from apps.core.models import (Taxonomy,
                               TaxonomyType,
-                              App,
+                            #   App,
                               Profile,
                               Organization,
                               LoggedInUserInfo,
@@ -25,9 +25,9 @@ admin.site.register(MavrikApps)
 admin.site.register(MaverikChannels)
 
 
-@admin.register(App)
-class AppAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name',)}
+# @admin.register(App)
+# class AppAdmin(admin.ModelAdmin):
+#     prepopulated_fields = {'slug': ('name',)}
 
 
 @admin.register(Profile)

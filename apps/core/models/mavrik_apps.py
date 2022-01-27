@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import Group
+from django.utils.text import slugify
 
 from .channel_typs import ChannelTypes
 
@@ -26,6 +28,8 @@ class MavrikApps(models.Model):
         related_query_name="app_channels",
     )
     status = models.CharField(choices=STATUS, max_length=10, default='inactive')
+    slug = models.SlugField(unique=True)
+    groups = models.ManyToManyField(Group, related_name="app_groups")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -38,6 +42,14 @@ class MavrikApps(models.Model):
         return self.app_code
     
     def save(self, *args, **kwargs):
+        if not self.slug:
+            slugified= slugify((self.app_code,self.app_domain))
+            count = 0
+            new_slugified = slugified
+            while MavrikApps.objects.filter(slug=new_slugified).exists():
+                count += 1
+                new_slugified = slugified + str(count)
+            self.slug = new_slugified
         self.app_code = self.app_code.strip().upper()
         if self.app_domain:
             self.app_domain = self.app_domain.strip().lower()
