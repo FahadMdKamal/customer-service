@@ -41,20 +41,35 @@ urlpatterns = [
     path('groups/', views.GroupsView.as_view(), name='groups'),
     path('apps-list/', views.AppsListView.as_view(), name='apps-list'),
 
-    path('taxonomy-create-update/', views.TaxonomyCreateUpateView.as_view(),
+    path('taxonomy-list-create-update/', views.TaxonomyCreateUpateView.as_view(),
          name='taxonomy-create-update'),
-    path('taxonomy-list/', views.TaxonomyListOrFilterView.as_view(),
-         name='taxonomy-list-filter'),
     path('taxonomy-delete/', views.TaxonomyDeleteView.as_view(),
          name='taxonomy-delete'),
 
-    path('taxonomy-type-create-update/', views.TaxonomyTypeCreateUpateView.as_view(),
-         name='taxonomy_type_create_update'),
-    path('taxonomy-type-list/', views.TaxonomyTypeListOrFilterView.as_view(),
-         name='taxonomy_type_list_or_filter'),
+    path('taxonomy-type-list-create-update/', views.TaxonomyTypeCreateUpateView.as_view(),
+         name='taxonomy_type_list_create_update'),
     path('taxonomy-type-delete/', views.TaxonomyTypeDeleteView.as_view(),
          name='taxonomy_type_delete'),
 
+    path('wrapper-list-create-update/', views.TaxonomyCreateUpateView.as_view(),
+         name='wrapper-list-create-update'),
+    path('wrapper-delete/', views.TaxonomyDeleteView.as_view(),
+         name='wrapper-delete'),
+
+    path('wrapper-type-list-create-update/', views.TaxonomyTypeCreateUpateView.as_view(),
+         name='wrapper_type_list_create_update'),
+    path('wrapper-type-delete/', views.TaxonomyTypeDeleteView.as_view(),
+         name='wrapper_type_delete'),
+
     # path('api/', ApiHandler.as_view())
-    path('check/', views.TokenValidationAPIView.as_view())
+    path('check/', views.TokenValidationAPIView.as_view()),
+
+
+
+    path('app/list/', views.MavrikAppApiView.as_view()),
+    path('app/create-update/', views.MavrikAppCreateOrUpdateApiView.as_view()),
+    path('app/delete/', views.MevrikAppDeleteApiView.as_view()),
+    path('app/channel/create-update-list/', views.MavrikChannelsApiView.as_view()),
+    path('app/channel/delete/', views.MevrikChannelDeleteApiView.as_view()),
+
 ]

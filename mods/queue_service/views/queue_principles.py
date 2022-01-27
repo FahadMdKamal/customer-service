@@ -24,28 +24,27 @@ class PrincipleCreate(CreateModelMixin, GenericAPIView):
 
 class PrincipleOnline(APIView):
     serializers = QueuePrinciplesSerializer
+
     def get_object(self, pk):
         try:
             return QueuePrinciples.objects.get(principle_id=pk)
         except QueuePrinciples.DoesNotExist:
             raise Http404
 
-    def post(self,request):
+    def post(self, request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         if 'online' not in body or 'principle_id' not in body:
-            return Response({'message':'Required field missing'},status=status.HTTP_400_BAD_REQUEST)
-            
-    
+            return Response({'message': 'Required field missing'}, status=status.HTTP_400_BAD_REQUEST)
+
         data = self.get_object(body['principle_id'])
-        if body['online']== 'agent_present':
-            serializer=QueuePrinciplesSerializer(data, data={'online':'agent_present','last_active_at':datetime.now()}, partial=True)
-        if body['online']== 'agent_not_present':
-            serializer=QueuePrinciplesSerializer(data, data={'online':'agent_not_present'}, partial=True)
+        if body['online'] == 'agent_present':
+            serializer = QueuePrinciplesSerializer(data,
+                                                   data={'online': 'agent_present', 'last_active_at': datetime.now()},
+                                                   partial=True)
+        if body['online'] == 'agent_not_present':
+            serializer = QueuePrinciplesSerializer(data, data={'online': 'agent_not_present'}, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-       

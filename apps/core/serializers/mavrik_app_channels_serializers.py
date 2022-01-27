@@ -39,8 +39,6 @@ class MavrikChannelSerializers(serializers.ModelSerializer):
             mail_box.save()
 
             validated_data['mail_box'] = mail_box
-
-
         return super().create(validated_data)
     
     def update(self, instance, validated_data):

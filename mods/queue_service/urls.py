@@ -3,8 +3,6 @@ from mods.queue_service.views import (TopicCreate,TopicStatusUpdate,QueueItemRem
 TopicList,TopicReset,QueueItemPublish,QueueItemList,PrincipleOnline,PrincipleCreate,QueueItemClaim)
 
 
-
-
 urlpatterns = [
     # Queue Topic
     path('topic/create', TopicCreate.as_view()),
@@ -14,7 +12,7 @@ urlpatterns = [
 
     # Queue Items
     path('item/publish',QueueItemPublish.as_view()),  # For any type update use patch
-    path('item/claim',QueueItemClaim.as_view()),
+    path('item/claim', QueueItemClaim.as_view()),
     path('item/remove',QueueItemRemove.as_view()),
     path('item/list',QueueItemList.as_view()),
 
