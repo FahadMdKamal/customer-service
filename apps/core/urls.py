@@ -62,5 +62,14 @@ urlpatterns = [
          name='wrapper_type_delete'),
 
     # path('api/', ApiHandler.as_view())
-    path('check/', views.TokenValidationAPIView.as_view())
+    path('check/', views.TokenValidationAPIView.as_view()),
+
+
+
+    path('app/list/', views.MavrikAppApiView.as_view()),
+    path('app/create-update/', views.MavrikAppCreateOrUpdateApiView.as_view()),
+    path('app/delete/', views.MevrikAppDeleteApiView.as_view()),
+    path('app/channel/create-update-list/', views.MavrikChannelsApiView.as_view()),
+    path('app/channel/delete/', views.MevrikChannelDeleteApiView.as_view()),
+
 ]

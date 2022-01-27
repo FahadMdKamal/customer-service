@@ -16,7 +16,6 @@ from datetime import timedelta
 # from sentry_sdk.integrations.django import DjangoIntegration
 
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -67,7 +66,7 @@ PROJECT_APPS = [
     'apps.chatbot',
     'apps.mixed',
     'apps.reports',
-    'apps.casex'
+    'apps.casex',
 ]
 
 PROJECT_MODS = [
@@ -116,23 +115,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'NAME': env('DB_NAME'),
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'USER': env('DB_USER'),
-#         'PASSWORD': env('DB_PASSWORD'),
-#         'HOST': env('DB_HOST'),
-#         'PORT': env('DB_PORT')
-#     },
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR + '/db.sqlite3',
-    }
+        'NAME': env('DB_NAME'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT')
+    },
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR + '/db.sqlite3',
+#     }
+# }
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -226,8 +225,8 @@ EMAIL_BACKEND = 'django_mail_admin.backends.CustomEmailBackend'
 
 
 # sentry_sdk.init(
-#     dsn= env('SENTRY_KEY'), 
-#     integrations=[DjangoIntegration()],    
+#     dsn= env('SENTRY_KEY'),
+#     integrations=[DjangoIntegration()],
 #     # Set traces_sample_rate to 1.0 to capture 100%
 #     # of transactions for performance monitoring.
 #     # We recommend adjusting this value in production.

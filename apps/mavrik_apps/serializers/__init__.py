@@ -1,2 +1,0 @@
-from .mavrik_app_serilizers import MavrikAppSerializer
-from .mavrik_app_channels_serializers import MavrikChannelSerializers
