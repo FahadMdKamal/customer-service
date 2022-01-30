@@ -62,7 +62,7 @@ THIRD_PARTY_APPS = [
 PROJECT_APPS = [
     'apps.core',
     'apps.emailcare',
-    'apps.social',
+    'apps.socialcare',
     'apps.livechat',
     'apps.chatbot',
     'apps.reports',
