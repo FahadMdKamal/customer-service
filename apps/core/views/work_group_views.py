@@ -35,6 +35,7 @@ class WorkGroupCreateUpdateView(APIView):
                 user_role=usr_role).order_by("-id")
         else:
             grps = WorkGroups.objects.all().order_by("-id")
+            print(grps)
         workgroups = WorkGroupSerializers(grps, many=True)
         if workgroups.data:
             return Response(workgroups.data, status=status.HTTP_200_OK)
