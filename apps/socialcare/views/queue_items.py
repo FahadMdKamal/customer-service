@@ -48,6 +48,6 @@ class QueueItemList(APIView):
                 'next': nextPage,
                 'prev': previousPage,
                 'limit': limit,
-                'data': serializer.data,
+                'messages': serializer.data,
             },
             status=status.HTTP_200_OK)
