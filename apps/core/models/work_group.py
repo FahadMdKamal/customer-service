@@ -1,6 +1,8 @@
 from tabnanny import verbose
+from xml.parsers.expat import model
 from django.db import models
 from django.contrib.auth import get_user_model
+from apps.core.models import MaverikChannels
 
 app_user_model = get_user_model()
 
@@ -13,8 +15,8 @@ ROLE = (
 
 
 class WorkGroups(models.Model):
-    user = models.ForeignKey(
-        app_user_model, on_delete=models.CASCADE, related_name="work_group_user")
+    user = models.ManyToManyField(
+        app_user_model, related_name="work_group_user")
     user_role = models.CharField(
         choices=ROLE,
         default='admin',
@@ -24,7 +26,7 @@ class WorkGroups(models.Model):
     )
     permissions = models.JSONField(null=True, blank=True)
     active_since = models.DateTimeField(null=True, blank=True)
-    user_workgroups = models.CharField(max_length=100, blank=True, null=True)
+    user_workgroups = models.JSONField(blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'Work Groups'

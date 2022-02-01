@@ -1,5 +1,5 @@
 from django.urls import path
-from apps.social.views import QueueItemList
+from apps.socialcare.views import QueueItemList
 
 urlpatterns = [
     path('item_list', QueueItemList.as_view()),

@@ -34,24 +34,24 @@ class QueueItemsSerializer(serializers.ModelSerializer):
 
     def get_sender(self, object):
         return {
-            "profile_pic": "pic url",
-            "name": "sender name",
+            "profile_pic": "https://picsum.photos/seed/picsum/536/354",
+            "name": "Steve Jobs",
             "privilege": "priv"
         }
 
     def get_attending_user(self, object):
         return {
             "user_id": 8000,
-            "name": "",
-            "profile_pic": "AUN pic"
+            "name": "John Doe",
+            "profile_pic": "https://picsum.photos/536/354"
 
         }
 
     def get_users(self, object):
         return{
             "user_id": 1,
-            "profile_pic": "google.com/image.png",
+            "profile_pic": "",
             "name": "John Doe",
-            "online_since": "22 mins",
+            "online_since": "https://picsum.photos/id/237/536/35422 mins",
             "status": "working hard"
         }
