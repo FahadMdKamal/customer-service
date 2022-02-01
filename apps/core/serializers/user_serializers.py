@@ -6,6 +6,7 @@ from apps.core.models import Profile
 
 from .app_serilizers import AppSerializer
 
+
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
@@ -21,13 +22,15 @@ class UserProfileSerializers(serializers.ModelSerializer):
 
 
 class UserSerializers(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    profile = UserProfileSerializers(source='profile_data')
-    groups = GroupSerializer(many=True)
+    password = serializers.CharField(
+        write_only=True, required=True, validators=[validate_password])
+    profile = UserProfileSerializers(source='profile_data', required=False)
+    groups = GroupSerializer(many=True, required=False)
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'password', 'groups', 'profile')
+        fields = ('id', 'email', 'username', 'first_name',
+                  'last_name', 'password', 'groups', 'profile')
 
     def create(self, validated_data):
         groups_data = validated_data.pop('groups')
@@ -44,18 +47,20 @@ class UserUpdateSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'groups')
+        fields = ('id', 'email', 'username',
+                  'first_name', 'last_name', 'groups')
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
 
-
     def update(self, instance, validated_data):
         instance.username = validated_data.get('username', instance.username)
         instance.email = validated_data.get('email', instance.email)
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.first_name = validated_data.get(
+            'first_name', instance.first_name)
+        instance.last_name = validated_data.get(
+            'last_name', instance.last_name)
 
         if validated_data.get('groups') is not None and self.user.is_admin:
             groups_data = validated_data.pop('groups')
@@ -64,7 +69,7 @@ class UserUpdateSerializers(serializers.ModelSerializer):
                 for group in groups_data:
                     instance.groups.add(group)
         instance.save()
-        return instance 
+        return instance
 
 
 class UserProfileUpdateSerializers(serializers.ModelSerializer):
@@ -77,8 +82,10 @@ class UserProfileUpdateSerializers(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.email = validated_data.get('email', instance.email)
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.first_name = validated_data.get(
+            'first_name', instance.first_name)
+        instance.last_name = validated_data.get(
+            'last_name', instance.last_name)
 
         if validated_data.get('profile_data') is not None:
             for k, v in validated_data.get('profile_data').items():
@@ -86,4 +93,4 @@ class UserProfileUpdateSerializers(serializers.ModelSerializer):
             instance.profile_data.save()
 
         instance.save()
-        return instance 
+        return instance
