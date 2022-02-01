@@ -56,11 +56,6 @@ class UserWithWorkGroups(APIView):
         _user_list = users_in_workgroup(request.user)
         workgroups = WorkGroupSerializers(_user_list, many=True)
 
-        # return Response({'result': len(result)}, status=status.HTTP_200_OK)
-        # lst = [UserSerializers(r).data for r in obj_list.user.all()]
-        # for r in obj_list.user.all():
-        #     lst.append(UserSerializers(r).data)
-
         workgroup_user_list = workgroups_of_user(work_group)
         serializer = UserSerializers(workgroup_user_list, many=True)
         return Response({'workgroups': workgroups.data, "users": serializer.data}, status=status.HTTP_200_OK)
