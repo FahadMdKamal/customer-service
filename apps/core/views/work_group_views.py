@@ -1,9 +1,11 @@
 from rest_framework.views import APIView, status
 from rest_framework.response import Response
 from apps.core.models import WorkGroups
-from apps.core.serializers import WorkGroupSerializers
+from apps.core.serializers import WorkGroupSerializers, UserSerializers
 from django.core.exceptions import ObjectDoesNotExist
 import json
+from apps.core.utils.available_groups import user_workgroup, workgroup_user
+from apps.core.serializers.work_group_serializers import UserSerializers
 
 
 class WorkGroupCreateUpdateView(APIView):
@@ -44,13 +46,21 @@ class WorkGroupCreateUpdateView(APIView):
 
 class UserWithWorkGroups(APIView):
     def get(self, request):
-        user_list = request.GET.get('user_workgroups')
-        if user_list:
-            obj_list = WorkGroups.objects.filter(
-                user=user_list).order_by("-id")
-        else:
-            obj_list = WorkGroups.objects.all().order_by("-id")
 
-        usr_list = WorkGroupSerializers(obj_list, many=True)
-        if usr_list.data:
-            return Response(usr_list.data, status=status.HTTP_200_OK)
+        params = {}
+
+        if self.request.query_params.get("workgroup-id", None) is not None:
+            params.update({"id": self.request.query_params["workgroup-id"]})
+        obj_list = WorkGroups.objects.filter(**params).first()
+
+        _user_list = user_workgroup(request.user)
+        workgroups = WorkGroupSerializers(_user_list, many=True)
+
+        # return Response({'result': len(result)}, status=status.HTTP_200_OK)
+        # lst = [UserSerializers(r).data for r in obj_list.user.all()]
+        # for r in obj_list.user.all():
+        #     lst.append(UserSerializers(r).data)
+
+        workgroup_user_list = workgroup_user(obj_list)
+        serializer = UserSerializers(workgroup_user_list, many=True)
+        return Response({'users': serializer.data, "workgroups": workgroups.data}, status=status.HTTP_200_OK)

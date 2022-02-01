@@ -17,7 +17,6 @@ ROLE = (
 class WorkGroups(models.Model):
     user = models.ManyToManyField(
         app_user_model, related_name="work_group_user")
-    # channel = models.ManyToManyField(MaverikChannels, related_name="work_group_channel")
     user_role = models.CharField(
         choices=ROLE,
         default='admin',

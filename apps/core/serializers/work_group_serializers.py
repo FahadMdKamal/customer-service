@@ -20,7 +20,7 @@ class UserSerializers(serializers.ModelSerializer):
 
 class WorkGroupSerializers(serializers.ModelSerializer):
     user = UserSerializers(many=True)
-    channel = ChannelSerializers(many=True)
+    # channel = ChannelSerializers(many=True)
 
     class Meta:
         model = WorkGroups
