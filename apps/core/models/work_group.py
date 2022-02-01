@@ -1,8 +1,5 @@
-from tabnanny import verbose
-from xml.parsers.expat import model
 from django.db import models
 from django.contrib.auth import get_user_model
-from apps.core.models import MaverikChannels
 
 app_user_model = get_user_model()
 

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django import forms
 from mods.queue_service.models import QueueTopics,QueuePrinciples,QueueItems
-from apps.core.models import MaverikChannels
+from apps.core.models import Channels
 
 
 admin.site.register(QueueTopics)
@@ -14,7 +14,7 @@ class QueueItemsForm(forms.ModelForm):
         
     def clean_app_id(self):
         app_id = self.cleaned_data['app_id']
-        if not MaverikChannels.objects.filter(app_id=app_id).exists():
+        if not Channels.objects.filter(app_id=app_id).exists():
             raise forms.ValidationError("App with this id does not exists")
         return app_id
 

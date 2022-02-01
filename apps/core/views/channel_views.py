@@ -5,11 +5,11 @@ from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage
 
 from apps.core.utils.api_response_decorator import decorate_response
-from ..models import MaverikChannels
-from ..serializers import MavrikChannelSerializers
+from ..models import Channels
+from ..serializers import ChannelSerializers
 
 
-class MavrikChannelsApiView(APIView):
+class ChannelsApiView(APIView):
     """
     Customized API view for Create, Update, filter Channels.
     """
@@ -20,8 +20,8 @@ class MavrikChannelsApiView(APIView):
         - Else will create new Object.
         """
         if request.data.get('id'):
-            db_object = MaverikChannels.objects.get(id=request.data.get('id'))
-            serializer = MavrikChannelSerializers(db_object, data=request.data, partial=True)
+            db_object = Channels.objects.get(id=request.data.get('id'))
+            serializer = ChannelSerializers(db_object, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return decorate_response(status_code=status.HTTP_202_ACCEPTED,
@@ -29,7 +29,7 @@ class MavrikChannelsApiView(APIView):
                     message="Channel Updated successfully",
                     serializer_data=serializer.data)
         else:
-            serializer = MavrikChannelSerializers(data=request.data)
+            serializer = ChannelSerializers(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return decorate_response(status_code=status.HTTP_201_CREATED,
@@ -63,9 +63,9 @@ class MavrikChannelsApiView(APIView):
             params.update({"mail_box__name": self.request.query_params["mailbox-name"]})
         
         if params:
-            db_object = MaverikChannels.objects.filter(**params)
+            db_object = Channels.objects.filter(**params)
             if db_object.count() > 0:
-                serializer = MavrikChannelSerializers(db_object, many=True)
+                serializer = ChannelSerializers(db_object, many=True)
                 return decorate_response(status_code=status.HTTP_200_OK,
                     status=True,
                     message="Channel(s) Found",
@@ -76,8 +76,8 @@ class MavrikChannelsApiView(APIView):
                     message="Channel(s) Not-Found",
                     serializer_data=[])
         else:
-            obj_list = MaverikChannels.objects.all().order_by('-id')
-            serializer = MavrikChannelSerializers(obj_list, many=True)
+            obj_list = Channels.objects.all().order_by('-id')
+            serializer = ChannelSerializers(obj_list, many=True)
 
             data = []
             nextPage = 1
@@ -92,7 +92,7 @@ class MavrikChannelsApiView(APIView):
             except EmptyPage:
                 data = paginator.page(paginator.num_pages)
 
-            serializer = MavrikChannelSerializers(data, context={'request': request}, many=True)
+            serializer = ChannelSerializers(data, context={'request': request}, many=True)
 
 
             if data.has_next():
@@ -110,7 +110,7 @@ class MavrikChannelsApiView(APIView):
                     status=status.HTTP_200_OK)
                     
 
-class MevrikChannelDeleteApiView(APIView):
+class ChannelDeleteApiView(APIView):
 
     def get(self, request):
         params = {}
@@ -118,7 +118,7 @@ class MevrikChannelDeleteApiView(APIView):
         if self.request.query_params.get("channel-id", None) is not None:
             params.update({"id": self.request.query_params["channel-id"]})
         
-        app = MaverikChannels.objects.filter(id=request.query_params.get('channel-id'))
+        app = Channels.objects.filter(id=request.query_params.get('channel-id'))
         if app:
             app.delete()
             return decorate_response(status_code=status.HTTP_204_NO_CONTENT,

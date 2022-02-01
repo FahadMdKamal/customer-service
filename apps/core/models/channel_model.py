@@ -3,7 +3,7 @@ from django.db import models
 from django_mailbox.models import Mailbox
 
 
-class MaverikChannels(models.Model):
+class Channels(models.Model):
     """
     Responsible for storing Mavrik Channel Types
     """
@@ -44,7 +44,7 @@ class MaverikChannels(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = "core_mavrik_app_channel"
+        db_table = "core_channel"
         verbose_name_plural = "Marik Channels"
 
     def __str__(self) -> str:
