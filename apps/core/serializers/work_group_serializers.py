@@ -19,9 +19,10 @@ class UserSerializers(serializers.ModelSerializer):
 
 
 class WorkGroupSerializers(serializers.ModelSerializer):
-    user = UserSerializers(many=True)
+    # user = UserSerializers(many=True)
     # channel = ChannelSerializers(many=True)
 
     class Meta:
         model = WorkGroups
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ['user']

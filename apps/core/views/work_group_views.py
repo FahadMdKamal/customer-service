@@ -4,7 +4,7 @@ from apps.core.models import WorkGroups
 from apps.core.serializers import WorkGroupSerializers, UserSerializers
 from django.core.exceptions import ObjectDoesNotExist
 import json
-from apps.core.utils.available_groups import user_workgroup, workgroup_user
+from apps.core.utils.available_groups import users_in_workgroup, workgroups_of_user
 from apps.core.serializers.work_group_serializers import UserSerializers
 
 
@@ -51,9 +51,11 @@ class UserWithWorkGroups(APIView):
 
         if self.request.query_params.get("workgroup-id", None) is not None:
             params.update({"id": self.request.query_params["workgroup-id"]})
-        obj_list = WorkGroups.objects.filter(**params).first()
+        work_group = WorkGroups.objects.filter(**params).first()
 
-        _user_list = user_workgroup(request.user)
+        _user_list = users_in_workgroup(request.user)
+
+        print(_user_list)
         workgroups = WorkGroupSerializers(_user_list, many=True)
 
         # return Response({'result': len(result)}, status=status.HTTP_200_OK)
@@ -61,6 +63,6 @@ class UserWithWorkGroups(APIView):
         # for r in obj_list.user.all():
         #     lst.append(UserSerializers(r).data)
 
-        workgroup_user_list = workgroup_user(obj_list)
+        workgroup_user_list = workgroups_of_user(work_group)
         serializer = UserSerializers(workgroup_user_list, many=True)
-        return Response({'users': serializer.data, "workgroups": workgroups.data}, status=status.HTTP_200_OK)
+        return Response({'workgroups': workgroups.data, "users": serializer.data}, status=status.HTTP_200_OK)
