@@ -54,8 +54,6 @@ class UserWithWorkGroups(APIView):
         work_group = WorkGroups.objects.filter(**params).first()
 
         _user_list = users_in_workgroup(request.user)
-
-        print(_user_list)
         workgroups = WorkGroupSerializers(_user_list, many=True)
 
         # return Response({'result': len(result)}, status=status.HTTP_200_OK)
