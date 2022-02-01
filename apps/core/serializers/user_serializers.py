@@ -2,9 +2,9 @@ from rest_framework import serializers
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.password_validation import validate_password
 
-from apps.core.models import Profile, Organization
+from apps.core.models import Profile
 
-from .mavrik_app_serilizers import MavrikAppSerializer
+from .app_serilizers import AppSerializer
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,11 +13,11 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializers(serializers.ModelSerializer):
-    allowed_apps = MavrikAppSerializer(many=True)
+    allowed_apps = AppSerializer(many=True)
 
     class Meta:
         model = Profile
-        fields = ('profile_image', 'mobile', 'organization', 'allowed_apps')
+        fields = ('profile_image', 'mobile', 'allowed_apps')
 
 
 class UserSerializers(serializers.ModelSerializer):

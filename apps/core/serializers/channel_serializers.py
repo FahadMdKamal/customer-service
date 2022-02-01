@@ -1,21 +1,19 @@
-from dataclasses import field
-from importlib.metadata import requires
 from django_mailbox.models import Mailbox
 from rest_framework import serializers
 
-from ..models import MaverikChannels
+from ..models import Channels
 from apps.core.utils import ChoicesFieldSerializer
 
-class MavrikChannelSerializers(serializers.ModelSerializer):
-    connectivity_status = ChoicesFieldSerializer(choices= MaverikChannels.CONNECTIVITY_STATUS)
-    status = ChoicesFieldSerializer(choices= MaverikChannels.STATUS)
-    channel_type = ChoicesFieldSerializer(choices= MaverikChannels.CH_TYPES)
+class ChannelSerializers(serializers.ModelSerializer):
+    connectivity_status = ChoicesFieldSerializer(choices= Channels.CONNECTIVITY_STATUS)
+    status = ChoicesFieldSerializer(choices= Channels.STATUS)
+    channel_type = ChoicesFieldSerializer(choices= Channels.CH_TYPES)
     mailbox_name = serializers.CharField(allow_blank=True, allow_null=True)
     uri = serializers.CharField(allow_blank=True, allow_null=True)
     from_email = serializers.CharField(allow_blank=True, allow_null=True)
 
     class Meta:
-        model = MaverikChannels
+        model = Channels
         fields = "__all__"
         depth=1
 

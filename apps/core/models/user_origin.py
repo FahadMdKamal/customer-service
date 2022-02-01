@@ -28,7 +28,7 @@ class UserAllowOrigin(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'user_allowed_origins'
+        db_table = 'core_user_allowed_origins'
 
 @receiver(post_save, sender=get_user_model())
 def create_user_allow_origin(sender, **kwargs):

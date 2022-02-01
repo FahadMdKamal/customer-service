@@ -1,14 +1,14 @@
 from dataclasses import field
 from xml.parsers.expat import model
 from rest_framework import serializers
-from apps.core.models import WorkGroups, MaverikChannels
+from apps.core.models import WorkGroups, Channels
 
 from django.contrib.auth import get_user_model
 
 
 class ChannelSerializers(serializers.ModelSerializer):
     class Meta:
-        model = MaverikChannels
+        model = Channels
         fields = ('channel_name', 'channel_type',)
 
 
