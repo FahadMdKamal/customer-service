@@ -28,15 +28,15 @@ class Apps(models.Model):
         default='facebook'
     )
     status = models.CharField(choices=STATUS, max_length=10, default='inactive')
-    slug = models.SlugField(unique=True)
-    groups = models.ManyToManyField(Group, related_name="app_groups")
+    slug = models.SlugField(unique=True, null=True, blank=True)
+    groups = models.ManyToManyField(Group, related_name="app_groups", blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "core_apps"
-        verbose_name_plural = "Apps"
+        verbose_name_plural = "Mavrik Apps"
 
     def __str__(self) -> str:
         return self.app_code

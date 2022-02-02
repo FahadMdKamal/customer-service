@@ -19,10 +19,13 @@ admin.site.register(Taxonomy)
 admin.site.register(TaxonomyType)
 admin.site.register(LoggedInUserInfo)
 admin.site.register(PasswordStore)
-admin.site.register(Apps)
 admin.site.register(Channels)
 
 
+@admin.register(Apps)
+class AppsAdmin(admin.ModelAdmin):
+    list_display = ('app_code', 'status',)
+    prepopulated_fields = {"slug": ("app_code","app_domain")}
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'mobile',)
