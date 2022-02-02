@@ -12,14 +12,15 @@ class PasswordPatternValidator:
     Validate whether the password is following the pattern.
     """
     def validate(self, password, user=None):
-        if not re.match(r"""^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#])[A-Za-z\d@$!%*?#]{6,}$""", password):
+        regex = re.compile('[@$!%*?#]')
+        if not regex.search(password):
             raise ValidationError(
-                _("Password must contain one of [A-Z] & [a-z] & [0-9] & [@$!%*?#]"),
+                _("Password do not contains special characters"),
                 code='password_pattern_not_matched',
             )
 
     def get_help_text(self):
-        return _('Password must contain one capital, one lower, one digit and a special character (@ $ ! % * ? #)')
+        return _('Your password must contain special character(s) @, $, !, %, *, ?, # ')
 
 
 def is_password_change_valid(user, password):
