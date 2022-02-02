@@ -37,5 +37,5 @@ class ExtractModelChildren:
 
         Parameters: Model Instance, Model Serializer
         """
-        children = self.extract_raw_children(model_instance)
+        children = [model_instance] + self.extract_raw_children(model_instance) 
         return  [model_serializer(child).data for child in children]
