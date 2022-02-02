@@ -1,5 +1,6 @@
+from django.forms import ValidationError
 from rest_framework import serializers
-from apps.core.models import Taxonomy
+from apps.core.models import Taxonomy, Apps
 from apps.core.utils.extract_object_childrens import ExtractModelChildren
 
 class TaxonomyMiniSerializer(serializers.ModelSerializer):
@@ -15,13 +16,17 @@ class TaxonomySerilizer(serializers.ModelSerializer):
     class Meta:
         model = Taxonomy
         fields = '__all__'
-    
+
+    def validate_app_id(self, value):
+        app = Apps.objects.filter(app_code=value)
+        if not app.exists():
+            raise ValidationError("App with this name does't exists")
+        return value
 
     def get_children(self, obj):
         db_obj = Taxonomy.objects.filter(parent=obj.id)
         extractor = ExtractModelChildren(Taxonomy)
-        result = extractor.extract_serialized_children(db_obj.first(), TaxonomyMiniSerializer)
-        return {"total_child": db_obj.count(), "children": result} if db_obj.count() > 0 else {"children": 0}
+        return extractor.extract_serialized_children(db_obj.first(), TaxonomyMiniSerializer)
 
 
 class TaxonomyListSerilizer(serializers.ModelSerializer):
