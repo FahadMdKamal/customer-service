@@ -3,9 +3,8 @@ FROM python:3.10-slim
 ENV PYTHONUNBUFFERED 1
 ENV DEBIAN_FRONTEND noninteractive
 
-# Creating working directory
-RUN mkdir /app
 WORKDIR /app
+ADD . /app
 
 # Set timezone
 RUN echo "Asia/Dhaka" > /etc/timezone

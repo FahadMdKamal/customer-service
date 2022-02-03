@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.http import HttpResponse
 from django.conf.urls.static import static
+from django.urls import path
 
 
 def landing_page(request):
@@ -23,6 +24,6 @@ urlpatterns = [
                   path('casex/', include('apps.casex.urls')),
                   path('content/', include('mods.content.urls')),
                   path('nlu/', include('mods.nlu.urls')),
-              ]\
-              + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\
+              ] \
+              + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
               + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
