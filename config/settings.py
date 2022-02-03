@@ -56,6 +56,7 @@ THIRD_PARTY_APPS = [
     'django_mailbox',
     'django_mail_admin',
     'simple_history',
+    'django_extensions',
 
 ]
 
