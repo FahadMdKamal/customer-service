@@ -26,7 +26,7 @@ class TaxonomySerilizer(serializers.ModelSerializer):
     def get_children(self, obj):
         db_obj = Taxonomy.objects.filter(parent=obj.id)
         extractor = ExtractModelChildren(Taxonomy)
-        return extractor.extract_serialized_children(db_obj.first(), TaxonomyMiniSerializer)
+        return extractor.extract_serialized_children(db_obj.first(), TaxonomyMiniSerializer) if db_obj else None
 
 
 class TaxonomyListSerilizer(serializers.ModelSerializer):

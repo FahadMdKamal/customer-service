@@ -48,7 +48,7 @@ class TaxonomyCreateUpateView(APIView):
         nextPage = 0
         previousPage = 0
         page = request.GET.get('page', 1)
-        limit = request.GET.get('limit', 10)
+        limit = request.GET.get('limit', 100)
         paginator = Paginator(obj_list, limit)
         try:
             data = paginator.page(page)
