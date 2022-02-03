@@ -89,7 +89,7 @@ class ContentMenuDetailSerializer(ModelSerializer):
         return {
             "menu": "",
             "nav_items": "",
-            "config": {
+            "mevrik": {
                 "show-images": "",
                 "menu-item": ""
             }

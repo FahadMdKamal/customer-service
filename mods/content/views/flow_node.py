@@ -23,10 +23,10 @@ class FlowNodeView(APIView):
                 flow_node = FlowNode.objects.filter(pk=data['id']).update(name=data['name'], flow_id=data["flow"],
                                                                           node_type=data["node_type"])
                 try:
-                    config = data['config']
+                    config = data['mevrik']
                     if config:
                         if NodeConfig.objects.filter(flow_node_id=data["id"]).exists():
-                            for key, value in data["config"].items():
+                            for key, value in data["mevrik"].items():
                                 NodeConfig.objects.filter(flow_node_id=data["id"], key=key).update(value=value)
                         else:
                             for key, value in config.items():

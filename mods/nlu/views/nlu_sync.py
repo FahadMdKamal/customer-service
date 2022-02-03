@@ -13,7 +13,7 @@ from mods.nlu.utils.formatter import text_uppercase
 from mods.nlu.utils.traits import traits_get_or_create
 from mods.nlu.utils.utterances import utterance_entity_position, single_utterance_sync
 from mods.nlu.utils.nlp import Nlp
-from config.settings import WIT_KEY
+from mevrik.settings import WIT_KEY
 
 client = Nlp(access_token=WIT_KEY)
 

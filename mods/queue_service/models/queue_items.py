@@ -82,6 +82,8 @@ class QueueItems(models.Model):
     
     history = HistoricalRecords()
 
+    history = HistoricalRecords()
+
     class Meta:
         db_table = "mevrik_queue_items"
 

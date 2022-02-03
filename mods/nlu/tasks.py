@@ -3,7 +3,7 @@ import time
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from .models import NluSync
-from config.settings import WIT_KEY
+from mevrik.settings import WIT_KEY
 from mods.nlu.utils.nlp import Nlp
 
 client = Nlp(access_token=WIT_KEY)

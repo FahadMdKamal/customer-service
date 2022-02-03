@@ -2,7 +2,7 @@ import requests
 
 from celery import shared_task, Task
 from celery.utils.log import get_task_logger
-from config.celery import app
+from mevrik.celery import app
 
 from mods.webhook.models import Webhooks
 from mods.webhook.utils import Webhook

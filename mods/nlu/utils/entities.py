@@ -1,4 +1,4 @@
-from config.settings import WIT_KEY
+from mevrik.settings import WIT_KEY
 from mods.nlu.utils.formatter import text_uppercase
 from mods.nlu.utils.nlp import Nlp
 

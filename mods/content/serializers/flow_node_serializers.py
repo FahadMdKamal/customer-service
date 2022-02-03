@@ -12,18 +12,18 @@ class FlowNodeSerializer(ModelSerializer):
 
     class Meta:
         model = FlowNode
-        fields = ('id', 'name', 'flow', 'node_type', 'content_type', 'config')
+        fields = ('id', 'name', 'flow', 'node_type', 'content_type', 'mevrik')
 
     def create(self, validated_data):
         """
         Create and return a new `FlowNode` instance, given the validated data.
         """
-        config = validated_data.pop('config')
+        config = validated_data.pop('mevrik')
         flow_node = FlowNode.objects.create(**validated_data)
         for key, value in config.items():
             node_config = NodeConfig(flow_node=flow_node, key=key, value=value)
             node_config.save()
 
         validated_data["id"] = flow_node.id
-        validated_data["config"] = config
+        validated_data["mevrik"] = config
         return validated_data

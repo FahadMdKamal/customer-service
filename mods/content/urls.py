@@ -46,7 +46,7 @@ urlpatterns = [
     path('intent-flow/', FlowIntent.as_view()),
     path('node-create-update/', FlowNodeView.as_view()),
     path('node-delete/', FlowNodeDeleteView.as_view()),
-    path('node-config-create-update/', CreateUpdateNodeConfigView.as_view()),
+    path('node-mevrik-create-update/', CreateUpdateNodeConfigView.as_view()),
     path('attach-content/', AttachContentView.as_view()),
     path('delete-content/', DeleteContentView.as_view()),
     path('delete-csat/', DeleteContentView.as_view()),

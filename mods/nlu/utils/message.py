@@ -1,4 +1,4 @@
-from config.settings import WIT_KEY
+from mevrik.settings import WIT_KEY
 from mods.nlu.utils.nlp import Nlp
 
 client = Nlp(access_token=WIT_KEY)
