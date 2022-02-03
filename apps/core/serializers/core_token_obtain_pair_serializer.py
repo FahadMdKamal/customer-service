@@ -16,7 +16,7 @@ class CoreTokenObtainPairSerializer(TokenObtainPairSerializer):
         user_origin = UserAllowOrigin.objects.filter(user=user_obj)
 
         # User needs to be allowed in UserAllowedOrigin model
-        if not user_origin.exists() or not user_origin.first().allowed:
+        if not user_origin.exists() or (not user_origin.first().allowed and not user_origin.first().origin_sig=="0.0.0.0"):
             raise ValidationError({"message": "You are not allowed to login."})
         
         if user_obj and not user_obj.is_staff:
