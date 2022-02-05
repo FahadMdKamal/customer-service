@@ -2,7 +2,7 @@ name: CI/CD FOR UNIVA
 on:
   push:
     branches:
-      - master
+      - aws
 jobs:
 
   build:
