@@ -5,7 +5,7 @@ from django_mailbox.models import Mailbox
 
 class Channels(models.Model):
     """
-    Responsible for storing Mavrik Channel Types
+    Responsible for storing mevrik Channel Types
     """
 
     CONNECTIVITY_STATUS = (

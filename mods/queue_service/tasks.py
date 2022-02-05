@@ -4,8 +4,8 @@ from celery.schedules import crontab
 from django.core.serializers import serialize
 from celery.utils.log import get_task_logger
 from django.db.models import Q
-from config.celery import app
-from config.celery import task
+from mevrik.celery import app
+from mevrik.celery import task
 
 logger = get_task_logger(__name__)
 

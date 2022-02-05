@@ -5,7 +5,7 @@ from mods.nlu.utils.nlp import Nlp
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from mods.nlu.serializers import *
 from mods.nlu.models import *
-from config.settings import WIT_KEY
+from mevrik.settings import WIT_KEY
 
 client = Nlp(access_token=WIT_KEY)
 

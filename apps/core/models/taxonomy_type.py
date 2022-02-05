@@ -20,4 +20,3 @@ class TaxonomyType(models.Model):
 
     class Meta:
         db_table = 'core_taxonomy_type'
-        

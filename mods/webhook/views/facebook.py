@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 import threading
 import requests
 from django.core.exceptions import ObjectDoesNotExist
-from config.settings import APP_URL
-from config.settings import CASEX_URL
+from mevrik.settings import APP_URL
+from mevrik.settings import CASEX_URL
 
 
 def throw_to_casex(app_token, event, action, ref_id, body_parsed):

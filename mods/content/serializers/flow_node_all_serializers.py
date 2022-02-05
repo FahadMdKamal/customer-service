@@ -4,12 +4,12 @@ from .node_config_serializers import NodeConfigSerializer
 from mods.content.models import FlowNode
 
 class FlowNodeAllSerializer(ModelSerializer):
-    # config = NodeConfigSerializer(many=True)
+    # mevrik = NodeConfigSerializer(many=True)
     config = NodeConfigSerializer(many=True)
 
     class Meta:
         model = FlowNode
-        fields = ('id', 'name', 'flow', 'node_type', "config", "content_type", "initial_content_id")
+        fields = ('id', 'name', 'flow', 'node_type', "mevrik", "content_type", "initial_content_id")
         depths = -1
 
     def to_representation(self, instance):
