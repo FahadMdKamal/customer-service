@@ -17,17 +17,10 @@ class TaxonomySerilizer(serializers.ModelSerializer):
         model = Taxonomy
         fields = '__all__'
 
-    def validate_app_id(self, value):
-        app = Apps.objects.filter(app_code=value)
-        if not app.exists():
-            raise ValidationError("App with this name does't exists")
-        return value
-
     def get_children(self, obj):
         db_obj = Taxonomy.objects.filter(parent=obj.id)
         extractor = ExtractModelChildren(Taxonomy)
         return extractor.extract_serialized_children(db_obj.first(), TaxonomyMiniSerializer) if db_obj else None
-
 
 class TaxonomyListSerilizer(serializers.ModelSerializer):
     class Meta:
