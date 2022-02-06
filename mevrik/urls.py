@@ -11,7 +11,7 @@ def landing_page(request):
 
 
 urlpatterns = [
-                  path('', landing_page),
+                #   path('', landing_page),
                   path('admin/', admin.site.urls),
                   path('core/', include(('apps.core.urls', 'apps.core'), namespace='core')),
                   path('webhook/', include(('mods.webhook.urls', 'mods.webhook'), namespace='webhook')),
@@ -24,6 +24,7 @@ urlpatterns = [
                   path('casex/', include('apps.casex.urls')),
                   path('content/', include('mods.content.urls')),
                   path('nlu/', include('mods.nlu.urls')),
+                  path('__debug__/', include('debug_toolbar.urls')),
               ] \
               + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
               + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

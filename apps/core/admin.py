@@ -15,7 +15,7 @@ admin.site.site_header = "Univa Admin Panel"
 admin.site.site_title = "Univa Admin Portal"
 admin.site.index_title = "Welcome to Univa Portal"
 
-admin.site.register(Taxonomy)
+# admin.site.register(Taxonomy)
 admin.site.register(TaxonomyType)
 admin.site.register(LoggedInUserInfo)
 admin.site.register(PasswordStore)
@@ -26,6 +26,13 @@ admin.site.register(Channels)
 class AppsAdmin(admin.ModelAdmin):
     list_display = ('app_code', 'status',)
     prepopulated_fields = {"slug": ("app_code","app_domain")}
+
+
+@admin.register(Taxonomy)
+class TaxonomyAdmin(admin.ModelAdmin):
+    list_display = ("name", 'app_id', 'taxonomy_type', 'parent')
+    list_filter = ('app_id', 'taxonomy_type', 'app_id')
+    prepopulated_fields = {"slug": ("taxonomy_type","name")}
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'mobile',)
