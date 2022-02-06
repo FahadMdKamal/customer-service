@@ -55,7 +55,7 @@ THIRD_PARTY_APPS = [
     'django_mailbox',
     'django_mail_admin',
     'simple_history',
-    'debug_toolbar',
+    # 'debug_toolbar',
 
 ]
 
@@ -88,7 +88,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
 
 ]
 
