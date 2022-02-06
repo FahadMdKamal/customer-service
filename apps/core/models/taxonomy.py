@@ -1,9 +1,11 @@
+from operator import mod
 from django.db import models
 from django.utils.text import slugify
+from .channel_model import Channels
 
 
 class Taxonomy(models.Model):
-    app_id = models.CharField(max_length=255)
+    app_id = models.ForeignKey(Channels, on_delete=models.CASCADE) #models.CharField(max_length=255)
     taxonomy_type = models.CharField(max_length=50)
     context = models.CharField(max_length=255, null=True, blank=True)
     name = models.CharField(max_length=50, null=True, blank=True)
@@ -22,6 +24,9 @@ class Taxonomy(models.Model):
     class Meta:
         db_table = 'core_taxonomy'
         unique_together = ('taxonomy_type', 'name')
+    
+    def __str__(self) -> str:
+        return f'{self.taxonomy_type}-{self.name}'.lower()
 
     def save(self, *args, **kwargs):
         if not self.slug:
