@@ -23,7 +23,7 @@ class Taxonomy(models.Model):
 
     class Meta:
         db_table = 'core_taxonomy'
-        unique_together = ('taxonomy_type', 'name')
+        unique_together = ('app_id', 'taxonomy_type', 'name')
     
     def __str__(self) -> str:
         return f'{self.taxonomy_type}-{self.name}'.lower()
