@@ -1,4 +1,5 @@
 from django.db import models
+from .apps_model import Apps
 
 from django_mailbox.models import Mailbox
 
@@ -29,8 +30,8 @@ class Channels(models.Model):
         ('email', 'Email'),
         )
 
-    app_id = models.CharField(max_length=50, null=True, blank=True)
-    channel_name = models.CharField(max_length=100, unique=True)
+    app = models.ForeignKey(Apps, on_delete=models.CASCADE) #models.CharField(max_length=50, null=True, blank=True)
+    channel_name = models.CharField(max_length=100)
     channel_ref = models.CharField(max_length=20, null=True, blank=True)
     channel_type = models.CharField(max_length=40, choices=CH_TYPES)
     details = models.JSONField(default=dict, null=True, blank=True)
@@ -46,6 +47,7 @@ class Channels(models.Model):
     class Meta:
         db_table = "core_channel"
         verbose_name_plural = "Marik Channels"
+        unique_together = ('app', 'channel_name')
 
     def __str__(self) -> str:
         return self.channel_name

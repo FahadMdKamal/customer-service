@@ -3,9 +3,9 @@ from rest_framework.response import Response
 from apps.core.models import WorkGroups
 from apps.core.serializers import WorkGroupSerializers, UserSerializers
 from django.core.exceptions import ObjectDoesNotExist
-import json
 from apps.core.utils.available_groups import users_in_workgroup, workgroups_of_user
-from apps.core.serializers.work_group_serializers import UserSerializers
+from apps.core.serializers.workgroup_serializers import UserSerializers
+from apps.core.utils.api_response_decorator import decorate_response
 
 
 class WorkGroupCreateUpdateView(APIView):
@@ -18,9 +18,9 @@ class WorkGroupCreateUpdateView(APIView):
                 serializer = WorkGroupSerializers(work_group, data)
                 if serializer.is_valid():
                     serializer.save()
-                    return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+                    return decorate_response(True, status.HTTP_201_CREATED, "Workgroup updated successfully", serializer.data)
                 else:
-                    return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                    return decorate_response(False, status.HTTP_400_BAD_REQUEST, "Could not Create Workgroup", serializer.errors)
             except ObjectDoesNotExist:
                 pass
         else:
@@ -28,8 +28,8 @@ class WorkGroupCreateUpdateView(APIView):
             if serializer.is_valid():
                 work_group = serializer.save()
                 if work_group:
-                    return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                    return decorate_response(True, status.HTTP_201_CREATED, "Workgroup Created", serializer.data)
+            return decorate_response(False, status.HTTP_400_BAD_REQUEST, "Could not Create Workgroup", serializer.errors)
 
     def get(self, request):
         usr_role = request.GET.get('role', None)
@@ -38,10 +38,10 @@ class WorkGroupCreateUpdateView(APIView):
                 user_role=usr_role).order_by("-id")
         else:
             grps = WorkGroups.objects.all().order_by("-id")
-        workgroups = WorkGroupSerializers(grps, many=True)
-        if workgroups.data:
-            return Response(workgroups.data, status=status.HTTP_200_OK)
-        return Response({"message": "No Workgroup Found"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = WorkGroupSerializers(grps, many=True)
+        if serializer.data:
+            return decorate_response(True, status.HTTP_200_OK, "Workgroup list", serializer.data)
+        return decorate_response(False, status.HTTP_404_NOT_FOUND, "No Workgroup Found", [])
 
 
 class UserWithWorkGroups(APIView):

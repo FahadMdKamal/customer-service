@@ -32,6 +32,12 @@ class UserSerializers(serializers.ModelSerializer):
         fields = ('id', 'email', 'username', 'first_name',
                   'last_name', 'password', 'groups', 'profile')
 
+class UserMiniSerializers(serializers.ModelSerializer):
+   
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'username',)
+
     def create(self, validated_data):
         groups_data = validated_data.pop('groups')
         user = User.objects.create(**validated_data)

@@ -1,6 +1,5 @@
-from django.forms import ValidationError
 from rest_framework import serializers
-from apps.core.models import Taxonomy, Apps
+from apps.core.models import Taxonomy
 from apps.core.utils.extract_object_childrens import ExtractModelChildren
 
 class TaxonomyMiniSerializer(serializers.ModelSerializer):
@@ -21,6 +20,7 @@ class TaxonomySerilizer(serializers.ModelSerializer):
         db_obj = Taxonomy.objects.filter(parent=obj.id)
         extractor = ExtractModelChildren(Taxonomy)
         return extractor.extract_serialized_children(db_obj.first(), TaxonomyMiniSerializer) if db_obj else None
+
 
 class TaxonomyListSerilizer(serializers.ModelSerializer):
     class Meta:

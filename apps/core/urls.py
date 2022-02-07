@@ -65,8 +65,8 @@ urlpatterns = [
          views.ChannelsApiView.as_view()),
     path('app/channel/delete/', views.ChannelDeleteApiView.as_view()),
 
-    path('workgroup', views.WorkGroupCreateUpdateView.as_view()),
+    path('workgroup/', views.WorkGroupCreateUpdateView.as_view()),
 
-    path('workgroup-user-list', views.UserWithWorkGroups.as_view())
+    path('workgroup-user-list/', views.UserWithWorkGroups.as_view())
 
 ]

@@ -1,8 +1,24 @@
+from dataclasses import field
 from django_mailbox.models import Mailbox
 from rest_framework import serializers
 
+from apps.core.models.workgroup import WorkGroups
+from apps.core.serializers.workgroup_serializers import WorkGroupMiniSerializers
+
 from ..models import Channels
 from apps.core.utils import ChoicesFieldSerializer
+
+class ChannelsMiniSerializer(serializers.ModelSerializer):
+
+    workgroups = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Channels
+        fields = '__all__'
+
+    def get_workgroups(self, instance):
+        objects = WorkGroups.objects.filter(channel=instance)
+        return WorkGroupMiniSerializers(objects, many=True).data if objects.exists() else []
 
 class ChannelSerializers(serializers.ModelSerializer):
     connectivity_status = ChoicesFieldSerializer(choices= Channels.CONNECTIVITY_STATUS)

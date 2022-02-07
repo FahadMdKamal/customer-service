@@ -7,4 +7,4 @@ from .password_store import PasswordStore
 from .user_origin import UserAllowOrigin
 from .apps_model import Apps
 from .channel_model import Channels
-from .work_group import WorkGroups
+from .workgroup import WorkGroups

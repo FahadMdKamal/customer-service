@@ -8,4 +8,4 @@ from .password_reset_serializers import PasswordResetSerializer, SetNewPasswordS
 from .user_allowed_origin_serializers import UserAllowedOriginSerializers
 from .channel_serializers import ChannelSerializers
 from .app_serilizers import AppSerializer
-from .work_group_serializers import WorkGroupSerializers
+from .workgroup_serializers import WorkGroupSerializers

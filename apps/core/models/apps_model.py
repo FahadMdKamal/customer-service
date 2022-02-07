@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import Group
 from django.utils.text import slugify
 
 
@@ -16,7 +15,7 @@ class Apps(models.Model):
         ('whatsapp', 'WhatsApp'),
         ('email', 'Email'),
         )
-
+    app_name = models.CharField(max_length=255, unique=True)
     app_code = models.CharField(max_length=20, unique=True)
     app_domain = models.CharField(max_length=255, null=True, blank=True)
     app_config = models.JSONField(default=dict, null=True, blank=True)
@@ -29,7 +28,6 @@ class Apps(models.Model):
     )
     status = models.CharField(choices=STATUS, max_length=10, default='inactive')
     slug = models.SlugField(unique=True, null=True, blank=True)
-    groups = models.ManyToManyField(Group, related_name="app_groups", blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
