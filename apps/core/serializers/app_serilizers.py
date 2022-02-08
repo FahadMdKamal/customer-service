@@ -5,6 +5,18 @@ from apps.core.models.channel_model import Channels
 from .workgroup_serializers import WorkGroupMiniSerializers
 from .channel_serializers import ChannelsMiniSerializer
 
+class AppListSerializer(serializers.ModelSerializer):
+    """
+    Represent Apps and performs object's Create and Update functionality
+    """
+
+    class Meta:
+        model = Apps
+        fields = ('id', 
+        'app_name', 
+        'app_code')
+    
+
 class AppSerializer(serializers.ModelSerializer):
     """
     Represent Apps and performs object's Create and Update functionality

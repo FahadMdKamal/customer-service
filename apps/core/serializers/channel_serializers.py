@@ -20,6 +20,13 @@ class ChannelsMiniSerializer(serializers.ModelSerializer):
         objects = WorkGroups.objects.filter(channel=instance)
         return WorkGroupMiniSerializers(objects, many=True).data if objects.exists() else []
 
+class ChannelsListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Channels
+        fields = ('id', 'channel_name')
+
+
 class ChannelSerializers(serializers.ModelSerializer):
     connectivity_status = ChoicesFieldSerializer(choices= Channels.CONNECTIVITY_STATUS)
     status = ChoicesFieldSerializer(choices= Channels.STATUS)

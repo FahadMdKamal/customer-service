@@ -1,13 +1,16 @@
 from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 from .user_serializers import UserSerializers
 from django.contrib.auth import get_user_model
 from apps.core.models import UserAllowOrigin
+from ..utils.extract_privileges import get_user_privileges
 
 User = get_user_model()
 
 
 class CoreTokenObtainPairSerializer(TokenObtainPairSerializer):
+
 
     def validate(self, attrs):
         user_profile = None
@@ -31,8 +34,15 @@ class CoreTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
 
         refresh = self.get_token(self.user)
+
+        # Get User Privileges for (Apps, Channels & Workgroups)
+        res = get_user_privileges(self.user)
+        for key, val in res.items():
+            data[key] = val
+
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)
+
 
         if refresh and user_profile:
             # If login success set attempt to Zero

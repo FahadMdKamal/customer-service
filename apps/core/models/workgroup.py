@@ -23,8 +23,7 @@ class WorkGroups(models.Model):
     )
     channel = models.ForeignKey(Channels, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    user = models.ManyToManyField(
-        app_user_model, related_name="work_group_user")
+    user = models.ManyToManyField(app_user_model)
     permissions = models.JSONField(null=True, blank=True)
     active_since = models.DateTimeField(null=True, blank=True)
     user_workgroups = models.JSONField(blank=True, null=True)

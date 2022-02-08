@@ -1,4 +1,3 @@
-from genericpath import exists
 from rest_framework import serializers
 from apps.core.models import WorkGroups, Channels
 
@@ -40,3 +39,8 @@ class WorkGroupMiniSerializers(serializers.ModelSerializer):
     
     def get_users(self, obj):
         return UserSerializers(obj.user.all(), many=True).data if isinstance(obj, WorkGroups) else []
+
+class WorkGroupListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = WorkGroups
+        fields = ['id', 'name', 'user_role' ]
