@@ -1,4 +1,3 @@
-from dataclasses import field
 from django_mailbox.models import Mailbox
 from rest_framework import serializers
 
