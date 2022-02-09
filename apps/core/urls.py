@@ -1,19 +1,11 @@
-from django.urls import path, include
-from rest_framework import viewsets
+from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
 from . import views
-from rest_framework.routers import DefaultRouter
 
-
-app_name = "core"
-router = DefaultRouter()
-
-router.register(r'user-origin', views.UserAllowedOriginView,
-                basename="user-allowed-origin")
 
 
 urlpatterns = [
-    path('', include(router.urls)),
+     path('user-origin/', views.UserAllowOriginCreateUpateView.as_view(), name='user_allowed_origin_cru'),
 
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('login/', views.CoreTokenObtainPairView.as_view(),
@@ -32,13 +24,13 @@ urlpatterns = [
          views.PasswordResetConfirmAPIView.as_view(), name='password-reset-confirm'),
     path('password-reset-complete/', views.CompleteResetPassword.as_view(),
          name='password-reset-complete'),
+
     path('users-list/', views.UserListApiView.as_view(), name='users_list'),
 
     path('taxonomy-list-create-update/', views.TaxonomyCreateUpateView.as_view(),
          name='taxonomy-create-update'),
     path('taxonomy-delete/', views.TaxonomyDeleteView.as_view(),
          name='taxonomy-delete'),
-
     path('taxonomy-type-list-create-update/', views.TaxonomyTypeCreateUpateView.as_view(),
          name='taxonomy_type_list_create_update'),
     path('taxonomy-type-delete/', views.TaxonomyTypeDeleteView.as_view(),
@@ -66,7 +58,6 @@ urlpatterns = [
     path('app/channel/delete/', views.ChannelDeleteApiView.as_view()),
 
     path('workgroup/', views.WorkGroupCreateUpdateView.as_view()),
-
     path('workgroup-user-list/', views.UserWithWorkGroups.as_view())
 
 ]
