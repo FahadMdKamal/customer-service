@@ -28,7 +28,7 @@ class CaseMessageSerializer(serializers.ModelSerializer):
         if not CaseAudience.objects.filter(case_id=case_id).exists():
             case_audiance = CaseAudience(
             case_id = case_id, 
-            source_message = case_message,
+            body = case_message,
             )
             case_audiance.save()
 
