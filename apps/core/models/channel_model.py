@@ -30,7 +30,7 @@ class Channels(models.Model):
         ('email', 'Email'),
         )
 
-    app = models.ForeignKey(Apps, on_delete=models.CASCADE) #models.CharField(max_length=50, null=True, blank=True)
+    app = models.ForeignKey(Apps, on_delete=models.CASCADE, related_name="channel_app") #models.CharField(max_length=50, null=True, blank=True)
     channel_name = models.CharField(max_length=100)
     channel_ref = models.CharField(max_length=20, null=True, blank=True)
     channel_type = models.CharField(max_length=40, choices=CH_TYPES)
