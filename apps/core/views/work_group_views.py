@@ -15,7 +15,7 @@ class WorkGroupCreateUpdateView(APIView):
         if 'id' in data and data['id'] is not None and int(data['id']) > 0:
             try:
                 work_group = WorkGroups.objects.get(pk=data['id'])
-                serializer = WorkGroupSerializers(work_group, data)
+                serializer = WorkGroupSerializers(work_group, data, partial=True)
                 if serializer.is_valid():
                     serializer.save()
                     return decorate_response(True, status.HTTP_201_CREATED, "Workgroup updated successfully", serializer.data)

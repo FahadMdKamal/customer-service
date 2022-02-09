@@ -20,10 +20,12 @@ class UserSerializers(serializers.ModelSerializer):
 
 class WorkGroupSerializers(serializers.ModelSerializer):
     user_role = ChoicesFieldSerializer(WorkGroups().ROLE)
+    user = serializers.JSONField(required=False, allow_null=True)
 
     class Meta:
         model = WorkGroups
         fields = '__all__'
+
     
     def to_representation(self, instance):
         rep = super().to_representation(instance)
