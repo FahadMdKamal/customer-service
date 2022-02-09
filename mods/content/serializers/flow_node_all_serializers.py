@@ -9,7 +9,7 @@ class FlowNodeAllSerializer(ModelSerializer):
 
     class Meta:
         model = FlowNode
-        fields = ('id', 'name', 'flow', 'node_type', "mevrik", "content_type", "initial_content_id")
+        fields = ('id', 'name', 'flow', 'node_type', "mevrik", "content_type", "initial_content_id", "config")
         depths = -1
 
     def to_representation(self, instance):
