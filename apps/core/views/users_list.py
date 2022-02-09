@@ -1,11 +1,41 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from apps.core.serializers import UserSerializers
-from django.contrib.auth.models import User, Group
+from apps.core.serializers import UserSerializers, UserMiniSerializers
+from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator, EmptyPage
 from rest_framework.permissions import IsAuthenticated
+
+from apps.core.utils.api_response_decorator import decorate_response
+
+User = get_user_model()
+
+class UserActivationApiView(APIView):
+
+    def post(self, request, format='json'):
+
+        if request.data.get('user_id', None):
+            db_obj = get_object_or_404(User,id=request.data.get('user_id'))
+            serializer = UserSerializers(db_obj, data=request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return decorate_response(True,status.HTTP_202_ACCEPTED, "User Activated", serializer.data)
+            else:
+                return decorate_response(False,status.HTTP_400_BAD_REQUEST, "User Activation Faild")
+        return decorate_response(False,status.HTTP_400_BAD_REQUEST, "User-id missing")
+
+
+
+    # def post(self, request):
+    #     if request.data.get('user_id'):
+    #         # user_obj = get_object_or_404(User,id=request.data.get('user_id'))
+    #         # user_obj.is_active=True
+    #         # user_obj.save()
+    #         return decorate_response(True,status.HTTP_202_ACCEPTED, "User Activated", UserSerializers(user_obj).data)
+
+    #     return decorate_response(False,status.HTTP_400_BAD_REQUEST, "User Activation Faild")
 
 
 class UserListApiView(APIView):
@@ -32,7 +62,7 @@ class UserListApiView(APIView):
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
 
-        serializer = UserSerializers(data, context={'request': request}, many=True)
+        serializer = UserMiniSerializers(data, context={'request': request}, many=True)
 
 
         if data.has_next():
