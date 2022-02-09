@@ -4,7 +4,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .user_serializers import UserSerializers
 from django.contrib.auth import get_user_model
 from apps.core.models import UserAllowOrigin
-from ..utils.extract_privileges import get_user_privileges
+from ..utils.extract_privileges import UserPrivileges
 
 User = get_user_model()
 
@@ -36,7 +36,8 @@ class CoreTokenObtainPairSerializer(TokenObtainPairSerializer):
         refresh = self.get_token(self.user)
 
         # Get User Privileges for (Apps, Channels & Workgroups)
-        res = get_user_privileges(self.user)
+        user_privileges = UserPrivileges(self.user)
+        res = user_privileges.get_serialized_user_privileges()
         for key, val in res.items():
             data[key] = val
 
