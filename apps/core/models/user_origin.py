@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from .apps_model import Apps
+
 
 class UserAllowOrigin(models.Model):
     CIDR = (
@@ -15,7 +17,7 @@ class UserAllowOrigin(models.Model):
         ('username', 'User Name'),
     )
 
-    app_id = models.CharField(max_length=50, null=True, blank=True)
+    app = models.ForeignKey(Apps, on_delete=models.CASCADE, related_name="user_allow_origin_app") #models.CharField(max_length=50, null=True, blank=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='origin_user')
     principal = models.CharField(max_length=15, choices=PRINCIPLE, default='user')
     token = models.CharField(max_length=255, null=True, blank=True)
