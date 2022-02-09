@@ -8,7 +8,7 @@ from .register import RegisterView
 from .change_password_view import ChangePasswordView, UpdateUserPassword
 from .profile_update_view import ProfileUpdateView
 from .password_reset_views import PasswordResetAPIView, PasswordResetConfirmAPIView, CompleteResetPassword
-from .users_list import UserListApiView
+from .users_list import UserListApiView, UserActivationApiView
 # from .user_allowed_origin import UserAllowedOriginView
 from .jwt_token_check import TokenValidationAPIView
 from .app_views import AppApiView, AppCreateOrUpdateApiView, AppDeleteApiView
