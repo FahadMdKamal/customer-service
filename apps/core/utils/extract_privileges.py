@@ -9,19 +9,19 @@ class UserPrivileges:
     def __init__(self, user_instance):
         self.user = user_instance
 
-    def get_apps(self) -> list[Apps]:
+    def get_apps(self):
         """
         Returns user privileged Apps
         """
         return Apps.objects.filter(channel_app__channel_workgroup__user__id=self.user.id).distinct()
 
-    def get_channels(self) -> list[Channels]:
+    def get_channels(self):
         """
         Returns user privileged Channels
         """
         return Channels.objects.filter(channel_workgroup__user__id=self.user.id).distinct()
 
-    def get_workgroup(self) -> list[WorkGroups]:
+    def get_workgroup(self):
         """
         Returns user privileged workgroups
         """
