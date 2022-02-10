@@ -65,12 +65,11 @@ class NluEntitiesSerializer(ModelSerializer):
         fields = ('id', 'name', 'role', 'confidence_score', 'value', 'position')
 
     def create(self, validated_data):
-        user_company = self.context['request'].user.company_id
-        user_project = self.context['request'].user.current_project_id
-        q = NluEntities(company_id=user_company, project_id=user_project,
-                        created_by=self.context['request'].user, name=validated_data["name"],
-                        role=validated_data["role"], confidence_score=validated_data["confidence_score"],
-                        value=validated_data["value"], position=validated_data["position"])
+        q = NluEntities(name=validated_data["name"],
+                        role=validated_data["role"], 
+                        confidence_score=validated_data["confidence_score"],
+                        value=validated_data["value"], 
+                        position=validated_data["position"])
         q.save()
         return q
 

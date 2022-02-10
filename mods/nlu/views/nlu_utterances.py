@@ -31,7 +31,7 @@ class UtteranceTrainStatus(ModelViewSet):
     # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return NluSync.objects.filter(owner_id=self.request.query_params["utterances_id"])
+        return NluSync.objects.filter(owner_id=self.request.query_params.get("utterances_id"))
 
 
 class NluUtterancesConfidenceView(viewsets.ViewSet):

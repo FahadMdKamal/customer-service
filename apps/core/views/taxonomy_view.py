@@ -5,6 +5,7 @@ from apps.core.models import Taxonomy
 from apps.core.serializers import TaxonomySerilizer
 from django.core.paginator import Paginator, EmptyPage
 import json
+from ..utils.api_response_decorator import decorate_response
 
 
 class TaxonomyCreateUpateView(APIView):
@@ -20,8 +21,8 @@ class TaxonomyCreateUpateView(APIView):
                     return Response(data=serializer.data, status=status.HTTP_201_CREATED)
                 else:
                     return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            except ObjectDoesNotExist:
-                pass
+            except Taxonomy.DoesNotExist:
+                    return decorate_response(status=False, status_code=status.HTTP_400_BAD_REQUEST,message="Object doesnot exists")
         else:
             serializer = TaxonomySerilizer(data=request.data)
             if serializer.is_valid():
