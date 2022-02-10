@@ -17,7 +17,7 @@ class UserAllowOrigin(models.Model):
         ('username', 'User Name'),
     )
 
-    app = models.ForeignKey(Apps, on_delete=models.CASCADE, related_name="user_allow_origin_app") #models.CharField(max_length=50, null=True, blank=True)
+    app = models.ForeignKey(Apps, on_delete=models.SET_NULL, related_name="user_allow_origin_app", null=True, blank=True) #models.CharField(max_length=50, null=True, blank=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='origin_user')
     principal = models.CharField(max_length=15, choices=PRINCIPLE, default='user')
     token = models.CharField(max_length=255, null=True, blank=True)
@@ -35,5 +35,6 @@ class UserAllowOrigin(models.Model):
 @receiver(post_save, sender=get_user_model())
 def create_user_allow_origin(sender, **kwargs):
     if kwargs['created']:
+        user_object = kwargs['instance']
         user_origin_obj = UserAllowOrigin(user=kwargs['instance'], )
         user_origin_obj.save()
