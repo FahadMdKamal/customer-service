@@ -2,7 +2,6 @@ from rest_framework.views import APIView, status
 from rest_framework.response import Response
 from apps.core.models import WorkGroups
 from apps.core.serializers import WorkGroupSerializers, UserSerializers
-from django.core.exceptions import ObjectDoesNotExist
 from apps.core.utils.available_groups import users_in_workgroup, workgroups_of_user
 from apps.core.serializers.workgroup_serializers import UserSerializers
 from apps.core.utils.api_response_decorator import decorate_response
@@ -20,9 +19,9 @@ class WorkGroupCreateUpdateView(APIView):
                     serializer.save()
                     return decorate_response(True, status.HTTP_201_CREATED, "Workgroup updated successfully", serializer.data)
                 else:
-                    return decorate_response(False, status.HTTP_400_BAD_REQUEST, "Could not Create Workgroup", serializer.errors)
-            except ObjectDoesNotExist:
-                pass
+                    return decorate_response(False, status.HTTP_400_BAD_REQUEST, "Could not update Workgroup", serializer.errors)
+            except WorkGroups.DoesNotExist:
+                    return decorate_response(False, status.HTTP_400_BAD_REQUEST, "Could not update Workgroup", "Workgroup does not exists")
         else:
             serializer = WorkGroupSerializers(data=request.data)
             if serializer.is_valid():
