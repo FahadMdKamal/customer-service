@@ -14,6 +14,9 @@ urlpatterns = [
     path('create-update-user/', views.CreateOrUpdateUserView.as_view(),
          name='create_update_users'),
 
+    path('permission-groups/', views.GroupsView.as_view(),
+         name='permission_groups'),
+
     path('user-activate/', views.UserActivationApiView.as_view(),
          name='user_activation'),
 
