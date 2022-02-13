@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from django.core.paginator import Paginator, EmptyPage
 
 from apps.core.utils.api_response_decorator import decorate_response
-from ..models import Channels
-from ..serializers import ChannelSerializers
+from apps.core.models import Channels
+from apps.core.serializers import ChannelSerializers
 
 
 class ChannelsApiView(APIView):
@@ -22,7 +22,7 @@ class ChannelsApiView(APIView):
         if request.data.get('id'):
             db_object = Channels.objects.get(id=request.data.get('id'))
             serializer = ChannelSerializers(db_object, data=request.data, partial=True)
-            if serializer.is_valid():
+            if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return decorate_response(status_code=status.HTTP_202_ACCEPTED,
                     status=True,
@@ -30,7 +30,7 @@ class ChannelsApiView(APIView):
                     serializer_data=serializer.data)
         else:
             serializer = ChannelSerializers(data=request.data)
-            if serializer.is_valid():
+            if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return decorate_response(status_code=status.HTTP_201_CREATED,
                     status=True,
