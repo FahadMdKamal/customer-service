@@ -1,11 +1,19 @@
 from django_mailbox.models import Mailbox
 from rest_framework import serializers
+from apps.core.models.apps_model import Apps
 
 from apps.core.models.workgroup import WorkGroups
 from apps.core.serializers.workgroup_serializers import WorkGroupMiniSerializers
 
-from ..models import Channels
+from apps.core.models import Channels
 from apps.core.utils import ChoicesFieldSerializer
+
+
+class MailboxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mailbox
+        fields = '__all__'
+
 
 class ChannelsMiniSerializer(serializers.ModelSerializer):
 
@@ -25,55 +33,31 @@ class ChannelsListSerializer(serializers.ModelSerializer):
         model = Channels
         fields = ('id', 'channel_name')
 
+class AppMiniSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Apps
+        fields = ('id', 'app_name')
+
 
 class ChannelSerializers(serializers.ModelSerializer):
     connectivity_status = ChoicesFieldSerializer(choices= Channels.CONNECTIVITY_STATUS)
     status = ChoicesFieldSerializer(choices= Channels.STATUS)
     channel_type = ChoicesFieldSerializer(choices= Channels.CH_TYPES)
-    mailbox_name = serializers.CharField(allow_blank=True, allow_null=True)
-    uri = serializers.CharField(allow_blank=True, allow_null=True)
-    from_email = serializers.CharField(allow_blank=True, allow_null=True)
+    mail_box = serializers.SerializerMethodField()
+    app_detail = serializers.SerializerMethodField()
 
     class Meta:
         model = Channels
         fields = "__all__"
-        depth=1
-
-    def validate(self, attrs):
-        channel_type = attrs['channel_type']
-        if channel_type == 'email':
-            if not attrs.get('uri', None) and not attrs.get('mailbox_name', None) and not attrs.get('from_email', None):
-                raise serializers.ValidationError('(mailbox_name, uri, from_email) fields are required for mail-type channel')
-        return super().validate(attrs)
-
-    def create(self, validated_data):
-        mailbox_name = validated_data.pop('mailbox_name')
-        uri = validated_data.pop('uri')
-        from_email = validated_data.pop('from_email')
-
-        if validated_data['channel_type'] == "email":
-            mail_box = Mailbox()
-            mail_box.name = mailbox_name
-            mail_box.uri = uri
-            mail_box.from_email = from_email
-            mail_box.save()
-
-            validated_data['mail_box'] = mail_box
-        return super().create(validated_data)
+        extra_kwargs = {
+            'app': {'write_only': True}
+        }
     
-    def update(self, instance, validated_data):
-        mailbox_name = validated_data.pop('mailbox_name')
-        uri = validated_data.pop('uri')
-        from_email = validated_data.pop('from_email')
-
-        if validated_data['channel_type'] == "email":
-            instance.mail_box.name = mailbox_name
-            instance.mail_box.uri = uri
-            instance.mail_box.from_email = from_email
-            instance.mail_box.save()
-
-            validated_data['mail_box'] = instance.mail_box
-
-        return super().update(instance, validated_data)
-
+    def get_mail_box(self, instance):
+        return MailboxSerializer(instance.mail_box).data if instance.mail_box else ""
+    
+    
+    def get_app_detail(self, instance):
+        return AppMiniSerializer(instance.app).data
     
