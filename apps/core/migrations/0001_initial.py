@@ -180,7 +180,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'core_taxonomy',
-                'unique_together': {('app_id', 'taxonomy_type', 'name')},
+                'unique_together': {('app', 'taxonomy_type', 'name')},
             },
         ),
     ]

@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils.text import slugify
-from .channel_model import Channels
+from .apps_model import Apps
 
 
 class Taxonomy(models.Model):
-    app_id = models.ForeignKey(Channels, on_delete=models.CASCADE) #models.CharField(max_length=255)
+    app = models.ForeignKey(Apps, on_delete=models.CASCADE, related_name="app_taxonomy") #models.CharField(max_length=255)
     taxonomy_type = models.CharField(max_length=50)
     context = models.CharField(max_length=255, null=True, blank=True)
     name = models.CharField(max_length=50, null=True, blank=True)
@@ -22,7 +22,7 @@ class Taxonomy(models.Model):
 
     class Meta:
         db_table = 'core_taxonomy'
-        unique_together = ('app_id', 'taxonomy_type', 'name')
+        unique_together = ('app', 'taxonomy_type', 'name')
     
     def __str__(self) -> str:
         return f'{self.taxonomy_type}-{self.name}'.lower()

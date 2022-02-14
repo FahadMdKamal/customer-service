@@ -30,9 +30,10 @@ class AppsAdmin(admin.ModelAdmin):
 
 @admin.register(Taxonomy)
 class TaxonomyAdmin(admin.ModelAdmin):
-    list_display = ("name", 'app_id', 'taxonomy_type', 'parent')
-    list_filter = ('app_id', 'taxonomy_type', 'app_id')
+    list_display = ("name", 'app', 'taxonomy_type', 'parent')
+    list_filter = ('app', 'taxonomy_type',)
     prepopulated_fields = {"slug": ("taxonomy_type","name")}
+    
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'mobile',)
