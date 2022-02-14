@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils.text import slugify
-from .channel_model import Channels
+from .apps_model import Apps
 
 
 class Taxonomy(models.Model):
-    app_id = models.ForeignKey(Channels, on_delete=models.CASCADE) #models.CharField(max_length=255)
+    app_id = models.ForeignKey(Apps, on_delete=models.CASCADE) #models.CharField(max_length=255)
     taxonomy_type = models.CharField(max_length=50)
     context = models.CharField(max_length=255, null=True, blank=True)
     name = models.CharField(max_length=50, null=True, blank=True)
