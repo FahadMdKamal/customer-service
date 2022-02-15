@@ -1,12 +1,7 @@
-from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-# from django.db.models.query_utils import Q
 from django.utils.text import slugify
-from django.core.validators import FileExtensionValidator
 from django.db import models
 import os, uuid, datetime
-
-from mods.content.models.uploads import Upload
 
 class FileManager:
     ''' Will manage files and photos '''
@@ -18,12 +13,6 @@ class FileManager:
         date = datetime.datetime.today()
         uid = uuid.uuid4()
         path = f'app-{instance.app_id}/{folder}/{uid}{file_extension}'
-        # obj = Upload(
-        #     app_id=instance.app_id,
-        #     owner=instance.owner,
-        #     filepath=path,
-        #     )
-        # obj.save()
         return path
 
 
@@ -69,6 +58,9 @@ class MessageTemplate(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    # TODO: Change attachment field to File field and modify Serializer and views.
+    # TODO: Start background process on resizing file to different formats and 
+    # store those files url in the uploads log table.
     attachment = models.TextField(default=dict)
 
     class Meta:
@@ -85,9 +77,3 @@ class MessageTemplate(models.Model):
             self.template_code = new_template_code
         return super(MessageTemplate, self).save(*args, **kwargs)
        
-
-
-    # def prepare_template(self):
-    #     tvs = self.template_vars[0]
-    #     for t in tvs.items():
-    #         print(t)
