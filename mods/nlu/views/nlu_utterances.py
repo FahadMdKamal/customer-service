@@ -104,6 +104,9 @@ class RetrainView(ModelViewSet):
         if self.request.query_params.get("intent_id", None) is not None:
             params.update({"intent_id": self.request.query_params["intent_id"]})
 
+        if self.request.query_params.get("intent-name", None) is not None:
+            params.update({"intent__name": self.request.query_params["intent-name"]})
+
         if self.request.query_params.get("status", None) is not None:
             params.update({"status": self.request.query_params["status"]})
 
