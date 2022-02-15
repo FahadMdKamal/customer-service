@@ -31,7 +31,7 @@ class ChannelsListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Channels
-        fields = ('id', 'channel_name')
+        fields = ('id', 'channel_name', 'app')
 
 class AppMiniSerializer(serializers.ModelSerializer):
 
