@@ -37,7 +37,7 @@ class Channels(models.Model):
     channel_ref = models.CharField(max_length=20, null=True, blank=True)
     channel_type = models.CharField(max_length=40, choices=CH_TYPES)
     details = models.JSONField(default=dict, null=True, blank=True)
-    mail_box = models.OneToOneField(Mailbox, on_delete=models.CASCADE, null=True, blank=True, related_name="channel_mail_box")
+    # mail_box = models.OneToOneField(Mailbox, on_delete=models.CASCADE, null=True, blank=True, related_name="channel_mail_box")
     config = models.JSONField(default=dict, null=True, blank=True)
     status = models.BooleanField(choices=STATUS, default=True)
     connectivity_status = models.CharField(max_length=15, choices=CONNECTIVITY_STATUS, default=True)
@@ -64,16 +64,8 @@ def create_channel_mailbox(sender, **kwargs):
     """
     if kwargs['created'] and kwargs['instance'].channel_type == 'email':
         channel = kwargs['instance']
-        mbox = Mailbox.objects.create(name=kwargs['instance'].channel_name)
-        channel.mail_box = mbox
-        channel.save()
+        Mailbox.objects.create(name=kwargs['instance'].channel_name)
     else:
         channel = kwargs['instance']
-        if channel.channel_type == 'email' and not channel.mail_box:
-            mbox = Mailbox.objects.create(name=channel.channel_name)
-            channel.mail_box = mbox
-            channel.save()
-
-        elif channel.channel_type == 'email' and channel.mail_box:
-            channel.mail_box.name = channel.channel_name
-            channel.mail_box.save()
+        if channel.channel_type == 'email' and not Mailbox.objects.filter(name=channel.channel_name).exists():
+            Mailbox.objects.create(name=channel.channel_name)

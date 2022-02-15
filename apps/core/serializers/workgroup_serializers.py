@@ -45,4 +45,4 @@ class WorkGroupMiniSerializers(serializers.ModelSerializer):
 class WorkGroupListSerializers(serializers.ModelSerializer):
     class Meta:
         model = WorkGroups
-        fields = ['id', 'name', 'user_role' ]
+        fields = ['id', 'name', 'user_role', 'channel' ]
