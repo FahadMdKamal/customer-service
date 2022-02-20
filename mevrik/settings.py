@@ -227,6 +227,13 @@ EMAIL_BACKEND = 'django_mail_admin.backends.CustomEmailBackend'
 # EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False
 
+# Celery Configuration Options
+BROKER_URL = env('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND_URL')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Dhaka'
 
 # sentry_sdk.init(
 #     dsn= env('SENTRY_KEY'),
