@@ -24,6 +24,7 @@ urlpatterns = [
                   path('casex/', include('apps.casex.urls')),
                   path('content/', include('mods.content.urls')),
                   path('nlu/', include('mods.nlu.urls')),
+                  path('queue/', include('mods.queue_service.urls')),
                 #   path('__debug__/', include('debug_toolbar.urls')),
               ] \
               + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
